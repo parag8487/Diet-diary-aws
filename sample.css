@@ -1,0 +1,184 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #4CAF50;
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.meal-plan, .calorie-tracker {
+    background-color: white;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Style the input box to be full width */
+input[type="text"], input[list] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Style the datalist options (though it's tricky to style directly) */
+datalist option {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    width: 100%;
+}
+
+/* To make sure the dropdown behaves like a proper dropdown */
+input::-webkit-calendar-picker-indicator {
+    display: none; /* Hide the dropdown arrow */
+}
+
+.meal-plan, .calorie-tracker {
+    background-color: #D6EFD8;
+    border-radius: 20px;
+    margin-top: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Add shadow effect */
+}
+
+body, html {
+    background-image: url(./white);
+    background-size: cover;
+    height: 100vh;
+}
+
+/* Add background image to the entire page */
+body {
+    background-image: url(./background\ img\ white.jpg);
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent tiling */
+    color: #fff; /* Optional: Set text color to contrast with the background */
+}
+
+/* Style the input box to be full width */
+input[type="text"], input[list] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Style the datalist options */
+datalist option {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    width: 100%;
+}
+
+/* Hide the default dropdown arrow in browsers */
+input::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+header, footer {
+    background-color: #508D4E;
+    font-family: "Playfair Display", serif;
+}
+
+h2, label{
+    font-family: "Open Sans", sans-serif;
+}
+
+.save-button {
+    border-radius: 10px;
+}
+
+/* New styles for input-group and quantity-container */
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.food-input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.quantity-container {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-input {
+    width: 80px;
+    margin-left: 10px;
+}

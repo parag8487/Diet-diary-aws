@@ -1,0 +1,16 @@
+body {
+    background-image: url(./pexels-psco-139259.jpg);
+}
+
+.btn {
+    background-color:  #212529;
+    border-color:  #212529;
+}
+
+.white {
+    color: white;
+}
+
+h1 {
+    font-family: serif;
+}
