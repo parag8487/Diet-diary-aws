@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const apiUrl = `http://localhost:3000/login`;
+        const apiUrl = 'https://diet-diary-3yg2.onrender.com/login';
 
         fetch(apiUrl, {
             method: 'POST',
