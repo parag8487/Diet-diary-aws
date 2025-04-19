@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 totalProtein: calculateProtein(nutritionData, meals)
             };
 
-            const response = await fetch('https://diet-diary-3yg2.onrender.com/save-data', {
+            const response = await fetch('http://localhost:3000/save-data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ day, data: mealPlanData }),

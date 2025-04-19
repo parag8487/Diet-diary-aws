@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load existing foods on page load
     async function loadFoods() {
         try {
-            const response = await fetch('https://diet-diary-3yg2.onrender.com/api/foods');
+            const response = await fetch('http://localhost:3000/api/foods');
             const foods = await response.json();
             
             foodList.innerHTML = ''; // Clear existing items

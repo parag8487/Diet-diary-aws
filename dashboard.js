@@ -71,7 +71,7 @@ function updateBMIDashboard(weight, height) {
     // Data functions
     async function fetchChartData() {
         try {
-            const response = await fetch('https://diet-diary-3yg2.onrender.com/get-weekly-data');
+            const response = await fetch('http://localhost:3000/get-weekly-data');
             const data = await response.json();
             
             // Ensure Protein is always less than or equal to Calories
