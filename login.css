@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url(./images/backgroundimageeeeeee.jpg) no-repeat center center fixed;
+    background-size: cover;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.login-form {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    max-width: 90%;
+    text-align: center;
+    animation: slideIn 1s ease-out;
+}
+
+.login-form h2 {
+    margin: 0 0 20px 0;
+    font-size: 30px;
+    color: #333;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="email"] {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.error-message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: red;
+    text-align: center;
+}
+
+.customer-login-link,
+.admin-login-link {
+    margin-top: 20px;
+}
+
+.customer-login-link a,
+.admin-login-link a {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.customer-login-link a:hover,
+.admin-login-link a:hover {
+    background-color: #0056b3;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+    .login-form {
+        padding: 20px;
+        width: 90%;
+    }
+
+    .login-form h2 {
+        font-size: 24px;
+    }
+
+    .login-form button {
+        font-size: 16px;
+    }
+
+    .customer-login-link a,
+    .admin-login-link a {
+        font-size: 14px;
+    }
+}

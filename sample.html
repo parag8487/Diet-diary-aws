@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calories Calculate</title>
+    <link rel="stylesheet" href="./sample.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Calories Calculate</h1>
+        <nav>
+            <ul>
+                <li><a href="./dashboard.html">Home</a></li>
+                <li><a href="./profile.html">Profile</a></li>
+                <li><a href="./browse_food_customer.html">Meals</a></li>
+                <li><a href="./customer_service.html">Service</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="meal-plan">
+        <h2>Select Your Meal Plan</h2>
+        <form id="meal-plan-form">
+            <label for="day">Day:</label>
+            <select id="day" name="day">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+            <!-- Breakfast Section -->
+            <div class="meal-row">
+                <label for="breakfast">Breakfast:</label>
+                <div class="input-group">
+                    <input list="breakfast-options" id="breakfast" name="breakfast" 
+                           placeholder="Select food item" class="food-input">
+                    <datalist id="breakfast-options"></datalist>
+                    <div class="quantity-container">
+                        <label for="breakfast-qty">Grams:</label>
+                        <input type="number" id="breakfast-qty" class="quantity-input" 
+                               min="0" value="100" step="50">
+                    </div>
+                </div>
+            </div>
+            <!-- Lunch Section -->
+            <div class="meal-row">
+                <label for="lunch">Lunch:</label>
+                <div class="input-group">
+                    <input list="lunch-options" id="lunch" name="lunch" 
+                           placeholder="Select food item" class="food-input">
+                    <datalist id="lunch-options"></datalist>
+                    <div class="quantity-container">
+                        <label for="lunch-qty">Grams:</label>
+                        <input type="number" id="lunch-qty" class="quantity-input" 
+                               min="0" value="100" step="50">
+                    </div>
+                </div>
+            </div>
+            <!-- Dinner Section -->
+            <div class="meal-row">
+                <label for="dinner">Dinner:</label>
+                <div class="input-group">
+                    <input list="dinner-options" id="dinner" name="dinner" 
+                           placeholder="Select food item" class="food-input">
+                    <datalist id="dinner-options"></datalist>
+                    <div class="quantity-container">
+                        <label for="dinner-qty">Grams:</label>
+                        <input type="number" id="dinner-qty" class="quantity-input" 
+                               min="0" value="100" step="50">
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="save-button" class="btn btn-primary">Save Plan</button>
+            <button type="button" id="delete-button" class="btn btn-danger">Delete Plan</button>
+        </form>
+    </section>
+    <section class="calorie-tracker">
+        <h2>Calorie and Protein Tracker</h2>
+        <p>Total Calories: <span id="total-calories">0</span> Calories</p>
+        <p>Total Protein: <span id="total-protein">0</span> g</p>
+        <button class="btn btn-success" id="calculate-button">Calculate Nutrients</button>
+        <div id="suggestion-box"></div>
+    </section>
+
+    <!-- Add this inside the main section after the calorie tracker -->
+<section class="meal-suggestions mt-5">
+    <h2 class="text-center">Meal Suggestions</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="suggestion-box p-4 rounded shadow">
+                    <p id="suggestion-text">Loading suggestions...</p>
+                    <div id="suggestions-list" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <footer>
+        <p>&copy; 2025 Diet Planner. All rights reserved.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./sample.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'921e5efebdb2fa1b',t:'MTc0MjIzNDIyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

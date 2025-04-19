@@ -1,0 +1,266 @@
+[
+  {
+    "imageUrl": "./images/boiled_egg.jpg",
+    "title": "Easy Hard-Boiled Eggs",
+    "calories": "465",
+    "carbs": "3.3",
+    "fat": "31.8",
+    "protein": "37.8"
+  },
+  {
+    "imageUrl": "./images/chicken-caesar-salad.jpg",
+    "title": "Chicken Caesar Salad",
+    "calories": "570",
+    "carbs": "18",
+    "fat": "39",
+    "protein": "33"
+  },
+  {
+    "imageUrl": "./images/fresh-tomato-pasta.jpeg",
+    "title": "Fresh Tomato Pasta",
+    "calories": "480",
+    "carbs": "84",
+    "fat": "9",
+    "protein": "15"
+  },
+  {
+    "imageUrl": "./images/Pancake.jpg",
+    "title": "Fluffy Pancakes",
+    "calories": "675",
+    "carbs": "105",
+    "fat": "18",
+    "protein": "15"
+  },
+  {
+    "imageUrl": "./images/Vegetable Omelette.jpg",
+    "title": "Vegetable Omelette",
+    "calories": "720",
+    "carbs": "12",
+    "fat": "54",
+    "protein": "48"
+  },
+  {
+    "imageUrl": "./images/Berry Smoothie.jpg",
+    "title": "Berry Smoothie",
+    "calories": "210",
+    "carbs": "42",
+    "fat": "3",
+    "protein": "6"
+  },
+  {
+    "imageUrl": "./images/Avocado Toast.jpg",
+    "title": "Avocado Toast",
+    "calories": "510",
+    "carbs": "51",
+    "fat": "30",
+    "protein": "12"
+  },
+  {
+    "imageUrl": "./images/Yogurt Parfait.jpeg",
+    "title": "Yogurt Parfait",
+    "calories": "390",
+    "carbs": "54",
+    "fat": "9",
+    "protein": "24"
+  },
+  {
+    "imageUrl": "./images/Egg Benedict.jpeg",
+    "title": "Eggs Benedict",
+    "calories": "810",
+    "carbs": "42",
+    "fat": "54",
+    "protein": "33"
+  },
+  {
+    "imageUrl": "./images/Smoothie Bowl.jpeg",
+    "title": "Smoothie Bowl",
+    "calories": "360",
+    "carbs": "66",
+    "fat": "9",
+    "protein": "9"
+  },
+  {
+    "imageUrl": "./images/Chia Pudding.jpeg",
+    "title": "Chia Pudding",
+    "calories": "480",
+    "carbs": "39",
+    "fat": "30",
+    "protein": "15"
+  },
+  {
+    "imageUrl": "./images/Whole Grain Cereal.jpg",
+    "title": "Whole Grain Cereal",
+    "calories": "330",
+    "carbs": "69",
+    "fat": "3",
+    "protein": "9"
+  },
+  {
+    "imageUrl": "./images/Breakfast Burrito.jpg",
+    "title": "Breakfast Burrito",
+    "calories": "690",
+    "carbs": "66",
+    "fat": "33",
+    "protein": "30"
+  },
+  {
+    "imageUrl": "./images/Fruit Salad.jpeg",
+    "title": "Fruit Salad",
+    "calories": "150",
+    "carbs": "36",
+    "fat": "0.6",
+    "protein": "1.5"
+  },
+  {
+    "imageUrl": "./images/Toast with Toppings.jpeg",
+    "title": "Toast with Toppings",
+    "calories": "540",
+    "carbs": "63",
+    "fat": "24",
+    "protein": "15"
+  },
+  {
+    "imageUrl": "images/Paneer Butter Masala.jpeg",
+    "title": "Paneer Butter Masala",
+    "calories": "870",
+    "carbs": "21",
+    "fat": "72",
+    "protein": "36"
+  },
+  {
+    "imageUrl": "images/Chole Bhature.jpg",
+    "title": "Chole Bhature",
+    "calories": "930",
+    "carbs": "114",
+    "fat": "42",
+    "protein": "24"
+  },
+  {
+    "imageUrl": "images/Masala Dosa.jpg",
+    "title": "Masala Dosa",
+    "calories": "600",
+    "carbs": "96",
+    "fat": "18",
+    "protein": "12"
+  },
+  {
+    "imageUrl": "images/Chicken Tikka Masala.jpg",
+    "title": "Chicken Tikka Masala",
+    "calories": "780",
+    "carbs": "24",
+    "fat": "51",
+    "protein": "54"
+  },
+  {
+    "imageUrl": "images/Biryani.avif",
+    "title": "Biryani",
+    "calories": "660",
+    "carbs": "87",
+    "fat": "24",
+    "protein": "33"
+  },
+  {
+    "imageUrl": "./images/Grilled Chicken Salad.jpg",
+    "title": "Grilled Chicken Salad",
+    "calories": "420",
+    "carbs": "15",
+    "fat": "18",
+    "protein": "48"
+  },
+  {
+    "imageUrl": "images/Vegetable Stir Fry.jpg",
+    "title": "Vegetable Stir Fry",
+    "calories": "240",
+    "carbs": "33",
+    "fat": "9",
+    "protein": "9"
+  },
+  {
+    "imageUrl": "images/Beef Burge.jpg",
+    "title": "Beef Burger",
+    "calories": "885",
+    "carbs": "75",
+    "fat": "51",
+    "protein": "42"
+  },
+  {
+    "imageUrl": "images/Sushi Roll.jpg",
+    "title": "Sushi Roll",
+    "calories": "510",
+    "carbs": "93",
+    "fat": "6",
+    "protein": "15"
+  },
+  {
+    "imageUrl": "images/Quinoa Salad.jpg",
+    "title": "Quinoa Salad",
+    "calories": "480",
+    "carbs": "63",
+    "fat": "18",
+    "protein": "15"
+  },
+  {
+    "imageUrl": "images/Steak and Potatoes.jpg",
+    "title": "Steak and Potatoes",
+    "calories": "750",
+    "carbs": "60",
+    "fat": "36",
+    "protein": "54"
+  },
+  {
+    "imageUrl": "images/Veggie Wrap.jpg",
+    "title": "Veggie Wrap",
+    "calories": "570",
+    "carbs": "84",
+    "fat": "21",
+    "protein": "15"
+  },
+  {
+    "imageUrl": "images/Shrimp Tacos.jpg",
+    "title": "Shrimp Tacos",
+    "calories": "540",
+    "carbs": "66",
+    "fat": "18",
+    "protein": "27"
+  },
+  {
+    "imageUrl": "images/Lentil Soup.jpg",
+    "title": "Lentil Soup",
+    "calories": "345",
+    "carbs": "54",
+    "fat": "6",
+    "protein": "21"
+  },
+  {
+    "imageUrl": "images/Falafel Wrap.jpeg",
+    "title": "Falafel Wrap",
+    "calories": "720",
+    "carbs": "96",
+    "fat": "30",
+    "protein": "18"
+  },
+  {
+    "imageUrl": "no",
+    "title": "Paneer 65",
+    "calories": "960",
+    "carbs": "33",
+    "fat": "72",
+    "protein": "42"
+  },
+  {
+    "imageUrl": "no",
+    "title": "Paneer Geope",
+    "calories": "870",
+    "carbs": "21",
+    "fat": "72",
+    "protein": "54"
+  },
+  {
+    "imageUrl": "no url",
+    "title": "Tacos",
+    "calories": "500",
+    "carbs": "23",
+    "fat": "7",
+    "protein": "12"
+  }
+]

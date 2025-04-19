@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:wght@500&family=Sofadi+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
+    <style>
+    .bmi-status-box {
+    background-color: #E3DACA;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+    max-width: 500px;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.bmi-meter {
+    position: relative;
+    width: 320px;
+    height: 160px;
+    margin: 20px auto;
+    border-radius: 160px 160px 0 0;
+    background: conic-gradient(
+        from 0deg at 50% 100%,
+        #4CAF50 0deg 90deg, 
+        #8BC34A 90deg 180deg,
+        #FFC107 180deg 270deg,
+        #F44336 270deg 360deg
+    );
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bmi-needle {
+  position: absolute;
+  bottom: 0px;  /* Moves the base of the needle lower */
+  left: 50%;
+  width: 6px;
+  height: 140px;
+  background: white;
+  transform-origin: 50% 100%; /* Ensures rotation from the exact bottom */
+  transform: rotate(-90deg);
+  transition: transform 0.5s ease;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+
+
+
+
+
+.bmi-scale {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#bmiResultDashboard {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+
+
+
+    
+    </style>
+  </head>
+  <body>
+    <section class="dashboard">
+      <div
+        class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
+        style="width: 280px"
+      >
+        <a
+          href="/"
+          class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+        >
+          <svg class="bi pe-none me-2" width="40" height="32">
+            <use xlink:href="#bootstrap"></use>
+          </svg>
+          <span class="fs-4 diet-diary">Diet Diary</span>
+        </a>
+        <hr />
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a href="#" class="nav-link active" aria-current="page">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#home"></use>
+              </svg>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="./profile.html" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#speedometer2"></use>
+              </svg>
+              Profile
+            </a>
+          </li>
+          <li>
+            <a href="./pricing.html" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#people-circle"></use>
+              </svg>
+              Pricing
+            </a>
+            <a href="./browse_food_customer.html" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#table"></use>
+              </svg>
+              Browse Foods
+            </a>
+          </li>
+          <li>
+            <a href="./bmi_assessment.html" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#people-circle"></use>
+              </svg>
+              BMI Assessment
+            </a>
+            
+          </li>
+          <li>
+            <a href="./customer_service.html" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#people-circle"></use>
+              </svg>
+              Customer Service
+            </a>
+          </li>
+          <li>
+            <a href="./login.html" class="nav-link text-white">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#people-circle"></use>
+              </svg>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="hero">
+      <div class="container col-xxl-8 px-4 py-5">
+        <div class="row">
+          <!-- Left Side: Content Box -->
+          <div class="col-lg-6 box1">
+            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
+              Calculate Calories and Protein
+            </h1>
+            <p class="lead">
+              <h5>
+                Here, you can easily calculate the total calories and protein content of your meals.
+                Simply input the food items you’ve consumed for breakfast, lunch, and dinner, and it will provide you with the total Calories and Protein, helping you keep track of your dietary intake efficiently.
+              </h5>
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a class="btn btn-danger calculate btn-lg px-4 me-md-2" href="./sample.html" type="button">Calculate</a>
+            </div>
+          </div>
+
+          <!-- Right Side: BMI Status Box -->
+          <!-- Right Side: BMI Status Box -->
+<div class="col-lg-6">
+  <div class="bmi-status-box mt-5">
+    <style>width</style>
+    <h4>BMI Status</h4>
+    <!-- BMI Meter -->
+    <div class="bmi-meter">
+      <div class="bmi-needle" id="bmiNeedleDashboard"></div>
+      <!-- Category Markers -->
+      <div class="category-marker" style="left: 25%;"></div>
+      <div class="category-marker" style="left: 50%;"></div>
+      <div class="category-marker" style="left: 75%;"></div>
+    </div>
+    <!-- Numerical Scale -->
+    <div class="bmi-scale">
+      <span>15</span>
+      <span>18.5</span>
+      <span>25</span>
+      <span>30</span>
+      <span>40+</span>
+    </div>
+    <!-- BMI Result -->
+    <p id="bmiResultDashboard" class="mt-3">Enter details to calculate BMI.</p>
+    <!-- BMI Assessment Button -->
+    <a href="./bmi_assessment.html" class="btn btn-dark" id="goToBmiAssessment">BMI Assessment</a>
+  </div>
+    
+</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Graph Section -->
+    <section class="graph">
+      <div class="weekly-chart container py-5">
+        <h3>Weekly Calories and Protein Intake</h3>
+        <canvas id="calorieProteinChart" width="500" height="300"></canvas>
+      </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer">
+        <footer class="py-3 my-4">
+          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="./dashboard.html" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="./profile.html" class="nav-link px-2 text-body-secondary">Profile</a></li>
+            <li class="nav-item"><a href="./pricing.html" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+            <li class="nav-item"><a href="./customer_service.html" class="nav-link px-2 text-body-secondary">Service</a></li>
+            <li class="nav-item"><a href="./login.html" class="nav-link px-2 text-body-secondary">Logout</a></li>
+          </ul>
+          <p class="text-center text-body-secondary">© 2025 Diet Diary</p>
+        </footer>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+    const bmiData = JSON.parse(localStorage.getItem("bmiData"));
+    const bmiNeedle = document.getElementById("bmiNeedleDashboard"); 
+    const bmiResult = document.getElementById("bmiResultDashboard");
+
+    if (bmiData) {
+      bmiResult.innerHTML = `Your BMI: <strong>${bmiData.bmi}</strong> (${bmiData.bmiCategory})`;
+
+      // Calculate needle position (BMI 15 = -90°, BMI 40 = 90°)
+      const minBMI = 15;
+      const maxBMI = 40;
+      let calculatedBMI = Math.min(Math.max(bmiData.bmi, minBMI), maxBMI);
+      let angle = ((calculatedBMI - minBMI) / (maxBMI - minBMI)) * 180 - 90;
+
+      bmiNeedle.style.transform = `rotate(${angle}deg)`;
+    } else {
+      bmiResult.innerHTML = "No BMI data available. Please update your profile.";
+    }
+  });
+    </script>
+  </body>
