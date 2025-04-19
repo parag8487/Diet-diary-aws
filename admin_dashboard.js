@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     async function fetchCustomers() {
         try {
-            const response = await fetch('http://localhost:3000/get-customers');
+            const response = await fetch('https://diet-diary-3yg2.onrender.com/get-customers');
             const customers = await response.json();
 
             const customerRows = document.getElementById("customerRows");
