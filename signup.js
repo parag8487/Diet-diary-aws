@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const newUsername = document.getElementById("newUsername").value;
         const newPassword = document.getElementById("newPassword").value;
 
-        fetch('http://localhost:3000/signup', {
+        fetch('https://diet-diary-3yg2.onrender.com/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: newUsername, password: newPassword })
