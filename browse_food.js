@@ -2,13 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const addFoodForm = document.getElementById("addFoodForm");
     const foodList = document.querySelector(".food-list");
 
-    // Load existing foods on page load
     async function loadFoods() {
         try {
             const response = await fetch('http://localhost:3000/api/foods');
             const foods = await response.json();
             
-            foodList.innerHTML = ''; // Clear existing items
+            foodList.innerHTML = ''; 
             foods.forEach(food => {
                 foodList.appendChild(createFoodRow(food));
             });
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Create food row element
     function createFoodRow(food) {
         const row = document.createElement("div");
         row.className = "row align-items-center py-2 border-bottom";
@@ -35,11 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return row;
     }
 
-    // Handle form submission
     addFoodForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        // Get input values
         const imageUrl = document.getElementById("imageUrl").value.trim();
         const title = document.getElementById("title").value.trim();
         const calories = document.getElementById("calories").value.trim();
@@ -47,14 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const fat = document.getElementById("fat").value.trim();
         const protein = document.getElementById("protein").value.trim();
 
-        // Validation
         if (!imageUrl || !title || !calories || !carbs || !fat || !protein) {
             alert("Please fill out all fields.");
             return;
         }
 
         try {
-            // Send data to server
             const response = await fetch('http://localhost:3000/api/foods', {
                 method: 'POST',
                 headers: {
@@ -74,11 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error('Failed to save food item');
             }
 
-            // Add new item to the list
             const newFood = await response.json();
             foodList.appendChild(createFoodRow(newFood));
             
-            // Clear form
             addFoodForm.reset();
 
         } catch (error) {
@@ -87,6 +79,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Initial load of food items
     loadFoods();
 });

@@ -1,10 +1,40 @@
 body {
     background-image: url(./pexels-psco-139259.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .btn {
-    background-color:  #212529;
-    border-color:  #212529;
+    background-color: #2d5a27;
+    border-color: #2d5a27;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: #3a7233;
+    border-color: #3a7233;
+}
+
+.btn-outline-primary {
+    color: #2d5a27;
+    border-color: #2d5a27;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2d5a27;
+    color: white;
 }
 
 .white {
@@ -13,4 +43,85 @@ body {
 
 h1 {
     font-family: serif;
+    color: #2d5a27;
+}
+
+.card {
+    transition: all 0.3s ease;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.pricing-card-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #2d5a27;
+}
+
+.text-bg-primary {
+    background-color: #2d5a27 !important;
+}
+
+.text-bg-dark {
+    background-color: #3a7233 !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e8f5e9;
+    color: #2d5a27;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0, 0, 0, 0.125);
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 0.5em 1em;
+    background-color: #ffd700 !important;
+    color: #2d5a27 !important;
+}
+
+.list-unstyled li {
+    margin-bottom: 0.5rem;
+}
+
+.text-success {
+    color: #2d5a27 !important;
+}
+
+.text-danger {
+    color: #d32f2f !important;
+}
+
+.link-body-emphasis {
+    color: #2d5a27 !important;
+}
+
+.link-body-emphasis:hover {
+    color: #3a7233 !important;
+}
+
+.text-body-secondary {
+    color: #4a4a4a !important;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
 }

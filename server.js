@@ -1,15 +1,20 @@
+require('dotenv').config();
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const mysql = require('mysql2');
 const fs = require('fs').promises;
 const path = require('path');
-const cors = require('cors');
+const axios = require('axios');
+
 const app = express();
 const port = 3000;
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+app.use(bodyParser.json());
 
-// ==================== MySQL Configuration ====================
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -17,7 +22,6 @@ const db = mysql.createConnection({
     database: 'diet_diary'
 });
 
-// Connect to MySQL
 db.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL:', err);
@@ -26,7 +30,6 @@ db.connect((err) => {
     console.log('Connected to MySQL database');
 });
 
-// Create tables if they don't exist
 const createTables = () => {
     const queries = [
         `CREATE TABLE IF NOT EXISTS meals (
@@ -43,6 +46,12 @@ const createTables = () => {
             carbs INT NOT NULL,
             fat INT NOT NULL,
             protein INT NOT NULL
+        )`,
+        `CREATE TABLE IF NOT EXISTS customers (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            last_login DATETIME
         )`
     ];
 
@@ -54,10 +63,11 @@ const createTables = () => {
 };
 createTables();
 
-// ==================== JSON Storage Configuration ====================
+
+
+// JSON storage for food data
 const dataPath = path.join(__dirname, 'data', 'foods.json');
 
-// Initialize JSON file if it doesn't exist
 const initializeJSON = async () => {
     try {
         await fs.access(dataPath);
@@ -68,23 +78,22 @@ const initializeJSON = async () => {
 };
 initializeJSON();
 
-// ==================== API Endpoints ====================
 
-// -------------------- MySQL Endpoints --------------------
+// Meal and Food Management
 app.post('/save-data', (req, res) => {
     const { day, data } = req.body;
     const checkQuery = 'SELECT * FROM meals WHERE day = ?';
-    
+
     db.query(checkQuery, [day], (err, results) => {
         if (err) return res.status(500).send('Error checking data: ' + err.message);
-        
-        const query = results.length > 0 ? 
-            'UPDATE meals SET data = ? WHERE day = ?' : 
-            'INSERT INTO meals (day, data) VALUES (?, ?)';
-        const params = results.length > 0 ? 
-            [JSON.stringify(data), day] : 
-            [day, JSON.stringify(data)];
-            
+
+        const query = results.length > 0
+            ? 'UPDATE meals SET data = ? WHERE day = ?'
+            : 'INSERT INTO meals (day, data) VALUES (?, ?)';
+        const params = results.length > 0
+            ? [JSON.stringify(data), day]
+            : [day, JSON.stringify(data)];
+
         db.query(query, params, (err) => {
             if (err) return res.status(500).send('Error saving data: ' + err.message);
             res.send(results.length > 0 ? 'Data updated' : 'Data inserted');
@@ -152,7 +161,7 @@ app.get('/get-food/:day', (req, res) => {
     });
 });
 
-// -------------------- JSON Endpoints --------------------
+// Food Data Management
 app.get('/api/foods', async (req, res) => {
     try {
         const data = await fs.readFile(dataPath);
@@ -167,17 +176,17 @@ app.post('/api/foods', async (req, res) => {
         const newFood = req.body;
         const data = await fs.readFile(dataPath);
         const foods = JSON.parse(data);
-        
+
         foods.push(newFood);
         await fs.writeFile(dataPath, JSON.stringify(foods, null, 2));
-        
+
         res.status(201).json(newFood);
     } catch (error) {
         res.status(500).json({ error: 'Error saving food data' });
     }
 });
 
-//for signup page
+// User Authentication
 app.post('/signup', (req, res) => {
     const { username, password } = req.body;
 
@@ -185,7 +194,7 @@ app.post('/signup', (req, res) => {
     db.query(query, [username, password], (err) => {
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
-                return res.json({ success: false, message: 'Username already exists. Please choose a different one.' });
+                return res.json({ success: false, message: 'Username already exists.' });
             }
             return res.status(500).json({ success: false, message: 'Error registering: ' + err.message });
         }
@@ -193,7 +202,6 @@ app.post('/signup', (req, res) => {
     });
 });
 
-//for login page
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -204,7 +212,6 @@ app.post('/login', (req, res) => {
         }
 
         if (results.length > 0) {
-            // Update last login time in UTC
             const updateQuery = 'UPDATE customers SET last_login = NOW() WHERE username = ?';
             db.query(updateQuery, [username], (err) => {
                 if (err) console.error('Error updating last login:', err);
@@ -216,8 +223,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-
-//for admin page 
+// Admin Functions
 app.get('/get-customers', (req, res) => {
     const query = 'SELECT username, last_login FROM customers';
     db.query(query, (err, results) => {
@@ -228,18 +234,73 @@ app.get('/get-customers', (req, res) => {
 
 app.delete('/delete-customer/:username', (req, res) => {
     const username = req.params.username;
-
     const query = 'DELETE FROM customers WHERE username = ?';
     db.query(query, [username], (err) => {
         if (err) {
-            console.error('Error deleting customer:', err);
             return res.status(500).json({ success: false, message: 'Error deleting customer: ' + err.message });
         }
         res.json({ success: true });
     });
 });
 
-// ==================== Server Start ====================
+// AI Chatbot Integration
+app.post('/chat', async (req, res) => {
+    const { message } = req.body;
+
+    if (!message?.trim()) {
+        return res.status(400).json({ reply: "Message cannot be empty." });
+    }
+
+    try {
+        const isNutritionRequest = message.toLowerCase().includes('calories') && 
+                                 message.toLowerCase().includes('grams');
+        
+        let promptContext = '';
+        
+        if (isNutritionRequest) {
+            promptContext = `
+            You are a nutrition assistant that provides clear, concise answers about food nutrition.
+            
+            For nutrition questions:
+            1. Only provide the calories, carbohydrates, fats, and protein content.
+            2. Format your answer in a simple way without disclaimers or extra information.
+            3. Use this format: "100 grams of [food name] contains: Calories: X kcal, Carbohydrates: X grams, Fat: X grams, Protein: X grams."
+            4. If an image URL is requested, provide a direct link to a relevant image.
+            
+            Important: Do not include disclaimers, cooking methods, or any extra information beyond the nutrition facts.
+            `;
+        } else {
+            promptContext = `
+            You are a helpful nutrition and diet assistant. Provide concise, accurate answers.
+            Keep responses under 3 sentences unless detailed information is specifically requested.
+            `;
+        }
+        
+        const response = await axios.post(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GOOGLE_API_KEY}`,
+            {
+                contents: [
+                    {
+                        role: "user",
+                        parts: [{ text: promptContext + "\n\nUser question: " + message }]
+                    }
+                ]
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        const reply = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "No reply from Gemini";
+        res.json({ reply });
+    } catch (error) {
+        console.error("Gemini API Error:", error?.response?.data || error.message);
+        res.status(500).json({ reply: 'Error communicating with Gemini API' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

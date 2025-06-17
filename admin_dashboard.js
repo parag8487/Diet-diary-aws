@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const row = document.createElement("tr");
                 const lastLoginDate = new Date(customer.last_login);
                 // Convert to IST (UTC+5:30)
-                const istOffset = 5.5 * 60; // 5 hours and 30 minutes in minutes
-                const istDate = new Date(lastLoginDate.getTime() + istOffset * 60 * 1000);
+                const istOffset = 5.5 * 60 * 60 * 1000; // 5 hours and 30 minutes in milliseconds
+                const istDate = new Date(lastLoginDate.getTime() + istOffset);
                 const formattedLastLogin = istDate.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
                 row.innerHTML = `
