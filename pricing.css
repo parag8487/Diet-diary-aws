@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
     background-image: url(./pexels-psco-139259.jpg);
     background-size: cover;
@@ -124,4 +125,21 @@ h1 {
     .card {
         margin-bottom: 1rem;
     }
+=======
+body {
+    background-image: url(./pexels-psco-139259.jpg);
+}
+
+.btn {
+    background-color:  #212529;
+    border-color:  #212529;
+}
+
+.white {
+    color: white;
+}
+
+h1 {
+    font-family: serif;
+>>>>>>> 479545752d618c41cc9e7bcb73078eab8ad88295
 }
