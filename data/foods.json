@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "imageUrl": "./images/boiled_egg.jpg",
     "title": "Easy Hard-Boiled Eggs",
@@ -262,16 +262,5 @@
     "carbs": "23",
     "fat": "7",
     "protein": "12"
-<<<<<<< HEAD
-  },
-  {
-    "imageUrl": "https://static.vecteezy.com/system/resources/previews/001/899/049/non_2x/close-up-of-milled-rice-in-bowls-free-photo.jpg",
-    "title": "Rice",
-    "calories": "130",
-    "carbs": "0.8",
-    "fat": "0.7",
-    "protein": "12"
-=======
->>>>>>> 479545752d618c41cc9e7bcb73078eab8ad88295
-  }
+}
 ]
