@@ -163,10 +163,15 @@ app.get('/get-food/:day', (req, res) => {
 // ------ JSON Food Browsing ------
 app.get('/api/foods', async (req, res) => {
     try {
+        console.log('Attempting to read food data from:', dataPath);
         const data = await fs.readFile(dataPath);
-        res.json(JSON.parse(data));
+        console.log('Successfully read food data, length:', data.length);
+        const parsedData = JSON.parse(data);
+        console.log('Successfully parsed JSON, items count:', parsedData.length);
+        res.json(parsedData);
     } catch (error) {
-        res.status(500).json({ error: 'Error reading food data' });
+        console.error('Error in /api/foods:', error);
+        res.status(500).json({ error: 'Error reading food data: ' + error.message });
     }
 });
 
