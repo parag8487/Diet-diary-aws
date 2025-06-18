@@ -90,6 +90,14 @@ ensureDataFolder().then(() => {
 // JSON Storage 
 const dataPath = path.join(__dirname, 'data', 'foods.json');
 
+// Serve static files from the root directory
+app.use(express.static(path.join(__dirname)));
+
+// Serve index.html for the root route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // API Endpoints 
 
 // ------ Meals & Foods ------
