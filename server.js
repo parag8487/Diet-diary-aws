@@ -5,21 +5,22 @@ const cors = require('cors');
 const mysql = require('mysql2');
 const fs = require('fs').promises;
 const path = require('path');
-const axios = require('axios'); // ✅ Required for Gemini API
+const axios = require('axios'); 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-// ==================== MySQL Configuration ====================
+//  MySQL Configuration 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Admin@2804',
-    database: 'diet_diary'
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT
 });
 
 db.connect((err) => {
@@ -63,7 +64,7 @@ const createTables = () => {
 };
 createTables();
 
-// ==================== JSON Storage ====================
+// JSON Storage 
 const dataPath = path.join(__dirname, 'data', 'foods.json');
 
 const initializeJSON = async () => {
@@ -76,7 +77,7 @@ const initializeJSON = async () => {
 };
 initializeJSON();
 
-// ==================== API Endpoints ====================
+// API Endpoints 
 
 // ------ Meals & Foods ------
 app.post('/save-data', (req, res) => {
@@ -247,7 +248,7 @@ app.delete('/delete-customer/:username', (req, res) => {
     });
 });
 
-// ------ Chatbot using Gemini with prompt engineering ------
+//Chatbot 
 app.post('/chat', async (req, res) => {
     const { message } = req.body;
 
@@ -256,11 +257,11 @@ app.post('/chat', async (req, res) => {
     }
 
     try {
-        // Check if it's a nutrition request
+
         const isNutritionRequest = message.toLowerCase().includes('calories') && 
                                  message.toLowerCase().includes('grams');
         
-        // Create a context-specific prompt based on request type
+        
         let promptContext = '';
         
         if (isNutritionRequest) {
@@ -307,7 +308,7 @@ app.post('/chat', async (req, res) => {
     }
 });
 
-// ==================== Start Server ====================
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
