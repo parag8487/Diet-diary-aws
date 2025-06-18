@@ -31,10 +31,12 @@ db.connect((err) => {
     console.log('Connected to MySQL database');
 });
 
+// Create tables if they don't exist
 const createTables = () => {
     const queries = [
         `CREATE TABLE IF NOT EXISTS meals (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255) NOT NULL,
             day VARCHAR(50) NOT NULL,
             data JSON NOT NULL
         )`,
@@ -63,7 +65,7 @@ const createTables = () => {
     });
 };
 
-// Ensure data folder exists before initializing JSON file
+// To Make sure the data folder exists before using it
 const ensureDataFolder = async () => {
     const folderPath = path.join(__dirname, 'data');
     try {
@@ -73,6 +75,7 @@ const ensureDataFolder = async () => {
     }
 };
 
+// Create foods.json if it doesn't exist
 const initializeJSON = async () => {
     try {
         await fs.access(dataPath);
@@ -82,18 +85,18 @@ const initializeJSON = async () => {
     }
 };
 
-// Ensure data folder exists before initializing JSON file
+
 ensureDataFolder().then(() => {
     initializeJSON();
 });
 
-// JSON Storage 
+
 const dataPath = path.join(__dirname, 'data', 'foods.json');
 
-// Serve static files from the root directory
+
 app.use(express.static(path.join(__dirname)));
 
-// Serve index.html for the root route
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -102,18 +105,19 @@ app.get('/', (req, res) => {
 
 // ------ Meals & Foods ------
 app.post('/save-data', (req, res) => {
-    const { day, data } = req.body;
-    const checkQuery = 'SELECT * FROM meals WHERE day = ?';
+    const { username, day, data } = req.body;
+    if (!username || !day) return res.status(400).send('Username and day are required');
+    const checkQuery = 'SELECT * FROM meals WHERE username = ? AND day = ?';
 
-    db.query(checkQuery, [day], (err, results) => {
+    db.query(checkQuery, [username, day], (err, results) => {
         if (err) return res.status(500).send('Error checking data: ' + err.message);
 
         const query = results.length > 0
-            ? 'UPDATE meals SET data = ? WHERE day = ?'
-            : 'INSERT INTO meals (day, data) VALUES (?, ?)';
+            ? 'UPDATE meals SET data = ? WHERE username = ? AND day = ?'
+            : 'INSERT INTO meals (data, username, day) VALUES (?, ?, ?)';
         const params = results.length > 0
-            ? [JSON.stringify(data), day]
-            : [day, JSON.stringify(data)];
+            ? [JSON.stringify(data), username, day]
+            : [JSON.stringify(data), username, day];
 
         db.query(query, params, (err) => {
             if (err) return res.status(500).send('Error saving data: ' + err.message);
@@ -122,6 +126,7 @@ app.post('/save-data', (req, res) => {
     });
 });
 
+// Add a new food item
 app.post('/save-food', (req, res) => {
     const { day, title, url, calories, carbs, fat, protein } = req.body;
     if (!day || !title || !calories || !carbs || !fat || !protein) {
@@ -136,6 +141,7 @@ app.post('/save-food', (req, res) => {
     });
 });
 
+// Delete all meal data
 app.delete('/delete-data', (req, res) => {
     db.query('DELETE FROM meals', (err) => {
         if (err) return res.status(500).send('Error deleting data: ' + err.message);
@@ -144,11 +150,13 @@ app.delete('/delete-data', (req, res) => {
 });
 
 app.get('/get-weekly-data', (req, res) => {
-    const query = `SELECT day, data FROM meals 
+    const username = req.query.username;
+    if (!username) return res.status(400).send('Username is required');
+    const query = `SELECT day, data FROM meals WHERE username = ?
                    ORDER BY FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 
                    'Friday', 'Saturday', 'Sunday')`;
 
-    db.query(query, (err, results) => {
+    db.query(query, [username], (err, results) => {
         if (err) return res.status(500).send('Error fetching data: ' + err.message);
 
         const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", 
@@ -182,7 +190,7 @@ app.get('/get-food/:day', (req, res) => {
     });
 });
 
-// ------ JSON Food Browsing ------
+// Get all foods from JSON file
 app.get('/api/foods', async (req, res) => {
     try {
         console.log('Attempting to read food data from:', dataPath);
@@ -197,6 +205,7 @@ app.get('/api/foods', async (req, res) => {
     }
 });
 
+// Add a new food to JSON file
 app.post('/api/foods', async (req, res) => {
     try {
         const newFood = req.body;
@@ -212,7 +221,7 @@ app.post('/api/foods', async (req, res) => {
     }
 });
 
-// ------ Authentication ------
+// Register a new user
 app.post('/signup', (req, res) => {
     const { username, password } = req.body;
 
@@ -228,6 +237,7 @@ app.post('/signup', (req, res) => {
     });
 });
 
+// User login
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 

@@ -7,6 +7,7 @@
     // Save meal plan handler
     saveButton.addEventListener('click', async () => {
         const day = document.getElementById('day').value;
+        const username = localStorage.getItem('currentUser');
         const meals = {
             breakfast: {
                 name: document.getElementById('breakfast').value.trim(),
@@ -34,7 +35,7 @@
             const response = await fetch('/save-data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ day, data: mealPlanData }),
+                body: JSON.stringify({ username, day, data: mealPlanData }),
             });
 
             response.ok ? alert('Meal plan saved successfully!') : alert('Error: ' + await response.text());
@@ -289,11 +290,11 @@
         }
     }
 
-    // Initialize
+
     loadFoodSuggestions();
     loadMealSuggestions();
 
-    // Event listeners
+
     document.querySelectorAll('.food-input').forEach(input => {
         input.addEventListener('focus', loadFoodSuggestions);
     });

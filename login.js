@@ -15,6 +15,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                localStorage.setItem("currentUser", username);
                 window.location.href = "dashboard.html";
             } else {
                 const errorMessage = document.getElementById("error-message");

@@ -71,7 +71,8 @@ function updateBMIDashboard(weight, height) {
     // Data functions
     async function fetchChartData() {
         try {
-            const response = await fetch('/get-weekly-data');
+            const username = localStorage.getItem('currentUser');
+            const response = await fetch(`/get-weekly-data?username=${encodeURIComponent(username)}`);
             const data = await response.json();
             
             // Ensure Protein is always less than or equal to Calories
@@ -121,5 +122,12 @@ function updateBMIDashboard(weight, height) {
     // Manual refresh button
     document.getElementById('refreshChart')?.addEventListener('click', refreshChart);
     
+    // Attach logout logic
+    const logoutLinks = document.querySelectorAll('a[href="./login.html"], a[href="login.html"]');
+    logoutLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            localStorage.removeItem("currentUser");
+        });
+    });
 });
 

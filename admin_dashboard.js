@@ -10,8 +10,8 @@
             customers.forEach(customer => {
                 const row = document.createElement("tr");
                 const lastLoginDate = new Date(customer.last_login);
-                // Convert to IST (UTC+5:30)
-                const istOffset = 5.5 * 60; // 5 hours and 30 minutes in minutes
+                
+                const istOffset = 5.5 * 60; 
                 const istDate = new Date(lastLoginDate.getTime() + istOffset * 60 * 1000);
                 const formattedLastLogin = istDate.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
@@ -27,7 +27,7 @@
                 customerRows.appendChild(row);
             });
 
-            // Update statistics
+            
             updateStatistics(customers);
         } catch (error) {
             console.error('Error fetching customers:', error);
@@ -50,7 +50,7 @@
         const totalCustomers = customers.length;
         const totalFoods = await fetchFoodCount();
         
-        // Calculate active users (users who logged in within last 7 days)
+        
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         const activeUsers = customers.filter(customer => {
@@ -58,12 +58,12 @@
             return lastLogin > sevenDaysAgo;
         }).length;
 
-        // Update the statistics cards
+        
         document.getElementById('totalCustomers').textContent = totalCustomers;
         document.getElementById('totalFoods').textContent = totalFoods;
         document.getElementById('activeUsers').textContent = activeUsers;
 
-        // Add animation to statistics
+        
         animateNumbers();
     }
 
@@ -75,7 +75,7 @@
             const numericValue = parseInt(finalValue.replace('%', ''));
             
             let currentValue = 0;
-            const increment = numericValue / 50; // Animate over 50 steps
+            const increment = numericValue / 50; 
             
             const timer = setInterval(() => {
                 currentValue += increment;
@@ -89,7 +89,7 @@
     }
 
     function showError(message) {
-        // Create a temporary error message
+        
         const errorDiv = document.createElement('div');
         errorDiv.className = 'alert alert-danger alert-dismissible fade show position-fixed';
         errorDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
@@ -99,7 +99,7 @@
         `;
         document.body.appendChild(errorDiv);
         
-        // Auto-remove after 5 seconds
+    
         setTimeout(() => {
             if (errorDiv.parentNode) {
                 errorDiv.parentNode.removeChild(errorDiv);
@@ -113,7 +113,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Show success message
+                        
                         const successDiv = document.createElement('div');
                         successDiv.className = 'alert alert-success alert-dismissible fade show position-fixed';
                         successDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
@@ -123,14 +123,14 @@
                         `;
                         document.body.appendChild(successDiv);
                         
-                        // Auto-remove after 3 seconds
+                        
                         setTimeout(() => {
                             if (successDiv.parentNode) {
                                 successDiv.parentNode.removeChild(successDiv);
                             }
                         }, 3000);
                         
-                        fetchCustomers(); // Refresh the table and statistics
+                        fetchCustomers(); 
                     } else {
                         showError('Failed to delete customer. Please try again.');
                     }
@@ -142,9 +142,9 @@
         }
     };
 
-    // Initialize dashboard
+   
     fetchCustomers();
     
-    // Refresh data every 30 seconds
+    
     setInterval(fetchCustomers, 30000);
 });

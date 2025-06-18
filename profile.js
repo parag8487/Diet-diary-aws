@@ -4,9 +4,14 @@
   const bmiResult = document.getElementById("bmiResult");
   const calorieResult = document.getElementById("calorieResult"); // New element for displaying daily calories
 
+  function getProfileKey() {
+    const username = localStorage.getItem("currentUser");
+    return username ? `profile_${username}` : "profile";
+  }
+
   // Load saved profile data
   function loadProfile() {
-    const profile = JSON.parse(localStorage.getItem("profile")) || {};
+    const profile = JSON.parse(localStorage.getItem(getProfileKey())) || {};
     if (profile.name) document.getElementById("name").value = profile.name;
     if (profile.age) document.getElementById("age").value = profile.age;
     if (profile.sex) document.getElementById("sex").value = profile.sex;
@@ -29,7 +34,7 @@
     const height = document.getElementById("height").value;
 
     const profile = { name, age, sex, weight, height };
-    localStorage.setItem("profile", JSON.stringify(profile));
+    localStorage.setItem(getProfileKey(), JSON.stringify(profile));
 
     updateBMI(weight, height);
     alert("Profile saved successfully!");
