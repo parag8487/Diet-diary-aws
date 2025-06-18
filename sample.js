@@ -50,7 +50,8 @@
         if (!confirm("Are you sure you want to delete all meal data?")) return;
         
         try {
-            const response = await fetch('/delete-data', { method: 'DELETE' });
+            const username = localStorage.getItem('currentUser');
+            const response = await fetch(`/delete-data?username=${encodeURIComponent(username)}`, { method: 'DELETE' });
             response.ok ? alert('All meal data deleted!') : alert('Delete failed: ' + await response.text());
         } catch (error) {
             console.error('Delete error:', error);

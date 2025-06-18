@@ -126,6 +126,10 @@ function updateBMIDashboard(weight, height) {
     const logoutLinks = document.querySelectorAll('a[href="./login.html"], a[href="login.html"]');
     logoutLinks.forEach(link => {
         link.addEventListener('click', function (e) {
+            const username = localStorage.getItem("currentUser");
+            if (username) {
+                localStorage.removeItem(`profile_${username}`);
+            }
             localStorage.removeItem("currentUser");
         });
     });

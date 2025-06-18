@@ -143,9 +143,11 @@ app.post('/save-food', (req, res) => {
 
 // Delete all meal data
 app.delete('/delete-data', (req, res) => {
-    db.query('DELETE FROM meals', (err) => {
+    const username = req.query.username;
+    if (!username) return res.status(400).send('Username is required');
+    db.query('DELETE FROM meals WHERE username = ?', [username], (err) => {
         if (err) return res.status(500).send('Error deleting data: ' + err.message);
-        res.send('All meal data deleted from MySQL');
+        res.send('All meal data deleted for user: ' + username);
     });
 });
 
