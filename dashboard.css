@@ -20,10 +20,50 @@ li {
   font-weight: 500;
 }
 
-.dashboard {
-  float: left;
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
   background-color: #212529;
-  height: 100vh;
+  color: #fff;
+  min-height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  min-height: 100vh;
+}
+
+.hero {
+  flex: 0 0 auto;
+  padding: 2rem 2rem 0 2rem;
+}
+
+.graph {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  margin-top: 391px;
+  background-color: white;
+}
+
+footer {
+  flex-shrink: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 2rem 0 0 0;
+  margin-top: auto;
 }
 
 body {
@@ -31,6 +71,7 @@ body {
   background-size: cover;  
   background-position: center;
   background-repeat: no-repeat;  
+  font-family: 'Open Sans', sans-serif;
 }
 
 html {
@@ -39,17 +80,8 @@ html {
   flex-direction: column;
 }
 
-footer {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-}
-
 .box1 {
   background-color: #E3DACA;
-
   margin-left: 30px;
   padding: 40px;
   border-radius: 20px;
@@ -81,43 +113,8 @@ footer {
 
 .weekly-chart {
   padding: 2rem;
-}
-
-.footer {
-  background-color: #f8f9fa;
-  padding: 2rem;
-}
-
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
-.diet-diary {
-  font-family: 'Playfair Display', serif;
-}
-
-.saved-meals {
-  margin: 2rem 0;
-}
-
-.weekly-chart {
-  margin: 2rem 0;
-}
-
-.footer {
-  background-color: #f1f1f1;
-}
-
-.weekly-chart {
   align-items: center;
   justify-content: center;
-}
-
-.graph {
-  display: flex;
-  justify-content: center;
-  margin-top: 391px;
-  background-color: white;
 }
 
 .bmi-status-box {
