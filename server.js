@@ -8,7 +8,7 @@ const path = require('path');
 const axios = require('axios'); 
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -58,14 +58,20 @@ const createTables = () => {
 
     queries.forEach(query => {
         db.query(query, (err) => {
-            if (err) console.error('Error creating table:', err);
+            if (err) console.error(`Error creating table with query: ${query}\nError:`, err);
         });
     });
 };
-createTables();
 
-// JSON Storage 
-const dataPath = path.join(__dirname, 'data', 'foods.json');
+// Ensure data folder exists before initializing JSON file
+const ensureDataFolder = async () => {
+    const folderPath = path.join(__dirname, 'data');
+    try {
+        await fs.mkdir(folderPath, { recursive: true });
+    } catch (error) {
+        console.error('Failed to create data folder:', error.message);
+    }
+};
 
 const initializeJSON = async () => {
     try {
@@ -75,7 +81,14 @@ const initializeJSON = async () => {
         console.log('Created foods.json file');
     }
 };
-initializeJSON();
+
+// Ensure data folder exists before initializing JSON file
+ensureDataFolder().then(() => {
+    initializeJSON();
+});
+
+// JSON Storage 
+const dataPath = path.join(__dirname, 'data', 'foods.json');
 
 // API Endpoints 
 
@@ -309,6 +322,6 @@ app.post('/chat', async (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
