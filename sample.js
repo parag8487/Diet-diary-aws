@@ -31,7 +31,7 @@
                 totalProtein: calculateProtein(nutritionData, meals)
             };
 
-            const response = await fetch('http://localhost:3000/save-data', {
+            const response = await fetch('/save-data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ day, data: mealPlanData }),
@@ -49,7 +49,7 @@
         if (!confirm("Are you sure you want to delete all meal data?")) return;
         
         try {
-            const response = await fetch('http://localhost:3000/delete-data', { method: 'DELETE' });
+            const response = await fetch('/delete-data', { method: 'DELETE' });
             response.ok ? alert('All meal data deleted!') : alert('Delete failed: ' + await response.text());
         } catch (error) {
             console.error('Delete error:', error);
@@ -109,8 +109,8 @@
     async function getFoodNutrition() {
         try {
             const [sqlFoods, jsonFoods] = await Promise.all([
-                fetch('http://localhost:3000/get-food/all').then(r => r.json()),
-                fetch('http://localhost:3000/api/foods').then(r => r.json())
+                fetch('/get-food/all').then(r => r.json()),
+                fetch('/api/foods').then(r => r.json())
             ]);
             
             return [...sqlFoods, ...jsonFoods].reduce((acc, food) => {

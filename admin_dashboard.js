@@ -1,7 +1,7 @@
 ﻿document.addEventListener("DOMContentLoaded", function() {
     async function fetchCustomers() {
         try {
-            const response = await fetch('http://localhost:3000/get-customers');
+            const response = await fetch('/get-customers');
             const customers = await response.json();
 
             const customerRows = document.getElementById("customerRows");
@@ -37,7 +37,7 @@
 
     async function fetchFoodCount() {
         try {
-            const response = await fetch('http://localhost:3000/foods');
+            const response = await fetch('/foods');
             const foods = await response.json();
             return foods.length;
         } catch (error) {
@@ -109,7 +109,7 @@
 
     window.deleteCustomer = function(username) {
         if (confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
-            fetch(`http://localhost:3000/delete-customer/${username}`, { method: 'DELETE' })
+            fetch(`/delete-customer/${username}`, { method: 'DELETE' })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {

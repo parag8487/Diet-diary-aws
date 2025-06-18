@@ -5,7 +5,7 @@
         const newUsername = document.getElementById("newUsername").value;
         const newPassword = document.getElementById("newPassword").value;
 
-        fetch('http://localhost:3000/signup', {
+        fetch('/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: newUsername, password: newPassword })

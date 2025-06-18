@@ -5,7 +5,7 @@
     // Load existing foods on page load
     async function loadFoods() {
         try {
-            const response = await fetch('http://localhost:3000/api/foods');
+            const response = await fetch('/api/foods');
             const foods = await response.json();
             
             foodList.innerHTML = ''; // Clear existing items
@@ -55,7 +55,7 @@
 
         try {
             // Send data to server
-            const response = await fetch('http://localhost:3000/api/foods', {
+            const response = await fetch('/api/foods', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

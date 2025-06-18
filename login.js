@@ -5,7 +5,7 @@
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        const apiUrl = `http://localhost:3000/login`;
+        const apiUrl = `/login`;
 
         fetch(apiUrl, {
             method: 'POST',
