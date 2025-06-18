@@ -1,5 +1,4 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-    // Chart configuration
     const ctx = document.getElementById("calorieProteinChart").getContext("2d");
     const chartConfig = {
         type: "bar",
@@ -28,7 +27,7 @@
                     position: 'left',
                     title: { display: true, text: 'Calories' },
                     beginAtZero: true,
-                    max: 2500,  // Set the maximum value for the Calories axis
+                    max: 2500,
                     stepSize: 500
                 },
                 y1: {
@@ -42,43 +41,50 @@
         }
     };
 
-    // Add this function to dashboard.js
-function updateBMIDashboard(weight, height) {
-    let bmi = (weight / ((height / 100) ** 2)).toFixed(1);
-    let bmiCategory = "";
-    let position = 50;
-
-    if (bmi < 18.5) {
-        bmiCategory = "Underweight";
-        position = 10;
-    } else if (bmi >= 18.5 && bmi < 24.9) {
-        bmiCategory = "Normal";
-        position = 40;
-    } else if (bmi >= 25 && bmi < 29.9) {
-        bmiCategory = "Overweight";
-        position = 70;
-    } else {
-        bmiCategory = "Obese";
-        position = 90;
+    function loadBMIData() {
+        const username = localStorage.getItem("currentUser");
+        if (username) {
+            const bmiData = JSON.parse(localStorage.getItem(`bmiData_${username}`));
+            if (bmiData) {
+                document.getElementById('bmiResultDashboard').innerHTML = `Your BMI: <strong>${bmiData.bmi}</strong> (${bmiData.bmiCategory})`;
+                document.getElementById('bmiNeedleDashboard').style.left = `${bmiData.position}%`;
+            }
+        }
     }
 
-    document.getElementById('bmiResultDashboard').innerHTML = `Your BMI: <strong>${bmi}</strong> (${bmiCategory})`;
-    document.getElementById('bmiNeedleDashboard').style.left = `${position}%`;
-}
+    function updateBMIDashboard(weight, height) {
+        let bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+        let bmiCategory = "";
+        let position = 50;
+
+        if (bmi < 18.5) {
+            bmiCategory = "Underweight";
+            position = 10;
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            bmiCategory = "Normal";
+            position = 40;
+        } else if (bmi >= 25 && bmi < 29.9) {
+            bmiCategory = "Overweight";
+            position = 70;
+        } else {
+            bmiCategory = "Obese";
+            position = 90;
+        }
+
+        document.getElementById('bmiResultDashboard').innerHTML = `Your BMI: <strong>${bmi}</strong> (${bmiCategory})`;
+        document.getElementById('bmiNeedleDashboard').style.left = `${position}%`;
+    }
 
     const calorieProteinChart = new Chart(ctx, chartConfig);
 
-    // Data functions
     async function fetchChartData() {
         try {
             const username = localStorage.getItem('currentUser');
             const response = await fetch(`/get-weekly-data?username=${encodeURIComponent(username)}`);
             const data = await response.json();
             
-            // Ensure Protein is always less than or equal to Calories
             const calorieData = validateData(data.calorieData);
             const proteinData = validateData(data.proteinData).map((protein, index) => {
-                // Ensure protein value is not greater than calories for the same day
                 return Math.min(protein, calorieData[index]);
             });
 
@@ -98,7 +104,6 @@ function updateBMIDashboard(weight, height) {
             : [0, 0, 0, 0, 0, 0, 0];
     }
 
-    // Update chart
     function updateChart(data) {
         if (calorieProteinChart) {
             calorieProteinChart.data.datasets[0].data = data.calorieData;
@@ -107,28 +112,25 @@ function updateBMIDashboard(weight, height) {
         }
     }
 
-    // Refresh functionality
     async function refreshChart() {
         const data = await fetchChartData();
         updateChart(data);
     }
 
-    // Initial load
+    loadBMIData();
     refreshChart();
 
-    // Auto-refresh every 30 seconds
     setInterval(refreshChart, 30000);
 
-    // Manual refresh button
     document.getElementById('refreshChart')?.addEventListener('click', refreshChart);
     
-    // Attach logout logic
     const logoutLinks = document.querySelectorAll('a[href="./login.html"], a[href="login.html"]');
     logoutLinks.forEach(link => {
         link.addEventListener('click', function (e) {
             const username = localStorage.getItem("currentUser");
             if (username) {
                 localStorage.removeItem(`profile_${username}`);
+                localStorage.removeItem(`bmiData_${username}`);
             }
             localStorage.removeItem("currentUser");
         });
