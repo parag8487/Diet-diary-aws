@@ -239,7 +239,8 @@
     <script src="dashboard.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const bmiData = JSON.parse(localStorage.getItem("bmiData"));
+        const username = localStorage.getItem("currentUser");
+        const bmiData = username ? JSON.parse(localStorage.getItem(`bmiData_${username}`)) : null;
         const bmiNeedle = document.getElementById("bmiNeedleDashboard"); 
         const bmiResult = document.getElementById("bmiResultDashboard");
 

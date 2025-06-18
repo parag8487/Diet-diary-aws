@@ -69,8 +69,11 @@
     bmiResult.innerHTML = `Your BMI: <strong>${bmi}</strong> (${bmiCategory})`;
     bmiNeedle.style.left = `${position}%`;
 
-    // Save BMI data to localStorage
-    localStorage.setItem("bmiData", JSON.stringify({ bmi, bmiCategory, position }));
+    // Save BMI data to localStorage per user
+    const username = localStorage.getItem("currentUser");
+    if (username) {
+      localStorage.setItem(`bmiData_${username}`, JSON.stringify({ bmi, bmiCategory, position }));
+    }
   }
 
   // Calculate daily calorie requirement based on BMI
@@ -110,8 +113,11 @@
 
     calorieResult.innerHTML = message;
 
-    // Store dailyCalories in local storage
-    localStorage.setItem("requiredCalories", dailyCalories.toString());
+    // Store dailyCalories in local storage per user
+    const username = localStorage.getItem("currentUser");
+    if (username) {
+      localStorage.setItem(`requiredCalories_${username}`, dailyCalories.toString());
+    }
   }
 
   loadProfile();

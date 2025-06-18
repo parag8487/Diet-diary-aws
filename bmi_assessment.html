@@ -196,14 +196,15 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const bmiData = JSON.parse(localStorage.getItem("bmiData"));
+            const username = localStorage.getItem("currentUser");
+            const bmiData = username ? JSON.parse(localStorage.getItem(`bmiData_${username}`)) : null;
             const bmiNeedle = document.getElementById("bmiNeedle");
             const bmiResult = document.getElementById("bmiResult");
 
             if (bmiData) {
                 bmiResult.innerHTML = `Your BMI: <strong>${bmiData.bmi}</strong> (${bmiData.bmiCategory})`;
                 
-                // Calculate needle position (BMI 15 = -90Â°, BMI 40 = 90Â°)
+                // Calculate needle position (BMI 15 = -90°, BMI 40 = 90°)
                 const minBMI = 15;
                 const maxBMI = 40;
                 let calculatedBMI = Math.min(Math.max(bmiData.bmi, minBMI), maxBMI);

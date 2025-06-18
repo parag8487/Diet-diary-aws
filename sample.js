@@ -84,8 +84,9 @@
             document.getElementById('total-calories').textContent = totalCalories.toFixed(1);
             document.getElementById('total-protein').textContent = totalProtein.toFixed(1);
 
-            // Calorie comparison logic
-            const requiredCaloriesStr = localStorage.getItem("requiredCalories");
+            // Calorie comparison logic per user
+            const username = localStorage.getItem('currentUser');
+            const requiredCaloriesStr = username ? localStorage.getItem(`requiredCalories_${username}`) : null;
             if (requiredCaloriesStr) {
                 const requiredCalories = parseFloat(requiredCaloriesStr);
                 if (!isNaN(requiredCalories)) {
