@@ -46,33 +46,64 @@
         if (username) {
             const bmiData = JSON.parse(localStorage.getItem(`bmiData_${username}`));
             if (bmiData) {
-                document.getElementById('bmiResultDashboard').innerHTML = `Your BMI: <strong>${bmiData.bmi}</strong> (${bmiData.bmiCategory})`;
-                document.getElementById('bmiNeedleDashboard').style.left = `${bmiData.position}%`;
+                updateBMIDashboardDisplay(bmiData.bmi);
             }
         }
     }
 
     function updateBMIDashboard(weight, height) {
         let bmi = (weight / ((height / 100) ** 2)).toFixed(1);
-        let bmiCategory = "";
-        let position = 50;
+        updateBMIDashboardDisplay(bmi);
+    }
 
-        if (bmi < 18.5) {
-            bmiCategory = "Underweight";
-            position = 10;
-        } else if (bmi >= 18.5 && bmi < 24.9) {
-            bmiCategory = "Normal";
-            position = 40;
-        } else if (bmi >= 25 && bmi < 29.9) {
-            bmiCategory = "Overweight";
-            position = 70;
-        } else {
-            bmiCategory = "Obese";
-            position = 90;
+    function updateBMIDashboardDisplay(bmi) {
+        const bmiValueDisplay = document.getElementById("bmiValueDisplay");
+        const bmiStatusText = document.getElementById("bmiStatusText");
+        const bmiResultDashboard = document.getElementById('bmiResultDashboard');
+        const category = getBMICategory(parseFloat(bmi));
+        const color = getBMIColor(parseFloat(bmi));
+        if (bmiValueDisplay && bmiStatusText) {
+            bmiValueDisplay.textContent = bmi;
+            bmiValueDisplay.style.background = `linear-gradient(45deg, ${color}, ${color}aa)`;
+            bmiValueDisplay.style.webkitBackgroundClip = 'text';
+            bmiValueDisplay.style.webkitTextFillColor = 'transparent';
+            bmiValueDisplay.style.backgroundClip = 'text';
+            bmiStatusText.textContent = category;
+            bmiStatusText.style.color = color;
+        } else if (bmiResultDashboard) {
+            // fallback for legacy structure
+            bmiResultDashboard.innerHTML = `Your BMI: <strong>${bmi}</strong> (${category})`;
         }
+        updateBMINeedleDashboard(bmi);
+    }
 
-        document.getElementById('bmiResultDashboard').innerHTML = `Your BMI: <strong>${bmi}</strong> (${bmiCategory})`;
-        document.getElementById('bmiNeedleDashboard').style.left = `${position}%`;
+    function getBMICategory(bmi) {
+        if (bmi < 18.5) return 'Underweight';
+        if (bmi < 25) return 'Normal Weight';
+        if (bmi < 30) return 'Overweight';
+        return 'Obese';
+    }
+    function getBMIColor(bmi) {
+        if (bmi < 18.5) return '#e74c3c';
+        if (bmi < 25) return '#2ecc71';
+        if (bmi < 30) return '#f39c12';
+        return '#e74c3c';
+    }
+    function updateBMINeedleDashboard(bmi) {
+        const needle = document.getElementById("bmiNeedleDashboard");
+        const segments = document.querySelectorAll('.bmi-segment');
+        const minBMI = 16;
+        const maxBMI = 35;
+        const clampedBMI = Math.min(Math.max(parseFloat(bmi), minBMI), maxBMI);
+        const angle = ((clampedBMI - minBMI) / (maxBMI - minBMI)) * 180 - 90;
+        if (needle) {
+            needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        }
+        segments.forEach(segment => segment.style.opacity = '0.6');
+        if (bmi < 18.5) segments[0].style.opacity = '1';
+        else if (bmi < 25) segments[1].style.opacity = '1';
+        else if (bmi < 30) segments[2].style.opacity = '1';
+        else segments[3].style.opacity = '1';
     }
 
     const calorieProteinChart = new Chart(ctx, chartConfig);
