@@ -7,7 +7,7 @@
 
         //admin credentials
         const validAdminUsername = "admin";
-        const validAdminPassword = "parag@dietdiary";
+        const validAdminPassword = "admin123";
 
         if (adminUsername === validAdminUsername && adminPassword === validAdminPassword) {
             window.location.href = "admin_dashboard.html";
