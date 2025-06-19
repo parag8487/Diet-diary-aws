@@ -1,4 +1,9 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
+  if (!localStorage.getItem('currentUser')) {
+    window.location.href = 'login.html';
+    return;
+  }
+
   const profileForm = document.getElementById("profileForm");
   const bmiNeedle = document.getElementById("bmiNeedle");
   const bmiResult = document.getElementById("bmiResult");

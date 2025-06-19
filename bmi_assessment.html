@@ -365,6 +365,10 @@
     </div>
 
     <script>
+        if (!localStorage.getItem('currentUser')) {
+            window.location.href = 'login.html';
+        }
+
         // BMI calculation and display logic
         function calculateBMI(weight, height) {
             const heightInMeters = height / 100;

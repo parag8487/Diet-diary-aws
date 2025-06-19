@@ -1,4 +1,8 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
+    if (!localStorage.getItem('currentUser')) {
+        window.location.href = 'login.html';
+        return;
+    }
     const ctx = document.getElementById("calorieProteinChart").getContext("2d");
     const chartConfig = {
         type: "bar",
