@@ -281,7 +281,7 @@ app.delete('/delete-customer/:username', (req, res) => {
     });
 });
 
-//Chatbot 
+//Chatbot - Updated to work exclusively with foods.json data
 app.post('/chat', async (req, res) => {
     const { message } = req.body;
 
@@ -289,358 +289,287 @@ app.post('/chat', async (req, res) => {
         return res.status(400).json({ reply: "Message cannot be empty." });
     }
 
-    // Custom handling for highest protein/calories/carbs queries
     const lowerMsg = message.toLowerCase();
-    const nutrientMap = {
-        'protein': { key: 'protein', label: 'Protein (g)' },
-        'calories': { key: 'calories', label: 'Calories' },
-        'carbs': { key: 'carbs', label: 'Carbs (g)' }
-    };
-    let nutrient = null;
-    if (lowerMsg.includes('highest protein')) nutrient = 'protein';
-    else if (lowerMsg.includes('highest calorie') || lowerMsg.includes('highest calories')) nutrient = 'calories';
-    else if (lowerMsg.includes('highest carb') || lowerMsg.includes('highest carbs')) nutrient = 'carbs';
-
-    // 1. Highest protein/calories/carbs foods (already handled)
-    if (nutrient) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            // Sort foods by the requested nutrient (descending)
-            const sorted = foods
-                .filter(f => f[nutrientMap[nutrient].key] && !isNaN(parseFloat(f[nutrientMap[nutrient].key])))
-                .sort((a, b) => parseFloat(b[nutrientMap[nutrient].key]) - parseFloat(a[nutrientMap[nutrient].key]));
-            const topFoods = sorted.slice(0, 5);
-            const lines = topFoods.map(f => `${f.title} : ${f[nutrientMap[nutrient].key]}`);
-            const reply = `Top 5 foods with the highest ${nutrientMap[nutrient].label}:\n` + lines.join('\n');
-            return res.json({ reply });
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // 2. Which is highest protein in all the food listed
-    if (lowerMsg.includes('which is highest protein')) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const sorted = foods
-                .filter(f => f.protein && !isNaN(parseFloat(f.protein)))
-                .sort((a, b) => parseFloat(b.protein) - parseFloat(a.protein));
-            const top = sorted[0];
-            if (top) {
-                const reply = `Food with the highest protein:\nFood : Protein (g)\n${top.title} : ${top.protein}`;
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No food data available.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Highest calorie food
-    if (lowerMsg.includes('which is highest calorie') || lowerMsg.includes('which is highest calories')) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const sorted = foods
-                .filter(f => f.calories && !isNaN(parseFloat(f.calories)))
-                .sort((a, b) => parseFloat(b.calories) - parseFloat(a.calories));
-            const top = sorted[0];
-            if (top) {
-                const reply = `Food with the highest calories:\nFood : Calories\n${top.title} : ${top.calories}`;
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No food data available.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Highest carb food
-    if (lowerMsg.includes('which is highest carb')) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const sorted = foods
-                .filter(f => f.carbs && !isNaN(parseFloat(f.carbs)))
-                .sort((a, b) => parseFloat(b.carbs) - parseFloat(a.carbs));
-            const top = sorted[0];
-            if (top) {
-                const reply = `Food with the highest carbs:\nFood : Carbs (g)\n${top.title} : ${top.carbs}`;
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No food data available.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Highest fat food
-    if (lowerMsg.includes('which is highest fat')) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const sorted = foods
-                .filter(f => f.fat && !isNaN(parseFloat(f.fat)))
-                .sort((a, b) => parseFloat(b.fat) - parseFloat(a.fat));
-            const top = sorted[0];
-            if (top) {
-                const reply = `Food with the highest fat:\nFood : Fat (g)\n${top.title} : ${top.fat}`;
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No food data available.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // 3. Create me a high protein meal
-    if (lowerMsg.includes('high protein meal')) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const sorted = foods
-                .filter(f => f.protein && !isNaN(parseFloat(f.protein)))
-                .sort((a, b) => parseFloat(b.protein) - parseFloat(a.protein));
-            const mealFoods = sorted.slice(0, 3);
-            if (mealFoods.length > 0) {
-                let reply = 'High protein meal suggestion (top 3 foods):\nFood : Protein (g)\n';
-                reply += mealFoods.map(f => `${f.title} : ${f.protein}`).join('\n');
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No food data available.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Create me a high calorie meal
-    if (lowerMsg.includes('high calorie meal')) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const sorted = foods
-                .filter(f => f.calories && !isNaN(parseFloat(f.calories)))
-                .sort((a, b) => parseFloat(b.calories) - parseFloat(a.calories));
-            const mealFoods = sorted.slice(0, 3);
-            if (mealFoods.length > 0) {
-                let reply = 'High calorie meal suggestion (top 3 foods):\nFood : Calories\n';
-                reply += mealFoods.map(f => `${f.title} : ${f.calories}`).join('\n');
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No food data available.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-   
-    // Create me a high fat meal
-    if (lowerMsg.includes('high fat meal')) {
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const sorted = foods
-                .filter(f => f.fat && !isNaN(parseFloat(f.fat)))
-                .sort((a, b) => parseFloat(b.fat) - parseFloat(a.fat));
-            const mealFoods = sorted.slice(0, 3);
-            if (mealFoods.length > 0) {
-                let reply = 'High fat meal suggestion (top 3 foods):\nFood : Fat (g)\n';
-                reply += mealFoods.map(f => `${f.title} : ${f.fat}`).join('\n');
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No food data available.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Nutrition for a specific food (flexible matching)
-    const nutritionMatch = lowerMsg.match(/nutrition (?:in|of|for) ([a-zA-Z0-9 \-]+)/);
-    if (nutritionMatch) {
-        const foodQuery = nutritionMatch[1].trim().toLowerCase();
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            // Flexible matching: case-insensitive, partial match
-            const matches = foods.filter(f => f.title && f.title.trim().toLowerCase().includes(foodQuery));
-            if (matches.length === 1) {
-                const food = matches[0];
-                const reply = `Nutrition for ${food.title}:\n| Calories | Protein (g) | Carbs (g) | Fat (g) |\n|----------|-------------|-----------|---------|\n| ${food.calories} | ${food.protein} | ${food.carbs} | ${food.fat} |`;
-                return res.json({ reply });
-            } else if (matches.length > 1) {
-                let reply = `Multiple foods found for '${foodQuery}':\n| Food | Calories | Protein (g) | Carbs (g) | Fat (g) |\n|------|----------|-------------|-----------|---------|\n`;
-                reply += matches.map(f => `| ${f.title} | ${f.calories} | ${f.protein} | ${f.carbs} | ${f.fat} |`).join('\n');
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'Food not found.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Nutrient-based food search (e.g., 'show foods with more than 20g protein')
-    const nutrientSearchMatch = lowerMsg.match(/(?:show|list) foods with (more|less) than (\d+(?:\.\d+)?) ?(protein|calories|carbs|fat)/);
-    if (nutrientSearchMatch) {
-        const moreOrLess = nutrientSearchMatch[1];
-        const value = parseFloat(nutrientSearchMatch[2]);
-        const nutrient = nutrientSearchMatch[3];
-        const nutrientKey = nutrient === 'calories' ? 'calories' : nutrient === 'protein' ? 'protein' : nutrient === 'carbs' ? 'carbs' : 'fat';
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const filtered = foods.filter(f => f[nutrientKey] && !isNaN(parseFloat(f[nutrientKey])) && (moreOrLess === 'more' ? parseFloat(f[nutrientKey]) > value : parseFloat(f[nutrientKey]) < value));
-            if (filtered.length > 0) {
-                let reply = `Foods with ${moreOrLess} than ${value} ${nutrient}:\n| Food | ${nutrient.charAt(0).toUpperCase() + nutrient.slice(1)} |\n|------|------|\n`;
-                reply += filtered.map(f => `| ${f.title} | ${f[nutrientKey]} |`).join('\n');
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No foods found.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Custom meal builder (e.g., 'suggest a meal with at least 50g protein and under 700 calories')
-    const mealBuilderMatch = lowerMsg.match(/suggest a meal with (at least|under|less than|more than|over) (\d+(?:\.\d+)?) ?(protein|calories|carbs|fat)(?: (and|&) (at least|under|less than|more than|over) (\d+(?:\.\d+)?) ?(protein|calories|carbs|fat))?/);
-    if (mealBuilderMatch) {
-        // Parse first constraint
-        const op1 = mealBuilderMatch[1];
-        const val1 = parseFloat(mealBuilderMatch[2]);
-        const nut1 = mealBuilderMatch[3];
-        // Parse optional second constraint
-        const op2 = mealBuilderMatch[5];
-        const val2 = mealBuilderMatch[6] ? parseFloat(mealBuilderMatch[6]) : null;
-        const nut2 = mealBuilderMatch[7];
-        // Helper to check constraint
-        function check(food, op, val, nut) {
-            const v = parseFloat(food[nut]);
-            if (isNaN(v)) return false;
-            if (op === 'at least' || op === 'more than' || op === 'over') return v >= val;
-            if (op === 'under' || op === 'less than') return v <= val;
-            return false;
-        }
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            // Try all combinations of up to 3 foods
-            let found = null;
-            outer: for (let i = 0; i < foods.length; i++) {
-                for (let j = i; j < foods.length; j++) {
-                    for (let k = j; k < foods.length; k++) {
-                        const combo = [foods[i]];
-                        if (j !== i) combo.push(foods[j]);
-                        if (k !== j && k !== i) combo.push(foods[k]);
-                        const totals = { calories: 0, protein: 0, carbs: 0, fat: 0 };
-                        combo.forEach(f => {
-                            totals.calories += parseFloat(f.calories) || 0;
-                            totals.protein += parseFloat(f.protein) || 0;
-                            totals.carbs += parseFloat(f.carbs) || 0;
-                            totals.fat += parseFloat(f.fat) || 0;
-                        });
-                        const nut1key = nut1 === 'calories' ? 'calories' : nut1 === 'protein' ? 'protein' : nut1 === 'carbs' ? 'carbs' : 'fat';
-                        const nut2key = nut2 === 'calories' ? 'calories' : nut2 === 'protein' ? 'protein' : nut2 === 'carbs' ? 'carbs' : 'fat';
-                        if (check(totals, op1, val1, nut1key) && (!op2 || check(totals, op2, val2, nut2key))) {
-                            found = { combo, totals };
-                            break outer;
-                        }
-                    }
-                }
-            }
-            if (found) {
-                let reply = 'Meal suggestion:\n| Food | Calories | Protein (g) | Carbs (g) | Fat (g) |\n|------|----------|-------------|-----------|---------|\n';
-                reply += found.combo.map(f => `| ${f.title} | ${f.calories} | ${f.protein} | ${f.carbs} | ${f.fat} |`).join('\n');
-                reply += `\n| **Total** | **${found.totals.calories}** | **${found.totals.protein}** | **${found.totals.carbs}** | **${found.totals.fat}** |`;
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'No suitable meal found.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
-
-    // Food comparison (e.g., 'compare X and Y')
-    const compareMatch = lowerMsg.match(/compare ([a-zA-Z0-9 \-]+) and ([a-zA-Z0-9 \-]+)/);
-    if (compareMatch) {
-        const food1 = compareMatch[1].trim().toLowerCase();
-        const food2 = compareMatch[2].trim().toLowerCase();
-        try {
-            const data = await fs.readFile(dataPath);
-            const foods = JSON.parse(data);
-            const f1 = foods.find(f => f.title && f.title.trim().toLowerCase().includes(food1));
-            const f2 = foods.find(f => f.title && f.title.trim().toLowerCase().includes(food2));
-            if (f1 && f2) {
-                let reply = 'Nutrition Comparison:\n| Food | Calories | Protein (g) | Carbs (g) | Fat (g) |\n|------|----------|-------------|-----------|---------|\n';
-                reply += `| ${f1.title} | ${f1.calories} | ${f1.protein} | ${f1.carbs} | ${f1.fat} |\n`;
-                reply += `| ${f2.title} | ${f2.calories} | ${f2.protein} | ${f2.carbs} | ${f2.fat} |`;
-                return res.json({ reply });
-            } else {
-                return res.json({ reply: 'One or both foods not found.' });
-            }
-        } catch (err) {
-            return res.status(500).json({ reply: 'Error reading food data.' });
-        }
-    }
 
     try {
-        const isNutritionRequest = message.toLowerCase().includes('calories') && 
-                                 message.toLowerCase().includes('grams');
-        
-        
-        let promptContext = '';
-        
-        if (isNutritionRequest) {
-            promptContext = `
-            You are a nutrition assistant that provides clear, concise answers about food nutrition.
-            
-            For nutrition questions:
-            1. Only provide the calories, carbohydrates, fats, and protein content.
-            2. Format your answer in a simple way without disclaimers or extra information.
-            3. Use this format: "100 grams of [food name] contains: Calories: X kcal, Carbohydrates: X grams, Fat: X grams, Protein: X grams."
-            4. If an image URL is requested, provide a direct link to a relevant image.
-            
-            Important: Do not include disclaimers, cooking methods, or any extra information beyond the nutrition facts.
-            `;
-        } else {
-            promptContext = `
-            You are a helpful nutrition and diet assistant. Provide concise, accurate answers.
-            Keep responses under 3 sentences unless detailed information is specifically requested.
-            `;
-        }
-        
-        const response = await axios.post(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GOOGLE_API_KEY}`,
-            {
-                contents: [
-                    {
-                        role: "user",
-                        parts: [{ text: promptContext + "\n\nUser question: " + message }]
-                    }
-                ]
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
+        // Read foods.json data
+        const data = await fs.readFile(dataPath);
+        const foods = JSON.parse(data);
 
-        const reply = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "No reply from Gemini";
-        res.json({ reply });
+        if (foods.length === 0) {
+            return res.json({ reply: 'No food data available in the database.' });
+        }
+
+        // Helper function to create table format
+        const createTable = (headers, rows) => {
+            const headerRow = `| ${headers.join(' | ')} |`;
+            const separatorRow = `| ${headers.map(() => '---').join(' | ')} |`;
+            const dataRows = rows.map(row => `| ${row.join(' | ')} |`).join('\n');
+            return `${headerRow}\n${separatorRow}\n${dataRows}`;
+        };
+
+        // 1. Highest protein foods
+        if (lowerMsg.includes('highest protein')) {
+            const sorted = foods
+                .filter(f => f.protein && !isNaN(parseFloat(f.protein)))
+                .sort((a, b) => parseFloat(b.protein) - parseFloat(a.protein))
+                .slice(0, 5);
+            
+            const headers = ['Food', 'Protein (g)'];
+            const rows = sorted.map(f => [f.title, f.protein]);
+            const table = createTable(headers, rows);
+            return res.json({ reply: `**Top 5 High Protein Foods:**\n${table}` });
+        }
+
+        // 2. Highest calorie foods
+        if (lowerMsg.includes('highest calorie') || lowerMsg.includes('highest calories')) {
+            const sorted = foods
+                .filter(f => f.calories && !isNaN(parseFloat(f.calories)))
+                .sort((a, b) => parseFloat(b.calories) - parseFloat(a.calories))
+                .slice(0, 5);
+            
+            const headers = ['Food', 'Calories'];
+            const rows = sorted.map(f => [f.title, f.calories]);
+            const table = createTable(headers, rows);
+            return res.json({ reply: `**Top 5 High Calorie Foods:**\n${table}` });
+        }
+
+        // 3. Highest carb foods
+        if (lowerMsg.includes('highest carb')) {
+            const sorted = foods
+                .filter(f => f.carbs && !isNaN(parseFloat(f.carbs)))
+                .sort((a, b) => parseFloat(b.carbs) - parseFloat(a.carbs))
+                .slice(0, 5);
+            
+            const headers = ['Food', 'Carbs (g)'];
+            const rows = sorted.map(f => [f.title, f.carbs]);
+            const table = createTable(headers, rows);
+            return res.json({ reply: `**Top 5 High Carb Foods:**\n${table}` });
+        }
+
+        // 4. Highest fat foods
+        if (lowerMsg.includes('highest fat')) {
+            const sorted = foods
+                .filter(f => f.fat && !isNaN(parseFloat(f.fat)))
+                .sort((a, b) => parseFloat(b.fat) - parseFloat(a.fat))
+                .slice(0, 5);
+            
+            const headers = ['Food', 'Fat (g)'];
+            const rows = sorted.map(f => [f.title, f.fat]);
+            const table = createTable(headers, rows);
+            return res.json({ reply: `**Top 5 High Fat Foods:**\n${table}` });
+        }
+
+        // 5. High protein meal suggestion (3 foods)
+        if (lowerMsg.includes('high protein meal')) {
+            const sorted = foods
+                .filter(f => f.protein && !isNaN(parseFloat(f.protein)))
+                .sort((a, b) => parseFloat(b.protein) - parseFloat(a.protein))
+                .slice(0, 3);
+            
+            if (sorted.length === 0) {
+                return res.json({ reply: 'No protein data available in our database.' });
+            }
+            
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = sorted.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
+            const table = createTable(headers, rows);
+            
+            const totals = sorted.reduce((acc, f) => ({
+                calories: acc.calories + (parseFloat(f.calories) || 0),
+                protein: acc.protein + (parseFloat(f.protein) || 0),
+                carbs: acc.carbs + (parseFloat(f.carbs) || 0),
+                fat: acc.fat + (parseFloat(f.fat) || 0)
+            }), {calories: 0, protein: 0, carbs: 0, fat: 0});
+            
+            const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
+            
+            return res.json({ reply: `**High Protein Meal (3 Foods):**\n${table}\n${totalRow}` });
+        }
+
+        // 6. High calorie meal suggestion (3 foods)
+        if (lowerMsg.includes('high calorie meal')) {
+            const sorted = foods
+                .filter(f => f.calories && !isNaN(parseFloat(f.calories)))
+                .sort((a, b) => parseFloat(b.calories) - parseFloat(a.calories))
+                .slice(0, 3);
+            
+            if (sorted.length === 0) {
+                return res.json({ reply: 'No calorie data available in our database.' });
+            }
+            
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = sorted.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
+            const table = createTable(headers, rows);
+            
+            const totals = sorted.reduce((acc, f) => ({
+                calories: acc.calories + (parseFloat(f.calories) || 0),
+                protein: acc.protein + (parseFloat(f.protein) || 0),
+                carbs: acc.carbs + (parseFloat(f.carbs) || 0),
+                fat: acc.fat + (parseFloat(f.fat) || 0)
+            }), {calories: 0, protein: 0, carbs: 0, fat: 0});
+            
+            const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
+            
+            return res.json({ reply: `**High Calorie Meal (3 Foods):**\n${table}\n${totalRow}` });
+        }
+
+        // 7. High fat meal suggestion (3 foods)
+        if (lowerMsg.includes('high fat meal')) {
+            const sorted = foods
+                .filter(f => f.fat && !isNaN(parseFloat(f.fat)))
+                .sort((a, b) => parseFloat(b.fat) - parseFloat(a.fat))
+                .slice(0, 3);
+            
+            if (sorted.length === 0) {
+                return res.json({ reply: 'No fat data available in our database.' });
+            }
+            
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = sorted.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
+            const table = createTable(headers, rows);
+            
+            const totals = sorted.reduce((acc, f) => ({
+                calories: acc.calories + (parseFloat(f.calories) || 0),
+                protein: acc.protein + (parseFloat(f.protein) || 0),
+                carbs: acc.carbs + (parseFloat(f.carbs) || 0),
+                fat: acc.fat + (parseFloat(f.fat) || 0)
+            }), {calories: 0, protein: 0, carbs: 0, fat: 0});
+            
+            const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
+            
+            return res.json({ reply: `**High Fat Meal (3 Foods):**\n${table}\n${totalRow}` });
+        }
+
+        // 8. Nutrition information for specific food
+        const nutritionMatch = lowerMsg.match(/nutrition (?:of|for|in) (.+)/);
+        if (nutritionMatch) {
+            const foodQuery = nutritionMatch[1].trim().toLowerCase();
+            const matches = foods.filter(f => f.title && f.title.toLowerCase().includes(foodQuery));
+            
+            if (matches.length === 0) {
+                return res.json({ reply: `No food found matching "${foodQuery}" in our database.` });
+            }
+            
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = matches.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
+            const table = createTable(headers, rows);
+            
+            return res.json({ reply: `**Nutrition Information:**\n${table}` });
+        }
+
+        // 9. Compare two foods
+        const compareMatch = lowerMsg.match(/compare (.+) (?:and|with) (.+)/);
+        if (compareMatch) {
+            const food1Query = compareMatch[1].trim().toLowerCase();
+            const food2Query = compareMatch[2].trim().toLowerCase();
+            
+            const food1 = foods.find(f => f.title && f.title.toLowerCase().includes(food1Query));
+            const food2 = foods.find(f => f.title && f.title.toLowerCase().includes(food2Query));
+            
+            if (!food1 || !food2) {
+                return res.json({ reply: 'One or both foods not found in our database.' });
+            }
+            
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = [
+                [food1.title, food1.calories, food1.protein, food1.carbs, food1.fat],
+                [food2.title, food2.calories, food2.protein, food2.carbs, food2.fat]
+            ];
+            const table = createTable(headers, rows);
+            
+            return res.json({ reply: `**Food Comparison:**\n${table}` });
+        }
+
+        // 10. List all foods
+        if (lowerMsg.includes('list all foods') || lowerMsg.includes('show all foods')) {
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = foods.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
+            const table = createTable(headers, rows);
+            
+            return res.json({ reply: `**All Foods in Database:**\n${table}` });
+        }
+
+        // 11. Random meal suggestion (3 foods)
+        if (lowerMsg.includes('suggest meal') || lowerMsg.includes('create meal') || lowerMsg.includes('random meal')) {
+            const shuffled = [...foods].sort(() => 0.5 - Math.random());
+            const mealFoods = shuffled.slice(0, 3);
+            
+            if (mealFoods.length === 0) {
+                return res.json({ reply: 'No food data available in our database.' });
+            }
+            
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = mealFoods.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
+            const table = createTable(headers, rows);
+            
+            const totals = mealFoods.reduce((acc, f) => ({
+                calories: acc.calories + (parseFloat(f.calories) || 0),
+                protein: acc.protein + (parseFloat(f.protein) || 0),
+                carbs: acc.carbs + (parseFloat(f.carbs) || 0),
+                fat: acc.fat + (parseFloat(f.fat) || 0)
+            }), {calories: 0, protein: 0, carbs: 0, fat: 0});
+            
+            const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
+            
+            return res.json({ reply: `**Random Meal Suggestion (3 Foods):**\n${table}\n${totalRow}` });
+        }
+
+        // 12. Foods with specific nutrient criteria
+        const nutrientMatch = lowerMsg.match(/foods with (more|less) than (\d+) ?(calories|protein|carbs|fat)/);
+        if (nutrientMatch) {
+            const comparison = nutrientMatch[1]; // 'more' or 'less'
+            const value = parseInt(nutrientMatch[2]);
+            const nutrient = nutrientMatch[3];
+            
+            const filtered = foods.filter(f => {
+                const nutrientValue = parseFloat(f[nutrient]);
+                if (isNaN(nutrientValue)) return false;
+                return comparison === 'more' ? nutrientValue > value : nutrientValue < value;
+            });
+            
+            if (filtered.length === 0) {
+                return res.json({ reply: `No foods found with ${comparison} than ${value} ${nutrient} in our database.` });
+            }
+            
+            const headers = ['Food', 'Calories', 'Protein (g)', 'Carbs (g)', 'Fat (g)'];
+            const rows = filtered.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
+            const table = createTable(headers, rows);
+            
+            return res.json({ reply: `**Foods with ${comparison} than ${value} ${nutrient}:**\n${table}` });
+        }
+
+        // 13. Help message
+        if (lowerMsg.includes('help') || lowerMsg === 'what can you do') {
+            const helpMessage = `**I can help you with food nutrition from our database:**
+
+**Available Commands:**
+• "highest protein" - Show top 5 high protein foods
+• "highest calories" - Show top 5 high calorie foods
+• "highest carbs" - Show top 5 high carb foods
+• "highest fat" - Show top 5 high fat foods
+• "high protein meal" - Suggest a high protein meal
+• "high calorie meal" - Suggest a high calorie meal
+• "high fat meal" - Suggest a high fat meal
+• "nutrition of [food name]" - Get nutrition info for specific food
+• "compare [food1] and [food2]" - Compare two foods
+• "list all foods" - Show all foods in database
+• "suggest meal" - Get a random meal suggestion
+• "foods with more than X calories/protein/carbs/fat" - Filter foods by criteria
+
+All responses are based on foods in our database only.`;
+            
+            return res.json({ reply: helpMessage });
+        }
+
+        // Default response for unrecognized queries
+        return res.json({ 
+            reply: `I can only provide information about foods in our database. Type "help" to see available commands, or try asking about nutrition, meal suggestions, or food comparisons.` 
+        });
+
     } catch (error) {
-        console.error("Gemini API Error:", error?.response?.data || error.message);
-        res.status(500).json({ reply: 'Error communicating with Gemini API' });
+        console.error('Error reading food data:', error);
+        return res.status(500).json({ reply: 'Error accessing food database.' });
     }
 });
 

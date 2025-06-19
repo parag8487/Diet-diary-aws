@@ -270,9 +270,33 @@
       const messagesDiv = document.getElementById('messages');
       const msg = document.createElement('div');
       msg.className = `message ${className}`;
-      msg.innerHTML = message;
+      if (className === 'bot-message') {
+        msg.innerHTML = markdownTableToHTML(message);
+      } else {
+        msg.innerHTML = message;
+      }
       messagesDiv.appendChild(msg);
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Convert markdown tables to HTML tables for bot responses
+    function markdownTableToHTML(md) {
+      // Only convert markdown tables, leave other markdown as is
+      const tableRegex = /((?:^\|.*\|\n)+)/gm;
+      return md.replace(tableRegex, function(tableMarkdown) {
+        const rows = tableMarkdown.trim().split('\n').filter(Boolean);
+        if (rows.length < 2) return tableMarkdown; // Not a table
+        const headerCells = rows[0].split('|').slice(1, -1).map(cell => cell.trim());
+        let html = '<table class="chat-table"><thead><tr>';
+        headerCells.forEach(cell => { html += `<th>${cell}</th>`; });
+        html += '</tr></thead><tbody>';
+        for (let i = 2; i < rows.length; i++) {
+          const cells = rows[i].split('|').slice(1, -1).map(cell => cell.trim());
+          html += '<tr>' + cells.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+        }
+        html += '</tbody></table>';
+        return html;
+      });
     }
     document.getElementById('userInput').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
