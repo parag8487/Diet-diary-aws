@@ -1,25 +1,135 @@
 ﻿body {
-  /* Remove font-family override, use dashboard.css font */
+  font-family: 'Open Sans', Arial, sans-serif;
+  background: #f8f9fa;
+  min-height: 100vh;
+  color: #2c3e50;
 }
 
-/* Remove .bmi-section, .bmi-meter, .bmi-needle, .bmi-scale styles that are now handled by dashboard.css */
-
-.bmi-section, .bmi-meter, .bmi-needle, .bmi-scale {
-  all: unset;
+.container {
+  max-width: 500px;
+  margin: 40px auto 0 auto;
+  padding: 0 16px;
 }
 
-/* Optionally, add spacing for the calorie section if needed */
+#profileForm {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(76, 175, 80, 0.08), 0 1.5px 6px rgba(44, 62, 80, 0.04);
+  padding: 32px 28px 24px 28px;
+  margin-bottom: 32px;
+  border: 1px solid #e0e0e0;
+}
+
+#profileForm label {
+  font-weight: 600;
+  color: #388e3c;
+}
+
+#profileForm .form-control, #profileForm .form-select {
+  border-radius: 10px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 1rem;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+#profileForm .form-control:focus, #profileForm .form-select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76,175,80,0.08);
+}
+
+.btn-primary, .btn-success {
+  background: linear-gradient(90deg, #4CAF50 60%, #81c784 100%);
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 0;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.08);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover, .btn-success:hover {
+  background: linear-gradient(90deg, #388e3c 60%, #66bb6a 100%);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(76,175,80,0.18);
+}
+
+.bmi-section {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(76, 175, 80, 0.08), 0 1.5px 6px rgba(44, 62, 80, 0.04);
+  padding: 32px 28px 28px 28px;
+  max-width: 420px;
+  margin: 0 auto 32px auto;
+  border: 1px solid #e0e0e0;
+}
+.bmi-section h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #388e3c;
+  margin-bottom: 18px;
+}
+
+.bmi-meter {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 38px;
+  background: linear-gradient(90deg, #e0f7e9 0%, #a5d6a7 40%, #fffde4 60%, #ffe0b2 80%, #ffcdd2 100%);
+  border-radius: 22px;
+  margin: 0 auto 8px auto;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.06);
+  border: 1.5px solid #e0e0e0;
+}
+.bmi-needle {
+  position: absolute;
+  width: 4px;
+  height: 48px;
+  background: linear-gradient(180deg, #388e3c 60%, #e74c3c 100%);
+  left: 50%;
+  top: -10px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+  transition: left 0.5s cubic-bezier(0.68,-0.55,0.27,1.55);
+  z-index: 2;
+}
+.bmi-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #388e3c;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+#bmiResult {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #34495e;
+  margin-top: 18px;
+}
+
 .calorie-section {
   margin-top: 32px;
+  font-size: 1.05rem;
+  color: #2c3e50;
 }
 
-/* Ensure form width is responsive and centered in the card */
-#profileForm {
-  max-width: 420px;
-  margin: 0 auto;
-}
-
-.bg-white {
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
+@media (max-width: 600px) {
+  .container, .bmi-section {
+    max-width: 99vw;
+    padding: 12px 4vw;
+  }
+  #profileForm {
+    padding: 18px 6px 12px 6px;
+  }
+  .bmi-section {
+    padding: 18px 6px 18px 6px;
+  }
+  .bmi-meter {
+    max-width: 98vw;
+  }
 }
