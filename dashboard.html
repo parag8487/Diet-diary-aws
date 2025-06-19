@@ -19,60 +19,174 @@
     <link rel="stylesheet" href="dashboard.css" />
     <style>
     .bmi-status-box {
-    background-color: #E3DACA;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
-    max-width: 500px;
-    margin-top: 20px;
-    margin-right: auto;
-    margin-left: auto;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6);
+    max-width: 520px;
+    margin: 20px auto;
     text-align: center;
+    border: 1px solid rgba(255,255,255,0.2);
 }
-
+.bmi-meter-container {
+    position: relative;
+    width: 320px;
+    height: 160px;
+    margin: 30px auto;
+}
 .bmi-meter {
     position: relative;
     width: 320px;
     height: 160px;
-    margin: 20px auto;
     border-radius: 160px 160px 0 0;
     background: conic-gradient(
-        from 0deg at 50% 100%,
-        #4CAF50 0deg 90deg, 
-        #8BC34A 90deg 180deg,
-        #FFC107 180deg 270deg,
-        #F44336 270deg 360deg
+        from 180deg at 50% 100%,
+        #e74c3c 0deg 36deg,
+        #f39c12 36deg 54deg,
+        #f1c40f 54deg 72deg,
+        #2ecc71 72deg 108deg,
+        #f39c12 108deg 126deg,
+        #e74c3c 126deg 180deg
     );
     overflow: hidden;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.15);
 }
-
+.bmi-meter::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: -5px;
+    border-radius: 150px 150px 0 0;
+    background: conic-gradient(
+        from 180deg at 50% 100%,
+        #c0392b 0deg 36deg,
+        #e67e22 36deg 54deg,
+        #f39c12 54deg 72deg,
+        #27ae60 72deg 108deg,
+        #e67e22 108deg 126deg,
+        #c0392b 126deg 180deg
+    );
+    z-index: 1;
+}
+.bmi-meter::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 40px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border-radius: 40px 40px 0 0;
+    z-index: 4;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+}
 .bmi-needle {
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  width: 6px;
-  height: 140px;
-  background: white;
-  transform-origin: 50% 100%;
-  transform: rotate(-90deg);
-  transition: transform 0.5s ease;
-  z-index: 2;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 4px;
+    height: 140px;
+    background: linear-gradient(to top, #2c3e50, #34495e);
+    transform-origin: 50% 100%;
+    transform: translateX(-50%) rotate(-90deg);
+    transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+    z-index: 5;
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
-
-.bmi-scale {
+.bmi-needle::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 16px solid #e74c3c;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+.bmi-needle::after {
+    content: '';
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #2c3e50, #34495e);
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 6;
+}
+.bmi-scale-labels {
     display: flex;
     justify-content: space-between;
-    padding: 5px 20px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-#bmiResultDashboard {
-    font-size: 16px;
-    margin-top: 10px;
+    align-items: center;
+    width: 320px;
+    margin: 15px auto 0;
+    font-size: 12px;
     font-weight: 600;
+    color: #34495e;
+}
+.bmi-scale-labels span {
+    background: rgba(255,255,255,0.9);
+    padding: 4px 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.bmi-categories {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.bmi-category {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #34495e;
+}
+.category-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.underweight { background: #e74c3c; }
+.normal { background: #2ecc71; }
+.overweight { background: #f39c12; }
+.obese { background: #e74c3c; }
+#bmiResultDashboard {
+    font-size: 18px;
+    margin: 20px 0;
+    font-weight: 700;
+    color: #2c3e50;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.bmi-value {
+    font-size: 32px;
+    font-weight: 900;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 10px 0;
+}
+.bmi-status-box h4 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
     </style>
   </head>
@@ -182,22 +296,42 @@
 
               <div class="col-lg-6" style="margin-left: 20px;">
                 <div class="bmi-status-box mt-5">
-                  <h4>BMI Status</h4>
-                  <div class="bmi-meter">
-                    <div class="bmi-needle" id="bmiNeedleDashboard"></div>
-                    <div class="category-marker" style="left: 25%;"></div>
-                    <div class="category-marker" style="left: 50%;"></div>
-                    <div class="category-marker" style="left: 75%;"></div>
+                  <h4>BMI Health Monitor</h4>
+                  <div class="bmi-meter-container">
+                    <div class="bmi-meter">
+                      <div class="bmi-needle" id="bmiNeedleDashboard"></div>
+                    </div>
                   </div>
-                  <div class="bmi-scale">
-                    <span>15</span>
+                  <div class="bmi-scale-labels">
+                    <span>16</span>
                     <span>18.5</span>
                     <span>25</span>
                     <span>30</span>
-                    <span>40+</span>
+                    <span>35+</span>
                   </div>
-                  <p id="bmiResultDashboard" class="mt-3">Enter details to calculate BMI.</p>
-                  <a href="./bmi_assessment.html" class="btn btn-dark" id="goToBmiAssessment">BMI Assessment</a>
+                  <div class="bmi-categories">
+                    <div class="bmi-category">
+                      <div class="category-dot underweight"></div>
+                      <span>Underweight</span>
+                    </div>
+                    <div class="bmi-category">
+                      <div class="category-dot normal"></div>
+                      <span>Normal</span>
+                    </div>
+                    <div class="bmi-category">
+                      <div class="category-dot overweight"></div>
+                      <span>Overweight</span>
+                    </div>
+                    <div class="bmi-category">
+                      <div class="category-dot obese"></div>
+                      <span>Obese</span>
+                    </div>
+                  </div>
+                  <div id="bmiResultDashboard" style="text-align: center;">
+                    <div class="bmi-value" id="bmiValueDisplay">--</div>
+                    <div>BMI Status</div>
+                  </div>
+                  <a href="./bmi_assessment.html" class="btn btn-dark" id="goToBmiAssessment" style="background: linear-gradient(45deg, #667eea, #764ba2); border: none; border-radius: 25px; padding: 10px 30px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">Calculate BMI</a>
                 </div>
               </div>
             </div>
@@ -235,20 +369,22 @@
       document.addEventListener("DOMContentLoaded", function () {
         const username = localStorage.getItem("currentUser");
         const bmiData = username ? JSON.parse(localStorage.getItem(`bmiData_${username}`)) : null;
-        const bmiNeedle = document.getElementById("bmiNeedleDashboard"); 
+        const bmiNeedle = document.getElementById("bmiNeedleDashboard");
+        const bmiValueDisplay = document.getElementById("bmiValueDisplay");
         const bmiResult = document.getElementById("bmiResultDashboard");
 
         if (bmiData) {
-          bmiResult.innerHTML = `Your BMI: <strong>${bmiData.bmi}</strong> (${bmiData.bmiCategory})`;
-
-          const minBMI = 15;
-          const maxBMI = 40;
+          bmiValueDisplay.textContent = bmiData.bmi;
+          bmiResult.innerHTML = `<div class='bmi-value'>${bmiData.bmi}</div><div>${bmiData.bmiCategory}</div>`;
+          const minBMI = 16;
+          const maxBMI = 35;
           let calculatedBMI = Math.min(Math.max(bmiData.bmi, minBMI), maxBMI);
           let angle = ((calculatedBMI - minBMI) / (maxBMI - minBMI)) * 180 - 90;
-
-          bmiNeedle.style.transform = `rotate(${angle}deg)`;
+          bmiNeedle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
         } else {
-          bmiResult.innerHTML = "No BMI data available. Please update your profile.";
+          bmiValueDisplay.textContent = '--';
+          bmiResult.innerHTML = `<div class='bmi-value'>--</div><div>BMI Status</div>`;
+          bmiNeedle.style.transform = 'translateX(-50%) rotate(-90deg)';
         }
       });
     </script>

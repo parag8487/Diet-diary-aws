@@ -6,12 +6,18 @@
 
   function getProfileKey() {
     const username = localStorage.getItem("currentUser");
-    return username ? `profile_${username}` : "profile";
+    console.log("Current username:", username);
+    const key = username ? `profile_${username}` : "profile";
+    console.log("Profile key:", key);
+    return key;
   }
 
   // Load saved profile data
   function loadProfile() {
-    const profile = JSON.parse(localStorage.getItem(getProfileKey())) || {};
+    const profileKey = getProfileKey();
+    const profile = JSON.parse(localStorage.getItem(profileKey)) || {};
+    console.log("Loaded profile data:", profile);
+    
     if (profile.name) document.getElementById("name").value = profile.name;
     if (profile.age) document.getElementById("age").value = profile.age;
     if (profile.sex) document.getElementById("sex").value = profile.sex;
@@ -34,7 +40,9 @@
     const height = document.getElementById("height").value;
 
     const profile = { name, age, sex, weight, height };
-    localStorage.setItem(getProfileKey(), JSON.stringify(profile));
+    const profileKey = getProfileKey();
+    localStorage.setItem(profileKey, JSON.stringify(profile));
+    console.log("Saved profile data:", profile);
 
     updateBMI(weight, height);
     alert("Profile saved successfully!");
