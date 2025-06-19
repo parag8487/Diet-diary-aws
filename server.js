@@ -318,7 +318,7 @@ app.post('/chat', async (req, res) => {
             const headers = ['Food', 'Protein (g)'];
             const rows = sorted.map(f => [f.title, f.protein]);
             const table = createTable(headers, rows);
-            return res.json({ reply: `**Top 5 High Protein Foods:**\n${table}` });
+            return res.json({ reply: `**Top 5 High Protein Foods:**\n\n${table}\n` });
         }
 
         // 2. Highest calorie foods
@@ -331,7 +331,7 @@ app.post('/chat', async (req, res) => {
             const headers = ['Food', 'Calories'];
             const rows = sorted.map(f => [f.title, f.calories]);
             const table = createTable(headers, rows);
-            return res.json({ reply: `**Top 5 High Calorie Foods:**\n${table}` });
+            return res.json({ reply: `**Top 5 High Calorie Foods:**\n\n${table}\n` });
         }
 
         // 3. Highest carb foods
@@ -344,7 +344,7 @@ app.post('/chat', async (req, res) => {
             const headers = ['Food', 'Carbs (g)'];
             const rows = sorted.map(f => [f.title, f.carbs]);
             const table = createTable(headers, rows);
-            return res.json({ reply: `**Top 5 High Carb Foods:**\n${table}` });
+            return res.json({ reply: `**Top 5 High Carb Foods:**\n\n${table}\n` });
         }
 
         // 4. Highest fat foods
@@ -357,7 +357,7 @@ app.post('/chat', async (req, res) => {
             const headers = ['Food', 'Fat (g)'];
             const rows = sorted.map(f => [f.title, f.fat]);
             const table = createTable(headers, rows);
-            return res.json({ reply: `**Top 5 High Fat Foods:**\n${table}` });
+            return res.json({ reply: `**Top 5 High Fat Foods:**\n\n${table}\n` });
         }
 
         // 5. High protein meal suggestion (3 foods)
@@ -384,7 +384,7 @@ app.post('/chat', async (req, res) => {
             
             const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
             
-            return res.json({ reply: `**High Protein Meal (3 Foods):**\n${table}\n${totalRow}` });
+            return res.json({ reply: `**High Protein Meal (3 Foods):**\n\n${table}\n${totalRow}\n` });
         }
 
         // 6. High calorie meal suggestion (3 foods)
@@ -411,7 +411,7 @@ app.post('/chat', async (req, res) => {
             
             const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
             
-            return res.json({ reply: `**High Calorie Meal (3 Foods):**\n${table}\n${totalRow}` });
+            return res.json({ reply: `**High Calorie Meal (3 Foods):**\n\n${table}\n${totalRow}\n` });
         }
 
         // 7. High fat meal suggestion (3 foods)
@@ -438,7 +438,7 @@ app.post('/chat', async (req, res) => {
             
             const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
             
-            return res.json({ reply: `**High Fat Meal (3 Foods):**\n${table}\n${totalRow}` });
+            return res.json({ reply: `**High Fat Meal (3 Foods):**\n\n${table}\n${totalRow}\n` });
         }
 
         // 8. Nutrition information for specific food
@@ -455,7 +455,7 @@ app.post('/chat', async (req, res) => {
             const rows = matches.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
             const table = createTable(headers, rows);
             
-            return res.json({ reply: `**Nutrition Information:**\n${table}` });
+            return res.json({ reply: `**Nutrition Information:**\n\n${table}\n` });
         }
 
         // 9. Compare two foods
@@ -478,7 +478,7 @@ app.post('/chat', async (req, res) => {
             ];
             const table = createTable(headers, rows);
             
-            return res.json({ reply: `**Food Comparison:**\n${table}` });
+            return res.json({ reply: `**Food Comparison:**\n\n${table}\n` });
         }
 
         // 10. List all foods
@@ -487,7 +487,7 @@ app.post('/chat', async (req, res) => {
             const rows = foods.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
             const table = createTable(headers, rows);
             
-            return res.json({ reply: `**All Foods in Database:**\n${table}` });
+            return res.json({ reply: `**All Foods in Database:**\n\n${table}\n` });
         }
 
         // 11. Random meal suggestion (3 foods)
@@ -512,7 +512,7 @@ app.post('/chat', async (req, res) => {
             
             const totalRow = `| **Total** | **${totals.calories.toFixed(1)}** | **${totals.protein.toFixed(1)}** | **${totals.carbs.toFixed(1)}** | **${totals.fat.toFixed(1)}** |`;
             
-            return res.json({ reply: `**Random Meal Suggestion (3 Foods):**\n${table}\n${totalRow}` });
+            return res.json({ reply: `**Random Meal Suggestion (3 Foods):**\n\n${table}\n${totalRow}\n` });
         }
 
         // 12. Foods with specific nutrient criteria
@@ -536,29 +536,27 @@ app.post('/chat', async (req, res) => {
             const rows = filtered.map(f => [f.title, f.calories, f.protein, f.carbs, f.fat]);
             const table = createTable(headers, rows);
             
-            return res.json({ reply: `**Foods with ${comparison} than ${value} ${nutrient}:**\n${table}` });
+            return res.json({ reply: `**Foods with ${comparison} than ${value} ${nutrient}:**\n\n${table}\n` });
         }
 
         // 13. Help message
         if (lowerMsg.includes('help') || lowerMsg === 'what can you do') {
-            const helpMessage = `**I can help you with food nutrition from our database:**
-
-**Available Commands:**
-• "highest protein" - Show top 5 high protein foods
-• "highest calories" - Show top 5 high calorie foods
-• "highest carbs" - Show top 5 high carb foods
-• "highest fat" - Show top 5 high fat foods
-• "high protein meal" - Suggest a high protein meal
-• "high calorie meal" - Suggest a high calorie meal
-• "high fat meal" - Suggest a high fat meal
-• "nutrition of [food name]" - Get nutrition info for specific food
-• "compare [food1] and [food2]" - Compare two foods
-• "list all foods" - Show all foods in database
-• "suggest meal" - Get a random meal suggestion
-• "foods with more than X calories/protein/carbs/fat" - Filter foods by criteria
-
-All responses are based on foods in our database only.`;
-            
+            const helpTable = `| Command | Description |
+|---|---|
+| **highest protein** | Show top 5 high protein foods |
+| **highest calories** | Show top 5 high calorie foods |
+| **highest carbs** | Show top 5 high carb foods |
+| **highest fat** | Show top 5 high fat foods |
+| **high protein meal** | Suggest a high protein meal |
+| **high calorie meal** | Suggest a high calorie meal |
+| **high fat meal** | Suggest a high fat meal |
+| **nutrition of [food name]** | Get nutrition info for specific food |
+| **compare [food1] and [food2]** | Compare two foods |
+| **list all foods** | Show all foods in database |
+| **suggest meal** | Get a random meal suggestion |
+| **foods with more than X calories/protein/carbs/fat** | Filter foods by criteria |
+`;
+            const helpMessage = `**I can help you with food nutrition from our database:**\n\n**Available Commands:**\n\n${helpTable}\n_All responses are based on foods in our database only._`;
             return res.json({ reply: helpMessage });
         }
 
