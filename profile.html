@@ -4,65 +4,121 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile - Diet Diary</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="dashboard.css">
   <link rel="stylesheet" href="profile.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="profile.js" defer></script>
 </head>
-<body class="bg-light">
-  <div class="container mt-4">
-    <a class="btn btn-success mb-3" href="./dashboard.html" style="background-color:#4CAF50;border:none;">&#8592; Back</a>
-    <h2 class="text-center">Your Profile</h2>
-
-    <form id="profileForm" class="p-4 bg-white rounded shadow-sm">
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" required />
-        </div>
-        <div class="mb-3">
-            <label for="age" class="form-label">Age</label>
-            <input type="number" class="form-control" id="age" required />
-        </div>
-        <div class="mb-3">
-            <label for="sex" class="form-label">Gender</label>
-            <select class="form-select" id="sex" required>
-                <option disabled selected>Select your gender</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="weight" class="form-label">Weight (kg)</label>
-            <input type="number" class="form-control" id="weight" required />
-        </div>
-        <div class="mb-3">
-            <label for="height" class="form-label">Height (cm)</label>
-            <input type="number" class="form-control" id="height" required />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Save Profile</button>
-    </form>
-
-    <!-- BMI Meter Section -->
-    <div class="bmi-section mt-5 text-center">
-      <h4>Your BMI</h4>
-      <div class="bmi-meter position-relative mx-auto">
-        <div class="bmi-needle" id="bmiNeedle"></div>
-        <div class="bmi-scale">
-          <span>Underweight</span>
-          <span>Normal</span>
-          <span>Overweight</span>
-          <span>Obese</span>
-        </div>
+<body>
+  <div class="background-hero"></div>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">🍏</div>
+        <span class="diet-diary">Diet Diary</span>
       </div>
-      
-      <p class="mt-3" id="bmiResult">Enter details to calculate BMI.</p>
-      <!-- Add this under the BMI section -->
-<div class="calorie-section mt-5 text-center" id="calorieResult"></div>
-
-    </div>
-    
-    
+      <ul>
+        <li><a href="./dashboard.html">Home</a></li>
+        <li><a href="#" class="active">Profile</a></li>
+        <li><a href="./pricing.html">Pricing</a></li>
+        <li><a href="./browse_food_customer.html">Browse Foods</a></li>
+        <li><a href="./customer_chatbot.html">Ask AI</a></li>
+        <li><a href="./bmi_assessment.html">BMI Assessment</a></li>
+        <li><a href="./customer_service.html">Customer Service</a></li>
+        <li><a href="./Q_and_A.html">Help</a></li>
+        <li><a href="./login.html">Logout</a></li>
+      </ul>
+    </aside>
+    <main class="main-content">
+      <section class="hero">
+        <div class="hero-container">
+          <div class="hero-grid">
+            <div class="card calculator-card">
+              <div class="calculator-section">
+                <a class="btn btn-success mb-3" href="./dashboard.html" style="background-color:#4CAF50;border:none;">&#8592; Back</a>
+                <h2 class="text-center">Your Profile</h2>
+                <form id="profileForm" class="p-4 bg-white rounded shadow-sm">
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="age" class="form-label">Age</label>
+                    <input type="number" class="form-control" id="age" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="sex" class="form-label">Gender</label>
+                    <select class="form-select" id="sex" required>
+                      <option disabled selected>Select your gender</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="weight" class="form-label">Weight (kg)</label>
+                    <input type="number" class="form-control" id="weight" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="height" class="form-label">Height (cm)</label>
+                    <input type="number" class="form-control" id="height" required />
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">Save Profile</button>
+                </form>
+              </div>
+            </div>
+            <div class="card bmi-card">
+              <div class="card-body">
+                <h4>Your BMI</h4>
+                <div class="bmi-meter-container">
+                  <div class="bmi-meter">
+                    <div class="bmi-meter-segments">
+                      <div class="bmi-segment segment-underweight"></div>
+                      <div class="bmi-segment segment-normal"></div>
+                      <div class="bmi-segment segment-overweight"></div>
+                      <div class="bmi-segment segment-obese"></div>
+                    </div>
+                    <div class="bmi-meter-inner"></div>
+                    <div class="bmi-needle" id="bmiNeedle"></div>
+                  </div>
+                </div>
+                <div class="bmi-scale-labels">
+                  <span>16</span>
+                  <span>18.5</span>
+                  <span>25</span>
+                  <span>30</span>
+                  <span>35+</span>
+                </div>
+                <div class="bmi-categories">
+                  <div class="bmi-category">
+                    <div class="category-dot underweight"></div>
+                    <span>Underweight</span>
+                  </div>
+                  <div class="bmi-category">
+                    <div class="category-dot normal"></div>
+                    <span>Normal</span>
+                  </div>
+                  <div class="bmi-category">
+                    <div class="category-dot overweight"></div>
+                    <span>Overweight</span>
+                  </div>
+                  <div class="bmi-category">
+                    <div class="category-dot obese"></div>
+                    <span>Obese</span>
+                  </div>
+                </div>
+                <div id="bmiResult">
+                  <div class="bmi-value" id="bmiValueDisplay">--</div>
+                  <div class="bmi-status-text" id="bmiStatusText">Enter details to calculate BMI.</div>
+                </div>
+                <div class="calorie-section mt-5 text-center" id="calorieResult"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 </body>
 </html>
