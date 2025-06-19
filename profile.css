@@ -1,135 +1,383 @@
 ﻿body {
-  font-family: 'Open Sans', Arial, sans-serif;
-  background: #f8f9fa;
+  font-family: 'Inter', 'Open Sans', Arial, sans-serif;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e8 100%);
   min-height: 100vh;
   color: #2c3e50;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(76, 175, 80, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .container {
-  max-width: 500px;
+  max-width: 700px;
   margin: 40px auto 0 auto;
   padding: 0 16px;
 }
 
-#profileForm {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(76, 175, 80, 0.08), 0 1.5px 6px rgba(44, 62, 80, 0.04);
-  padding: 32px 28px 24px 28px;
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  margin: 0 auto 32px auto;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #4CAF50 0%, #81c784 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  box-shadow: 0 4px 20px rgba(76,175,80,0.15), 0 2px 4px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s;
+}
+
+.back-btn:hover::before {
+  left: 100%;
+}
+
+.back-btn:hover {
+  background: linear-gradient(135deg, #388e3c 0%, #66bb6a 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(76,175,80,0.25), 0 4px 8px rgba(0,0,0,0.1);
+  color: #fff;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: center;
   margin-bottom: 32px;
-  border: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #4CAF50, #81c784);
+  border-radius: 2px;
+}
+
+#profileForm {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(76, 175, 80, 0.12), 0 2px 8px rgba(44, 62, 80, 0.06);
+  padding: 48px 42px 36px 42px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(224, 224, 224, 0.6);
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+#profileForm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4CAF50, #81c784, #4CAF50);
+  border-radius: 24px 24px 0 0;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 28px;
 }
 
 #profileForm label {
   font-weight: 600;
   color: #388e3c;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  letter-spacing: 0.025em;
 }
 
 #profileForm .form-control, #profileForm .form-select {
-  border-radius: 10px;
-  border: 1.5px solid #e0e0e0;
-  font-size: 1rem;
-  padding: 10px 14px;
-  margin-bottom: 8px;
-  transition: border-color 0.2s;
+  border-radius: 16px;
+  border: 2px solid #e8f5e8;
+  font-size: 1.05rem;
+  padding: 16px 20px;
+  margin-bottom: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
 }
+
 #profileForm .form-control:focus, #profileForm .form-select:focus {
   border-color: #4CAF50;
-  box-shadow: 0 0 0 2px rgba(76,175,80,0.08);
+  box-shadow: 0 0 0 4px rgba(76,175,80,0.1);
+  background: #fff;
+  transform: translateY(-1px);
 }
 
 .btn-primary, .btn-success {
-  background: linear-gradient(90deg, #4CAF50 60%, #81c784 100%);
+  background: linear-gradient(135deg, #4CAF50 0%, #81c784 100%);
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   font-weight: 700;
   font-size: 1.1rem;
-  padding: 12px 0;
-  box-shadow: 0 2px 8px rgba(76,175,80,0.08);
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  padding: 16px 0;
+  box-shadow: 0 6px 25px rgba(76,175,80,0.2), 0 2px 4px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.025em;
+  position: relative;
+  overflow: hidden;
 }
+
+.btn-primary::before, .btn-success::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before, .btn-success:hover::before {
+  left: 100%;
+}
+
 .btn-primary:hover, .btn-success:hover {
-  background: linear-gradient(90deg, #388e3c 60%, #66bb6a 100%);
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 8px 28px rgba(76,175,80,0.18);
+  background: linear-gradient(135deg, #388e3c 0%, #66bb6a 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 35px rgba(76,175,80,0.3), 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .bmi-section {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(76, 175, 80, 0.08), 0 1.5px 6px rgba(44, 62, 80, 0.04);
-  padding: 32px 28px 28px 28px;
-  max-width: 420px;
-  margin: 0 auto 32px auto;
-  border: 1px solid #e0e0e0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(76, 175, 80, 0.12), 0 2px 8px rgba(44, 62, 80, 0.06);
+  padding: 48px 42px 36px 42px;
+  max-width: 650px;
+  margin: 0 auto 40px auto;
+  border: 1px solid rgba(224, 224, 224, 0.6);
+  position: relative;
+  overflow: hidden;
 }
+
+.bmi-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4CAF50, #81c784, #4CAF50);
+  border-radius: 24px 24px 0 0;
+}
+
 .bmi-section h4 {
   font-family: 'Playfair Display', serif;
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  color: #388e3c;
-  margin-bottom: 18px;
+  color: #2c3e50;
+  margin-bottom: 28px;
+  text-align: center;
+  position: relative;
+}
+
+.bmi-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: #4CAF50;
+  border-radius: 1px;
 }
 
 .bmi-meter {
   position: relative;
   width: 100%;
-  max-width: 320px;
-  height: 38px;
-  background: linear-gradient(90deg, #e0f7e9 0%, #a5d6a7 40%, #fffde4 60%, #ffe0b2 80%, #ffcdd2 100%);
-  border-radius: 22px;
-  margin: 0 auto 8px auto;
-  box-shadow: 0 2px 8px rgba(76,175,80,0.06);
-  border: 1.5px solid #e0e0e0;
+  max-width: 500px;
+  height: 50px;
+  background: linear-gradient(90deg, #e8f5e8 0%, #c8e6c9 25%, #fff9c4 50%, #ffcc80 75%, #ffcdd2 100%);
+  border-radius: 25px;
+  margin: 24px auto 16px auto;
+  box-shadow: 0 6px 20px rgba(76,175,80,0.1), inset 0 2px 4px rgba(0,0,0,0.05);
+  border: 2px solid rgba(224, 224, 224, 0.8);
+  overflow: hidden;
 }
+
+.bmi-meter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+  border-radius: 25px 25px 0 0;
+}
+
 .bmi-needle {
   position: absolute;
-  width: 4px;
-  height: 48px;
-  background: linear-gradient(180deg, #388e3c 60%, #e74c3c 100%);
+  width: 6px;
+  height: 60px;
+  background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
   left: 50%;
-  top: -10px;
+  top: -8px;
   transform: translateX(-50%);
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.08);
-  transition: left 0.5s cubic-bezier(0.68,-0.55,0.27,1.55);
-  z-index: 2;
+  border-radius: 3px;
+  box-shadow: 0 4px 12px rgba(44,62,80,0.3);
+  transition: left 0.6s cubic-bezier(0.68,-0.55,0.27,1.55);
+  z-index: 3;
 }
+
+.bmi-needle::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #2c3e50;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.2);
+}
+
 .bmi-scale {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: 20px;
+  font-size: 0.95rem;
   color: #388e3c;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.025em;
+}
+
+.bmi-scale span {
+  padding: 6px 12px;
+  background: rgba(76, 175, 80, 0.08);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.bmi-scale span:hover {
+  background: rgba(76, 175, 80, 0.15);
+  transform: translateY(-1px);
 }
 
 #bmiResult {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #34495e;
-  margin-top: 18px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-top: 28px;
+  padding: 16px 24px;
+  background: rgba(76, 175, 80, 0.06);
+  border-radius: 16px;
+  border-left: 4px solid #4CAF50;
 }
 
 .calorie-section {
   margin-top: 32px;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: #2c3e50;
+  padding: 20px 24px;
+  background: rgba(129, 199, 132, 0.08);
+  border-radius: 16px;
+  border-left: 4px solid #81c784;
 }
 
-@media (max-width: 600px) {
-  .container, .bmi-section {
-    max-width: 99vw;
-    padding: 12px 4vw;
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 768px) {
+  .container, .bmi-section, #profileForm {
+    max-width: 95vw;
+    padding: 20px 16px;
+    margin: 16px auto;
   }
-  #profileForm {
-    padding: 18px 6px 12px 6px;
+  
+  .input-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-  .bmi-section {
-    padding: 18px 6px 18px 6px;
-  }
+  
   .bmi-meter {
-    max-width: 98vw;
+    max-width: 90vw;
+    height: 40px;
+  }
+  
+  .bmi-needle {
+    height: 50px;
+    width: 5px;
+  }
+  
+  .back-btn {
+    width: 140px;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+  }
+  
+  .page-title {
+    font-size: 1.8rem;
+  }
+  
+  .bmi-scale {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  #profileForm, .bmi-section {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+  
+  .page-title {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
   }
 }
