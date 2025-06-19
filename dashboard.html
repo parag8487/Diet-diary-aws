@@ -18,177 +18,231 @@
     />
     <link rel="stylesheet" href="dashboard.css" />
     <style>
-    .bmi-status-box {
-    background-color: #E3DACA;
-    color: #2c3e50;
-    padding: 30px;
-    border-radius: 25px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6);
-    max-width: 520px;
-    margin: 20px auto;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.2);
-}
-.bmi-meter-container {
-    position: relative;
-    width: 320px;
-    height: 160px;
-    margin: 30px auto;
-}
-.bmi-meter {
-    position: relative;
-    width: 320px;
-    height: 160px;
-    border-radius: 160px 160px 0 0;
-    background: conic-gradient(
-        from 180deg at 50% 100%,
-        #e74c3c 0deg 36deg,
-        #f39c12 36deg 54deg,
-        #f1c40f 54deg 72deg,
-        #2ecc71 72deg 108deg,
-        #f39c12 108deg 126deg,
-        #e74c3c 126deg 180deg
-    );
-    overflow: hidden;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.15);
-}
-.bmi-meter::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: -5px;
-    border-radius: 150px 150px 0 0;
-    background: conic-gradient(
-        from 180deg at 50% 100%,
-        #c0392b 0deg 36deg,
-        #e67e22 36deg 54deg,
-        #f39c12 54deg 72deg,
-        #27ae60 72deg 108deg,
-        #e67e22 108deg 126deg,
-        #c0392b 126deg 180deg
-    );
-    z-index: 1;
-}
-.bmi-meter::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 40px;
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
-    border-radius: 40px 40px 0 0;
-    z-index: 4;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-}
-.bmi-needle {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 4px;
-    height: 130px;
-    background: linear-gradient(to top, #2c3e50, #34495e);
-    transform-origin: 50% 100%;
-    transform: translateX(-50%) rotate(-90deg);
-    transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
-    z-index: 5;
-    border-radius: 2px 2px 0 0;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-.bmi-needle::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 16px solid #e74c3c;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
-.bmi-needle::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, #2c3e50, #34495e);
-    border: 4px solid #ffffff;
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    z-index: 6;
-}
-.bmi-scale-labels {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 320px;
-    margin: 15px auto 0;
-    font-size: 12px;
-    font-weight: 600;
-    color: #34495e;
-}
-.bmi-scale-labels span {
-    background: rgba(255,255,255,0.9);
-    padding: 4px 8px;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border: 1px solid rgba(0,0,0,0.05);
-}
-.bmi-categories {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-}
-.bmi-category {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    color: #34495e;
-}
-.category-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-.underweight { background: #e74c3c; }
-.normal { background: #2ecc71; }
-.overweight { background: #f39c12; }
-.obese { background: #e74c3c; }
-#bmiResultDashboard {
-    font-size: 18px;
-    margin: 20px 0;
-    font-weight: 700;
-    color: #2c3e50;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-.bmi-value {
-    font-size: 32px;
-    font-weight: 900;
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 10px 0;
-}
-.bmi-status-box h4 {
-    color: #2c3e50;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
+      .bmi-status-box {
+        background: #E3DACA;
+        color: #2c3e50;
+        padding: 35px;
+        border-radius: 25px;
+        box-shadow: 
+          0 20px 40px rgba(0,0,0,0.1), 
+          inset 0 1px 0 rgba(255,255,255,0.8),
+          0 0 0 1px rgba(255,255,255,0.3);
+        max-width: 520px;
+        margin: 20px auto;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.2);
+        position: relative;
+        overflow: hidden;
+      }
+      .bmi-status-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 25px 25px 0 0;
+      }
+      .bmi-meter-container {
+        position: relative;
+        width: 320px;
+        height: 180px;
+        margin: 30px auto;
+      }
+      .bmi-meter {
+        position: relative;
+        width: 320px;
+        height: 160px;
+        border-radius: 160px 160px 0 0;
+        background: conic-gradient(
+            from 180deg at 50% 100%,
+            #e74c3c 0deg 32deg,
+            #f39c12 32deg 64deg,
+            #2ecc71 64deg 116deg,
+            #f39c12 116deg 148deg,
+            #e74c3c 148deg 180deg
+        );
+        overflow: hidden;
+        box-shadow: 
+          inset 0 0 30px rgba(0,0,0,0.1), 
+          0 8px 25px rgba(0,0,0,0.15),
+          inset 0 2px 0 rgba(255,255,255,0.3);
+      }
+      .bmi-meter::before {
+        content: '';
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        bottom: -6px;
+        border-radius: 148px 148px 0 0;
+        background: conic-gradient(
+            from 180deg at 50% 100%,
+            #c0392b 0deg 32deg,
+            #e67e22 32deg 64deg,
+            #27ae60 64deg 116deg,
+            #e67e22 116deg 148deg,
+            #c0392b 148deg 180deg
+        );
+        z-index: 1;
+      }
+      .bmi-meter::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90px;
+        height: 45px;
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border-radius: 45px 45px 0 0;
+        z-index: 4;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        border: 2px solid rgba(255,255,255,0.8);
+      }
+      .bmi-needle {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 5px;
+        height: 140px;
+        background: linear-gradient(to top, #2c3e50, #34495e, #5d6d7e);
+        transform-origin: 50% 100%;
+        transform: translateX(-50%) rotate(-90deg);
+        transition: all 1.2s cubic-bezier(0.4,0,0.2,1);
+        z-index: 5;
+        border-radius: 3px 3px 0 0;
+        box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      }
+      .bmi-needle::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 20px solid #e74c3c;
+        filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+      }
+      .bmi-needle::after {
+        content: '';
+        position: absolute;
+        bottom: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 24px;
+        height: 24px;
+        background: radial-gradient(circle, #2c3e50, #34495e);
+        border: 5px solid #ffffff;
+        border-radius: 50%;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+        z-index: 6;
+      }
+      .bmi-scale-labels {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 320px;
+        margin: 20px auto 0;
+        font-size: 13px;
+        font-weight: 700;
+        color: #34495e;
+      }
+      .bmi-scale-labels span {
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        padding: 6px 10px;
+        border-radius: 15px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        border: 1px solid rgba(0,0,0,0.05);
+        min-width: 35px;
+        text-align: center;
+      }
+      .bmi-categories {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin: 25px 0;
+        flex-wrap: wrap;
+      }
+      .bmi-category {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #34495e;
+        background: rgba(255,255,255,0.7);
+        padding: 6px 12px;
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .category-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        border: 2px solid rgba(255,255,255,0.8);
+      }
+      .underweight { background: #e74c3c; }
+      .normal { background: #2ecc71; }
+      .overweight { background: #f39c12; }
+      .obese { background: #e74c3c; }
+      #bmiResultDashboard {
+        font-size: 18px;
+        margin: 25px 0;
+        font-weight: 700;
+        color: #2c3e50;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      .bmi-value {
+        font-size: 38px;
+        font-weight: 900;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 15px 0;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .bmi-status-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: #34495e;
+        margin-top: 10px;
+      }
+      .bmi-status-box h4 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        font-size: 24px;
+      }
+      .no-bmi-data {
+        opacity: 0.7;
+        font-style: italic;
+      }
+      .btn-assessment {
+        background: #222;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 35px;
+        font-weight: 600;
+        box-shadow: 0 6px 20px rgba(34, 34, 34, 0.15);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+      }
+      .btn-assessment:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(34, 34, 34, 0.25);
+        color: #fff;
+      }
     </style>
   </head>
   <body>
@@ -328,11 +382,11 @@
                       <span>Obese</span>
                     </div>
                   </div>
-                  <div id="bmiResultDashboard" style="text-align: center;">
+                  <div id="bmiResultDashboard">
                     <div class="bmi-value" id="bmiValueDisplay">--</div>
-                    <div>BMI Status</div>
+                    <div class="bmi-status-text" id="bmiStatusText">Calculate your BMI</div>
                   </div>
-                  <a href="./bmi_assessment.html" class="btn btn-danger calculate btn-lg px-4 w-100 mt-3" type="button">BMI Assessment</a>
+                  <a href="./bmi_assessment.html" class="btn-assessment">BMI Assessment</a>
                 </div>
               </div>
             </div>
@@ -367,25 +421,63 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="dashboard.js"></script>
     <script>
+      // BMI calculation and display logic
+      function calculateBMI(weight, height) {
+        const heightInMeters = height / 100;
+        return (weight / (heightInMeters * heightInMeters)).toFixed(1);
+      }
+      function getBMICategory(bmi) {
+        if (bmi < 18.5) return 'Underweight';
+        if (bmi < 25) return 'Normal Weight';
+        if (bmi < 30) return 'Overweight';
+        return 'Obese';
+      }
+      function getBMIColor(bmi) {
+        if (bmi < 18.5) return '#e74c3c';
+        if (bmi < 25) return '#2ecc71';
+        if (bmi < 30) return '#f39c12';
+        return '#e74c3c';
+      }
+      function updateBMINeedle(bmi) {
+        const needle = document.getElementById("bmiNeedleDashboard");
+        const minBMI = 16;
+        const maxBMI = 35;
+        const clampedBMI = Math.min(Math.max(parseFloat(bmi), minBMI), maxBMI);
+        const angle = ((clampedBMI - minBMI) / (maxBMI - minBMI)) * 180 - 90;
+        needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+      }
       document.addEventListener("DOMContentLoaded", function () {
         const username = localStorage.getItem("currentUser");
-        const bmiData = username ? JSON.parse(localStorage.getItem(`bmiData_${username}`)) : null;
-        const bmiNeedle = document.getElementById("bmiNeedleDashboard");
+        let profile = null;
+        if (username) {
+          const storedProfile = localStorage.getItem(`profile_${username}`);
+          if (storedProfile) {
+            profile = JSON.parse(storedProfile);
+          }
+        }
         const bmiValueDisplay = document.getElementById("bmiValueDisplay");
-        const bmiResult = document.getElementById("bmiResultDashboard");
-
-        if (bmiData) {
-          bmiValueDisplay.textContent = bmiData.bmi;
-          bmiResult.innerHTML = `<div class='bmi-value'>${bmiData.bmi}</div><div>${bmiData.bmiCategory}</div>`;
-          const minBMI = 16;
-          const maxBMI = 35;
-          let calculatedBMI = Math.min(Math.max(bmiData.bmi, minBMI), maxBMI);
-          let angle = ((calculatedBMI - minBMI) / (maxBMI - minBMI)) * 180 - 90;
-          bmiNeedle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        const bmiStatusText = document.getElementById("bmiStatusText");
+        if (profile && profile.weight && profile.height) {
+          const bmi = calculateBMI(profile.weight, profile.height);
+          const category = getBMICategory(parseFloat(bmi));
+          const color = getBMIColor(parseFloat(bmi));
+          bmiValueDisplay.textContent = bmi;
+          bmiValueDisplay.style.background = `linear-gradient(45deg, ${color}, ${color}aa)`;
+          bmiValueDisplay.style.webkitBackgroundClip = 'text';
+          bmiValueDisplay.style.webkitTextFillColor = 'transparent';
+          bmiValueDisplay.style.backgroundClip = 'text';
+          bmiStatusText.textContent = category;
+          bmiStatusText.style.color = color;
+          updateBMINeedle(bmi);
+          if (username) {
+            const bmiData = { bmi: bmi, bmiCategory: category, color: color };
+            localStorage.setItem(`bmiData_${username}`, JSON.stringify(bmiData));
+          }
         } else {
           bmiValueDisplay.textContent = '--';
-          bmiResult.innerHTML = `<div class='bmi-value'>--</div><div>BMI Status</div>`;
-          bmiNeedle.style.transform = 'translateX(-50%) rotate(-90deg)';
+          bmiStatusText.textContent = 'Update your profile to see BMI';
+          bmiStatusText.classList.add('no-bmi-data');
+          document.getElementById("bmiNeedleDashboard").style.transform = 'translateX(-50%) rotate(-90deg)';
         }
       });
     </script>
