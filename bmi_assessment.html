@@ -421,7 +421,7 @@
                 bmiStatusText.style.color = color;
                 updateBMINeedle(bmi);
                 if (username) {
-                    const bmiData = { bmi: bmi, bmiCategory: category, color: color };
+                    const bmiData = { bmi: bmi, bmiCategory: category };
                     localStorage.setItem(`bmiData_${username}`, JSON.stringify(bmiData));
                 }
             } else {

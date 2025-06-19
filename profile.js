@@ -80,7 +80,7 @@
     // Save BMI data to localStorage per user
     const username = localStorage.getItem("currentUser");
     if (username) {
-      localStorage.setItem(`bmiData_${username}`, JSON.stringify({ bmi, bmiCategory, position }));
+      localStorage.setItem(`bmiData_${username}`, JSON.stringify({ bmi, bmiCategory }));
     }
   }
 
