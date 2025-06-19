@@ -15,20 +15,13 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //  MySQL Configuration 
-const db = mysql.createConnection({
+const pool = mysql.createPool({
+    connectionLimit: 10, 
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT || 3306
-});
-
-db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err);
-        process.exit(1);
-    }
-    console.log('Connected to MySQL database');
 });
 
 // Create tables if they don't exist
@@ -59,7 +52,7 @@ const createTables = () => {
     ];
 
     queries.forEach(query => {
-        db.query(query, (err) => {
+        pool.query(query, (err) => {
             if (err) console.error(`Error creating table with query: ${query}\nError:`, err);
         });
     });
@@ -109,7 +102,7 @@ app.post('/save-data', (req, res) => {
     if (!username || !day) return res.status(400).send('Username and day are required');
     const checkQuery = 'SELECT * FROM meals WHERE username = ? AND day = ?';
 
-    db.query(checkQuery, [username, day], (err, results) => {
+    pool.query(checkQuery, [username, day], (err, results) => {
         if (err) return res.status(500).send('Error checking data: ' + err.message);
 
         const query = results.length > 0
@@ -119,7 +112,7 @@ app.post('/save-data', (req, res) => {
             ? [JSON.stringify(data), username, day]
             : [JSON.stringify(data), username, day];
 
-        db.query(query, params, (err) => {
+        pool.query(query, params, (err) => {
             if (err) return res.status(500).send('Error saving data: ' + err.message);
             res.send(results.length > 0 ? 'Data updated' : 'Data inserted');
         });
@@ -135,7 +128,7 @@ app.post('/save-food', (req, res) => {
 
     const query = `INSERT INTO food_items (day, title, url, calories, carbs, fat, protein) 
                    VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    db.query(query, [day, title, url, calories, carbs, fat, protein], (err) => {
+    pool.query(query, [day, title, url, calories, carbs, fat, protein], (err) => {
         if (err) return res.status(500).send('Error saving food: ' + err.message);
         res.send('Food item saved to MySQL');
     });
@@ -145,7 +138,7 @@ app.post('/save-food', (req, res) => {
 app.delete('/delete-data', (req, res) => {
     const username = req.query.username;
     if (!username) return res.status(400).send('Username is required');
-    db.query('DELETE FROM meals WHERE username = ?', [username], (err) => {
+    pool.query('DELETE FROM meals WHERE username = ?', [username], (err) => {
         if (err) return res.status(500).send('Error deleting data: ' + err.message);
         res.send('All meal data deleted for user: ' + username);
     });
@@ -158,7 +151,7 @@ app.get('/get-weekly-data', (req, res) => {
                    ORDER BY FIELD(day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 
                    'Friday', 'Saturday', 'Sunday')`;
 
-    db.query(query, [username], (err, results) => {
+    pool.query(query, [username], (err, results) => {
         if (err) return res.status(500).send('Error fetching data: ' + err.message);
 
         const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", 
@@ -186,7 +179,7 @@ app.get('/get-weekly-data', (req, res) => {
 
 app.get('/get-food/:day', (req, res) => {
     const { day } = req.params;
-    db.query('SELECT * FROM food_items WHERE day = ?', [day], (err, results) => {
+    pool.query('SELECT * FROM food_items WHERE day = ?', [day], (err, results) => {
         if (err) return res.status(500).send('Error fetching food: ' + err.message);
         res.json(results);
     });
@@ -228,7 +221,7 @@ app.post('/signup', (req, res) => {
     const { username, password } = req.body;
 
     const query = 'INSERT INTO customers (username, password) VALUES (?, ?)';
-    db.query(query, [username, password], (err) => {
+    pool.query(query, [username, password], (err) => {
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
                 return res.json({ success: false, message: 'Username already exists.' });
@@ -244,14 +237,14 @@ app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     const query = 'SELECT * FROM customers WHERE username = ? AND password = ?';
-    db.query(query, [username, password], (err, results) => {
+    pool.query(query, [username, password], (err, results) => {
         if (err) {
             return res.status(500).json({ success: false, message: 'Error logging in: ' + err.message });
         }
 
         if (results.length > 0) {
             const updateQuery = 'UPDATE customers SET last_login = NOW() WHERE username = ?';
-            db.query(updateQuery, [username], (err) => {
+            pool.query(updateQuery, [username], (err) => {
                 if (err) console.error('Error updating last login:', err);
             });
             return res.json({ success: true });
@@ -264,7 +257,7 @@ app.post('/login', (req, res) => {
 // ------ Admin ------
 app.get('/get-customers', (req, res) => {
     const query = 'SELECT username, last_login FROM customers';
-    db.query(query, (err, results) => {
+    pool.query(query, (err, results) => {
         if (err) return res.status(500).send('Error fetching customers: ' + err.message);
         res.json(results);
     });
@@ -273,7 +266,7 @@ app.get('/get-customers', (req, res) => {
 app.delete('/delete-customer/:username', (req, res) => {
     const username = req.params.username;
     const query = 'DELETE FROM customers WHERE username = ?';
-    db.query(query, [username], (err) => {
+    pool.query(query, [username], (err) => {
         if (err) {
             return res.status(500).json({ success: false, message: 'Error deleting customer: ' + err.message });
         }
@@ -281,7 +274,7 @@ app.delete('/delete-customer/:username', (req, res) => {
     });
 });
 
-//Chatbot - Updated to work exclusively with foods.json data
+
 app.post('/chat', async (req, res) => {
     const { message } = req.body;
 
@@ -292,7 +285,7 @@ app.post('/chat', async (req, res) => {
     const lowerMsg = message.toLowerCase();
 
     try {
-        // Read foods.json data
+       
         const data = await fs.readFile(dataPath);
         const foods = JSON.parse(data);
 
@@ -571,6 +564,10 @@ app.post('/chat', async (req, res) => {
     }
 });
 
+// Add a health check route for uptime monitoring
+app.get('/health', (req, res) => {
+    res.send('OK');
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
