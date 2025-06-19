@@ -1,0 +1,185 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-image: url('./images/background_image.jpg');
+  background-size: cover;
+  background-position: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.sidebar {
+  width: 260px;
+  background: #212529;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+}
+
+.sidebar-header {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.diet-diary {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sidebar-nav li {
+  margin-bottom: 1.2rem;
+}
+
+.sidebar-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: block;
+  transition: background 0.2s;
+}
+
+.sidebar-nav a:hover {
+  background: #343a40;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem;
+  background: rgba(255,255,255,0.85);
+  min-height: 100vh;
+}
+
+.hero {
+  margin-bottom: 2.5rem;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.user-info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.info-box {
+  background: #E3DACA;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  padding: 2rem 1.5rem;
+  min-width: 260px;
+  flex: 1 1 260px;
+  margin-bottom: 1.5rem;
+}
+
+.info-box h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.info-box p, .info-box ul {
+  font-size: 1.05rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.info-box ul {
+  padding-left: 1.2rem;
+}
+
+.options-box {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+  padding: 2.5rem 2rem 2rem 2rem;
+  margin-bottom: 2.5rem;
+  text-align: left;
+  max-width: 600px;
+  margin-left: 0;
+}
+
+.options-box h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 0.7rem;
+}
+
+.options-box p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.2rem;
+}
+
+.calculate-btn {
+  background: #dc3545;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.7rem 2rem;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: background 0.2s;
+  border: none;
+  display: inline-block;
+}
+
+.calculate-btn:hover {
+  background: #b52a37;
+  color: #fff;
+}
+
+.graph-section {
+  background: #f8f9fa;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  padding: 2.5rem 2rem;
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.graph-section h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 1.5rem;
+}
+
+#calorieProteinChart {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+} 

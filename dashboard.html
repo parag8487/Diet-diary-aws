@@ -1,487 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Dashboard - Diet Diary</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        rel="stylesheet"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:wght@500&family=Sofadi+One&display=swap"
-      rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
     />
-    <link rel="stylesheet" href="dashboard.css" />
-    <style>
-      .bmi-status-box {
-        background: #E3DACA;
-        color: #2c3e50;
-        padding: 35px;
-        border-radius: 25px;
-        box-shadow: 
-          0 20px 40px rgba(0,0,0,0.1), 
-          inset 0 1px 0 rgba(255,255,255,0.8),
-          0 0 0 1px rgba(255,255,255,0.3);
-        max-width: 520px;
-        margin: 20px auto;
-        text-align: center;
-        border: 1px solid rgba(255,255,255,0.2);
-        position: relative;
-        overflow: hidden;
-      }
-      .bmi-status-box::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        border-radius: 25px 25px 0 0;
-      }
-      .bmi-meter-container {
-        position: relative;
-        width: 280px;
-        height: 140px;
-        margin: 30px auto;
-      }
-      .bmi-meter {
-        width: 280px;
-        height: 140px;
-        background: linear-gradient(145deg, #ffffff, #f0f0f0);
-        border-radius: 140px 140px 0 0;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 
-          inset 0 0 15px rgba(0,0,0,0.1),
-          0 5px 10px rgba(0,0,0,0.1);
-        border: 2px solid #e0e0e0;
-      }
-      .bmi-meter-segments {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        clip-path: polygon(0 100%, 50% 0, 100% 100%);
-      }
-      .bmi-segment {
-        flex: 1;
-        height: 100%;
-        transition: opacity 0.3s ease;
-      }
-      .segment-underweight { background: #e74c3c; }
-      .segment-normal { background: #2ecc71; }
-      .segment-overweight { background: #f39c12; }
-      .segment-obese { background: #e74c3c; }
-      .bmi-meter-inner {
-        position: absolute;
-        width: 240px;
-        height: 120px;
-        background: #E3DACA;
-        border-radius: 120px 120px 0 0;
-        top: 10px;
-        left: 20px;
-        clip-path: polygon(0 100%, 50% 0, 100% 100%);
-        box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-      }
-      .bmi-needle {
-        position: absolute;
-        width: 3px;
-        height: 100px;
-        background: linear-gradient(to top, #2c3e50, #34495e);
-        bottom: 0;
-        left: 50%;
-        transform-origin: 50% 100%;
-        transform: translateX(-50%) rotate(-90deg);
-        transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        z-index: 10;
-        border-radius: 2px;
-      }
-      .bmi-needle::before {
-        content: '';
-        position: absolute;
-        top: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-bottom: 12px solid #e74c3c;
-      }
-      .bmi-needle::after {
-        content: '';
-        position: absolute;
-        bottom: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 16px;
-        height: 16px;
-        background: #2c3e50;
-        border: 2px solid #fff;
-        border-radius: 50%;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      }
-      .bmi-scale-labels {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 320px;
-        margin: 20px auto 0;
-        font-size: 13px;
-        font-weight: 700;
-        color: #34495e;
-      }
-      .bmi-scale-labels span {
-        background: linear-gradient(145deg, #ffffff, #f8f9fa);
-        padding: 6px 10px;
-        border-radius: 15px;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        border: 1px solid rgba(0,0,0,0.05);
-        min-width: 35px;
-        text-align: center;
-      }
-      .bmi-categories {
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        margin: 25px 0;
-        flex-wrap: wrap;
-      }
-      .bmi-category {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        font-weight: 600;
-        color: #34495e;
-        background: rgba(255,255,255,0.7);
-        padding: 6px 12px;
-        border-radius: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-      .category-dot {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        border: 2px solid rgba(255,255,255,0.8);
-      }
-      .underweight { background: #e74c3c; }
-      .normal { background: #2ecc71; }
-      .overweight { background: #f39c12; }
-      .obese { background: #e74c3c; }
-      #bmiResultDashboard {
-        font-size: 18px;
-        margin: 25px 0;
-        font-weight: 700;
-        color: #2c3e50;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      }
-      .bmi-value {
-        font-size: 38px;
-        font-weight: 900;
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 15px 0;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-      .bmi-status-text {
-        font-size: 16px;
-        font-weight: 600;
-        color: #34495e;
-        margin-top: 10px;
-      }
-      .bmi-status-box h4 {
-        color: #2c3e50;
-        font-weight: 700;
-        margin-bottom: 25px;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        font-size: 24px;
-      }
-      .no-bmi-data {
-        opacity: 0.7;
-        font-style: italic;
-      }
-      .btn-assessment {
-        background: #222;
-        color: #fff;
-        border: none;
-        border-radius: 25px;
-        padding: 12px 35px;
-        font-weight: 600;
-        box-shadow: 0 6px 20px rgba(34, 34, 34, 0.15);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 20px;
-      }
-      .btn-assessment:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(34, 34, 34, 0.25);
-        color: #fff;
-      }
-    </style>
-  </head>
-  <body>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="background-hero"></div>
     <div class="dashboard-layout">
-      <aside class="sidebar">
-        <div
-          class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
-          style="width: 280px"
-        >
-          <a
-            href="./dashboard.html"
-            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
-          >
-            <svg class="bi pe-none me-2" width="40" height="32">
-              <use xlink:href="#bootstrap"></use>
-            </svg>
-            <span class="fs-4 diet-diary">Diet Diary</span>
-          </a>
-          <hr />
-          <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-              <a href="#" class="nav-link active" aria-current="page">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#home"></use>
-                </svg>
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="./profile.html" class="nav-link text-white">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#speedometer2"></use>
-                </svg>
-                Profile
-              </a>
-            </li>
-            <li>
-              <a href="./pricing.html" class="nav-link text-white">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#people-circle"></use>
-                </svg>
-                Pricing
-              </a>
-              <a href="./browse_food_customer.html" class="nav-link text-white">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#table"></use>
-                </svg>
-                Browse Foods
-              </a>
-            </li>
-            <li>
-              <a href="./bmi_assessment.html" class="nav-link text-white">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#people-circle"></use>
-                </svg>
-                BMI Assessment
-              </a>
-              
-            </li>
-            <li>
-              <a href="./customer_service.html" class="nav-link text-white">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#people-circle"></use>
-                </svg>
-                Customer Service
-              </a>
-            </li>
-            <li>
-              <a href="./Q_and_A.html" class="nav-link text-white">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#question-circle"></use>
-                </svg>
-                Help
-              </a>
-            </li>
-            <li>
-              <a href="./login.html" class="nav-link text-white">
-                <svg class="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#people-circle"></use>
-                </svg>
-                Logout
-              </a>
-            </li>
-          </ul>
-        </div>
-      </aside>
-
-      <main class="main-content">
-        <section class="hero">
-          <div class="container col-xxl-8 px-4 py-5" style="margin-left: 0px;">
-            <div class="row">
-              <div class="col-lg-6 box1">
-                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-                  Calculate Calories and Protein
-                </h1>
-                <p class="lead">
-                  <h5>
-                    Here, you can easily calculate the total calories and protein content of your meals.
-                    Simply input the food items you've consumed for breakfast, lunch, and dinner, and it will provide you with the total Calories and Protein, helping you keep track of your dietary intake efficiently.
-                  </h5>
-                </p>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                  <a class="btn btn-danger calculate btn-lg px-4 me-md-2" href="./sample.html" type="button">Calculate</a>
-                </div>
-              </div>
-
-              <div class="col-lg-6" style="margin-left: 20px;">
-                <div class="bmi-status-box mt-5">
-                  <h4>BMI Health Monitor</h4>
-                  <div class="bmi-meter-container">
-                    <div class="bmi-meter">
-                      <div class="bmi-meter-segments">
-                        <div class="bmi-segment segment-underweight"></div>
-                        <div class="bmi-segment segment-normal"></div>
-                        <div class="bmi-segment segment-overweight"></div>
-                        <div class="bmi-segment segment-obese"></div>
-                      </div>
-                      <div class="bmi-meter-inner"></div>
-                      <div class="bmi-needle" id="bmiNeedleDashboard"></div>
-                    </div>
-                  </div>
-                  <div class="bmi-scale-labels">
-                    <span>16</span>
-                    <span>18.5</span>
-                    <span>25</span>
-                    <span>30</span>
-                    <span>35+</span>
-                  </div>
-                  <div class="bmi-categories">
-                    <div class="bmi-category">
-                      <div class="category-dot underweight"></div>
-                      <span>Underweight</span>
-                    </div>
-                    <div class="bmi-category">
-                      <div class="category-dot normal"></div>
-                      <span>Normal</span>
-                    </div>
-                    <div class="bmi-category">
-                      <div class="category-dot overweight"></div>
-                      <span>Overweight</span>
-                    </div>
-                    <div class="bmi-category">
-                      <div class="category-dot obese"></div>
-                      <span>Obese</span>
-                    </div>
-                  </div>
-                  <div id="bmiResultDashboard">
-                    <div class="bmi-value" id="bmiValueDisplay">--</div>
-                    <div class="bmi-status-text" id="bmiStatusText">Calculate your BMI</div>
-                  </div>
-                  <a href="./bmi_assessment.html" class="btn-assessment">BMI Assessment</a>
-                </div>
-              </div>
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">🍏</div>
+                <span class="diet-diary">Diet Diary</span>
             </div>
-          </div>
-        </section>
-
-        <section class="graph">
-          <div class="weekly-chart container py-5">
-            <h3>Weekly Calories and Protein Intake</h3>
-            <canvas id="calorieProteinChart" width="500" height="300"></canvas>
-          </div>
-        </section>
-
-        <footer>
-          <div class="container footer">
-            <footer class="py-3 my-4">
-              <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="./dashboard.html" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="./profile.html" class="nav-link px-2 text-body-secondary">Profile</a></li>
-                <li class="nav-item"><a href="./pricing.html" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li class="nav-item"><a href="./customer_service.html" class="nav-link px-2 text-body-secondary">Service</a></li>
-                <li class="nav-item"><a href="./login.html" class="nav-link px-2 text-body-secondary">Logout</a></li>
-              </ul>
-              <p class="text-center text-body-secondary">© 2025 Diet Diary</p>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="./profile.html">Profile</a></li>
+                <li><a href="./pricing.html">Pricing</a></li>
+                <li><a href="./browse_food_customer.html">Browse Foods</a></li>
+                <li><a href="./bmi_assessment.html">BMI Assessment</a></li>
+                <li><a href="./customer_service.html">Customer Service</a></li>
+                <li><a href="./Q_and_A.html">Help</a></li>
+                <li><a href="./login.html">Logout</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <section class="hero">
+                <div class="hero-container">
+                    <div class="hero-grid">
+                        <div class="card calculator-card">
+                            <div class="calculator-section" style="margin-bottom: 35px;">
+                                <h1>Calculate Calories and Protein</h1>
+                                <p class="description" style="margin-bottom: 25px;">
+                                    Easily track your daily nutrition by calculating the total calories and protein content of your meals. 
+                                    Input your breakfast, lunch, and dinner items to get comprehensive nutritional insights and maintain 
+                                    optimal dietary balance.
+                                </p>
+                                <a class="calculate-btn" href="./sample.html">Calculate Now</a>
+                            </div>
+                            <div class="calculator-help-section">
+                                <p>Need help using the calorie calculator or understanding your results? Click below for tips and guidance!</p>
+                                <a href="./Q_and_A.html" class="btn">Help</a>
+                            </div>
+                        </div>
+                        <div class="card bmi-card">
+                            <div class="card-body">
+                                <h4>BMI Health Monitor</h4>
+                                <div class="bmi-meter-container">
+                                    <div class="bmi-meter">
+                                        <div class="bmi-meter-segments">
+                                            <div class="bmi-segment segment-underweight"></div>
+                                            <div class="bmi-segment segment-normal"></div>
+                                            <div class="bmi-segment segment-overweight"></div>
+                                            <div class="bmi-segment segment-obese"></div>
+                                        </div>
+                                        <div class="bmi-meter-inner"></div>
+                                        <div class="bmi-needle" id="bmiNeedleDashboard"></div>
+                                    </div>
+                                </div>
+                                <div class="bmi-scale-labels">
+                                    <span>16</span>
+                                    <span>18.5</span>
+                                    <span>25</span>
+                                    <span>30</span>
+                                    <span>35+</span>
+                                </div>
+                                <div class="bmi-categories">
+                                    <div class="bmi-category">
+                                        <div class="category-dot underweight"></div>
+                                        <span>Underweight</span>
+                                    </div>
+                                    <div class="bmi-category">
+                                        <div class="category-dot normal"></div>
+                                        <span>Normal</span>
+                                    </div>
+                                    <div class="bmi-category">
+                                        <div class="category-dot overweight"></div>
+                                        <span>Overweight</span>
+                                    </div>
+                                    <div class="bmi-category">
+                                        <div class="category-dot obese"></div>
+                                        <span>Obese</span>
+                                    </div>
+                                </div>
+                                <div id="bmiResultDashboard">
+                                    <div class="bmi-value" id="bmiValueDisplay">--</div>
+                                    <div class="bmi-status-text" id="bmiStatusText">Calculate your BMI</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <a href="./bmi_assessment.html" class="btn-assessment">BMI Assessment</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="chart-section">
+                <div class="chart-container">
+                    <h3 class="chart-title" style="margin-top: 48px;">Weekly Calories and Protein Intake</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="calorieProteinChart" width="500" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+            <footer>
+                <div class="container footer">
+                    <footer class="py-4 my-4">
+                        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                            <li class="nav-item"><a href="./dashboard.html" class="nav-link px-3">Home</a></li>
+                            <li class="nav-item"><a href="./profile.html" class="nav-link px-3">Profile</a></li>
+                            <li class="nav-item"><a href="./pricing.html" class="nav-link px-3">Pricing</a></li>
+                            <li class="nav-item"><a href="./customer_service.html" class="nav-link px-3">Service</a></li>
+                            <li class="nav-item"><a href="./login.html" class="nav-link px-3">Logout</a></li>
+                        </ul>
+                        <p class="text-center footer-text">© 2025 Diet Diary. All rights reserved.</p>
+                    </footer>
+                </div>
             </footer>
-          </div>
-        </footer>
-      </main>
+        </main>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="dashboard.js"></script>
-    <script>
-      // BMI calculation and display logic
-      function calculateBMI(weight, height) {
-        const heightInMeters = height / 100;
-        return (weight / (heightInMeters * heightInMeters)).toFixed(1);
-      }
-      function getBMICategory(bmi) {
-        if (bmi < 18.5) return 'Underweight';
-        if (bmi < 25) return 'Normal Weight';
-        if (bmi < 30) return 'Overweight';
-        return 'Obese';
-      }
-      function getBMIColor(bmi) {
-        if (bmi < 18.5) return '#e74c3c';
-        if (bmi < 25) return '#2ecc71';
-        if (bmi < 30) return '#f39c12';
-        return '#e74c3c';
-      }
-      function updateBMINeedle(bmi) {
-        const needle = document.getElementById("bmiNeedleDashboard");
-        const segments = document.querySelectorAll('.bmi-segment');
-        const minBMI = 16;
-        const maxBMI = 35;
-        const clampedBMI = Math.min(Math.max(parseFloat(bmi), minBMI), maxBMI);
-        const angle = ((clampedBMI - minBMI) / (maxBMI - minBMI)) * 180 - 90;
-        needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-        // Highlight active segment
-        segments.forEach(segment => segment.style.opacity = '0.6');
-        if (bmi < 18.5) segments[0].style.opacity = '1';
-        else if (bmi < 25) segments[1].style.opacity = '1';
-        else if (bmi < 30) segments[2].style.opacity = '1';
-        else segments[3].style.opacity = '1';
-      }
-      document.addEventListener("DOMContentLoaded", function () {
-        const username = localStorage.getItem("currentUser");
-        let profile = null;
-        if (username) {
-          const storedProfile = localStorage.getItem(`profile_${username}`);
-          if (storedProfile) {
-            profile = JSON.parse(storedProfile);
-          }
-        }
-        const bmiValueDisplay = document.getElementById("bmiValueDisplay");
-        const bmiStatusText = document.getElementById("bmiStatusText");
-        if (profile && profile.weight && profile.height) {
-          const bmi = calculateBMI(profile.weight, profile.height);
-          const category = getBMICategory(parseFloat(bmi));
-          const color = getBMIColor(parseFloat(bmi));
-          bmiValueDisplay.textContent = bmi;
-          bmiValueDisplay.style.background = `linear-gradient(45deg, ${color}, ${color}aa)`;
-          bmiValueDisplay.style.webkitBackgroundClip = 'text';
-          bmiValueDisplay.style.webkitTextFillColor = 'transparent';
-          bmiValueDisplay.style.backgroundClip = 'text';
-          bmiStatusText.textContent = category;
-          bmiStatusText.style.color = color;
-          updateBMINeedle(bmi);
-          if (username) {
-            const bmiData = { bmi: bmi, bmiCategory: category, color: color };
-            localStorage.setItem(`bmiData_${username}`, JSON.stringify(bmiData));
-          }
-        } else {
-          bmiValueDisplay.textContent = '--';
-          bmiStatusText.textContent = 'Update your profile to see BMI';
-          bmiStatusText.classList.add('no-bmi-data');
-          const needle = document.getElementById("bmiNeedleDashboard");
-          if (needle) needle.style.transform = 'translateX(-50%) rotate(-90deg)';
-          const segments = document.querySelectorAll('.bmi-segment');
-          segments.forEach(segment => segment.style.opacity = '0.6');
-        }
-      });
-    </script>
-  </body>
+</body>
 </html>
