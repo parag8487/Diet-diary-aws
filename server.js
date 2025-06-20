@@ -570,6 +570,56 @@ app.post('/chat', async (req, res) => {
     }
 });
 
+app.post('/admin-chat', async (req, res) => {
+    const { message } = req.body;
+
+    if (!message?.trim()) {
+        return res.status(400).json({ reply: "Message cannot be empty." });
+    }
+
+    try {
+        const isNutritionRequest = message.toLowerCase().includes('calories') &&
+            message.toLowerCase().includes('grams');
+
+        let promptContext = '';
+
+        if (isNutritionRequest) {
+            promptContext = `
+You are a nutrition assistant that provides clear, concise answers about food nutrition.
+
+For nutrition questions:
+1. Only provide the calories, carbohydrates, fats, and protein content.
+2. Format your answer in a simple way without disclaimers or extra information.
+3. Use this format: "100 grams of [food name] contains: Calories: X kcal, Carbohydrates: X grams, Fat: X grams, Protein: X grams."
+4. If an image URL is requested, provide a direct link to a relevant image.
+
+Important: Do not include disclaimers, cooking methods, or any extra information beyond the nutrition facts.
+`;
+        } else {
+            promptContext = `
+You are a helpful nutrition and diet assistant. Provide concise, accurate answers.
+Keep responses under 3 sentences unless detailed information is specifically requested.
+`;
+        }
+
+        const response = await axios.post(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GOOGLE_API_KEY}`,
+            {
+                contents: [
+                    { parts: [{ text: `${promptContext}\nUser: ${message}` }] }
+                ]
+            },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+        );
+        const reply = response.data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, no response from Gemini.';
+        res.json({ reply });
+    } catch (error) {
+        res.json({ reply: 'Sorry, Gemini AI encountered an error.' });
+    }
+});
+
 // Add a health check route for uptime monitoring
 app.get('/health', (req, res) => {
     res.send('OK');
