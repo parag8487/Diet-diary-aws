@@ -37,7 +37,7 @@
 
     async function fetchFoodCount() {
         try {
-            const response = await fetch('/foods');
+            const response = await fetch('/api/foods');
             const foods = await response.json();
             return foods.length;
         } catch (error) {
