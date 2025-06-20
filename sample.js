@@ -170,9 +170,11 @@
     // Improved Meal Suggestions
     async function loadMealSuggestions() {
         try {
-            const requiredCalories = parseFloat(localStorage.getItem("requiredCalories"));
+            const username = localStorage.getItem('currentUser');
+            const requiredCaloriesStr = username ? localStorage.getItem(`requiredCalories_${username}`) : null;
+            const requiredCalories = requiredCaloriesStr ? parseFloat(requiredCaloriesStr) : NaN;
             if (isNaN(requiredCalories)) {
-                showSuggestionMessage("Upadte your profile");
+                showSuggestionMessage("Update your profile");
                 return;
             }
 
@@ -292,6 +294,12 @@
         }
     }
 
+    // Listen for profile changes and reload suggestions
+    window.addEventListener('storage', function(event) {
+        if (event.key && event.key.startsWith('requiredCalories_')) {
+            loadMealSuggestions();
+        }
+    });
 
     loadFoodSuggestions();
     loadMealSuggestions();
