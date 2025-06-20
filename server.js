@@ -265,12 +265,18 @@ app.get('/get-customers', (req, res) => {
 
 app.delete('/delete-customer/:username', (req, res) => {
     const username = req.params.username;
-    const query = 'DELETE FROM customers WHERE username = ?';
-    pool.query(query, [username], (err) => {
+    // First, delete all meals for this user
+    pool.query('DELETE FROM meals WHERE username = ?', [username], (err) => {
         if (err) {
-            return res.status(500).json({ success: false, message: 'Error deleting customer: ' + err.message });
+            return res.status(500).json({ success: false, message: 'Error deleting user meals: ' + err.message });
         }
-        res.json({ success: true });
+        // Then, delete the user from customers
+        pool.query('DELETE FROM customers WHERE username = ?', [username], (err) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Error deleting customer: ' + err.message });
+            }
+            res.json({ success: true });
+        });
     });
 });
 
