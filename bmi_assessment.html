@@ -254,6 +254,35 @@
         .table th {
             background-color: #f8f9fa;
         }
+        @media (max-width: 768px) {
+            .container, .bmi-info-section, .bmi-status-box, .bmi-explanation, .table-container {
+                width: 98% !important;
+                padding: 10px !important;
+                margin: 10px auto !important;
+            }
+            .bmi-info-section {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+            .bmi-status-box, .bmi-explanation {
+                padding: 10px !important;
+            }
+            .table {
+                font-size: 1rem !important;
+            }
+            .back-button, .btn {
+                width: 100% !important;
+                margin: 8px 0 !important;
+            }
+        }
+        @media (max-width: 480px) {
+            h2, h3, h4 {
+                font-size: 1.1rem !important;
+            }
+            .table {
+                font-size: 0.95rem !important;
+            }
+        }
     </style>
 </head>
 <body>

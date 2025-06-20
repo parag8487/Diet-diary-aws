@@ -106,22 +106,25 @@
     to { transform: translateY(0); opacity: 1; }
 }
 
+@media (max-width: 768px) {
+    .login-container, .login-form {
+        width: 98% !important;
+        padding: 10px !important;
+        margin: 10px auto !important;
+    }
+    .login-form input, .login-form button {
+        width: 100% !important;
+        margin: 8px 0 !important;
+        font-size: 1.1rem !important;
+    }
+}
+
 @media (max-width: 480px) {
-    .login-form {
-        padding: 20px;
-        width: 90%;
-    }
-
     .login-form h2 {
-        font-size: 24px;
+        font-size: 1.3rem !important;
     }
-
-    .login-form button {
-        font-size: 16px;
-    }
-
-    .customer-login-link a,
-    .admin-login-link a {
-        font-size: 14px;
+    .login-form input, .login-form button {
+        font-size: 1rem !important;
+        padding: 10px !important;
     }
 }

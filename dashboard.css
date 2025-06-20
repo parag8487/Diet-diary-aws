@@ -1,5 +1,4 @@
-﻿
-:root {
+﻿:root {
     --primary-color: #4CAF50;
     --sidebar-bg: #212529;
     --sidebar-text: #fff;
@@ -407,8 +406,34 @@ footer {
     }
 }
 @media (max-width: 768px) {
-    .hero {
-        padding: 24px 16px;
+    .dashboard-layout, .hero-grid {
+        flex-direction: column !important;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    .sidebar {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 12px 8px !important;
+        border-radius: 0 !important;
+    }
+    .main-content, .hero, .hero-container {
+        padding: 8px !important;
+        width: 100% !important;
+    }
+    .stat-card, .chart-container, .bmi-card, .calculator-section {
+        width: 100% !important;
+        margin: 8px 0 !important;
+        padding: 10px !important;
+    }
+    .stat-cards {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    .sidebar-header, .sidebar-logo {
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
     }
     .card-body {
         padding: 24px;
@@ -433,6 +458,19 @@ footer {
     }
 }
 @media (max-width: 480px) {
+    .sidebar, .main-content, .hero, .hero-container {
+        padding: 4px !important;
+    }
+    .stat-card, .chart-container, .bmi-card, .calculator-section {
+        padding: 6px !important;
+        border-radius: 8px !important;
+    }
+    .sidebar-header, .sidebar-logo {
+        font-size: 1rem !important;
+    }
+    .stat-label, .stat-number {
+        font-size: 0.95rem !important;
+    }
     .hero {
         padding: 16px 8px;
     }

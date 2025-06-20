@@ -294,5 +294,32 @@
         });
     });
     </script>
+    <style>
+    @media (max-width: 768px) {
+      .container, .payment-section, .footer {
+        width: 98% !important;
+        padding: 10px !important;
+        margin: 10px auto !important;
+      }
+      .row, .col, .form-group {
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+      }
+      .btn, .btn-primary, .btn-success {
+        width: 100% !important;
+        margin: 8px 0 !important;
+      }
+    }
+    @media (max-width: 480px) {
+      h1, h2, h3 {
+        font-size: 1.3rem !important;
+      }
+      .btn, .btn-primary, .btn-success {
+        font-size: 1rem !important;
+        padding: 10px !important;
+      }
+    }
+    </style>
 </body>
 </html>

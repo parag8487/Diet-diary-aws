@@ -19,7 +19,29 @@
 <body>
     <div class="background-hero"></div>
     <div class="dashboard-layout">
-        <aside class="sidebar">
+        <!-- Responsive Navbar for Mobile -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-lg-none">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">🍏 Diet Diary</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav w-100">
+                        <li class="nav-item"><a class="nav-link" href="./dashboard.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./profile.html">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./pricing.html">Pricing</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./browse_food_customer.html">Browse Foods</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./customer_chatbot.html">ChatBot</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./bmi_assessment.html">BMI Assessment</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./customer_service.html">Customer Service</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./Q_and_A.html">Help</a></li>
+                        <li class="nav-item"><a class="nav-link" href="./login.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <aside class="sidebar d-none d-lg-block">
             <div class="sidebar-header">
                 <div class="sidebar-logo">🍏</div>
                 <span class="diet-diary">Diet Diary</span>

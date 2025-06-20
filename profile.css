@@ -332,52 +332,43 @@ body::before {
 
 @media (max-width: 768px) {
   .container, .bmi-section, #profileForm {
-    max-width: 95vw;
-    padding: 20px 16px;
-    margin: 16px auto;
+    width: 98% !important;
+    padding: 10px !important;
+    margin: 10px auto !important;
   }
-  
-  .input-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
+  .input-row, .form-group {
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
   }
-  
-  .bmi-meter {
-    max-width: 90vw;
-    height: 40px;
+  .form-control, .form-select {
+    width: 100% !important;
+    font-size: 1rem !important;
   }
-  
-  .bmi-needle {
-    height: 50px;
-    width: 5px;
+  .btn, .btn-primary, .btn-success {
+    width: 100% !important;
+    margin: 8px 0 !important;
   }
-  
-  .back-btn {
-    width: 140px;
-    font-size: 0.95rem;
-    padding: 10px 20px;
-  }
-  
-  .page-title {
-    font-size: 1.8rem;
-  }
-  
   .bmi-scale {
-    font-size: 0.8rem;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
+    flex-direction: column !important;
+    gap: 6px !important;
+    font-size: 0.95rem !important;
   }
 }
 
 @media (max-width: 480px) {
   #profileForm, .bmi-section {
-    padding: 24px 16px;
-    border-radius: 16px;
+    padding: 8px !important;
+    border-radius: 10px !important;
   }
-  
   .page-title {
-    font-size: 1.6rem;
-    margin-bottom: 24px;
+    font-size: 1.3rem !important;
+  }
+  .bmi-scale span {
+    font-size: 0.9rem !important;
+  }
+  .btn, .btn-primary, .btn-success {
+    width: 100% !important;
+    margin: 5px 0 !important;
   }
 }

@@ -72,3 +72,34 @@ body::before {
     border-radius: 4px;
   }
 
+@media (max-width: 768px) {
+  .container, .food-list, .custom-grid-header {
+    width: 98% !important;
+    padding: 10px !important;
+    margin: 10px auto !important;
+  }
+  .row, .food-list .row {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+  .food-image {
+    max-width: 80vw !important;
+    margin: 0 auto !important;
+  }
+  .btn, .btn-danger {
+    width: 100% !important;
+    margin: 8px 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-grid-header, .food-list .row {
+    font-size: 1rem !important;
+    padding: 6px !important;
+  }
+  .food-image {
+    max-width: 95vw !important;
+  }
+}
+

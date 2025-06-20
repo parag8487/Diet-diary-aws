@@ -14,3 +14,39 @@
 h1 {
     font-family: serif;
 }
+
+@media (max-width: 768px) {
+  .container, .pricing-header, .footer {
+    width: 98% !important;
+    padding: 10px !important;
+    margin: 10px auto !important;
+  }
+  .d-flex, .d-inline-flex, .flex-md-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+  .pricing-header {
+    text-align: center !important;
+    padding: 10px !important;
+  }
+  .nav, .nav-item, .nav-link {
+    width: 100% !important;
+    text-align: center !important;
+    display: block !important;
+    margin: 4px 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container, .pricing-header, .footer {
+    padding: 6px !important;
+    border-radius: 8px !important;
+  }
+  .display-4, h1, h2 {
+    font-size: 1.3rem !important;
+  }
+  .nav-link {
+    font-size: 1rem !important;
+  }
+}

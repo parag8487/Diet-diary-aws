@@ -254,51 +254,59 @@ footer {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .input-group {
+    .container, .meal-plan, .calorie-tracker, .meal-suggestions {
+        width: 98% !important;
+        padding: 10px !important;
+        margin: 10px auto !important;
+    }
+    .input-group, .meal-row {
         flex-direction: column;
+        gap: 10px;
     }
-    
-    .food-input,
-    .quantity-container {
-        width: 100%;
+    .food-input, .quantity-container, .quantity-input {
+        width: 100% !important;
     }
-    
-    .meal-plan,
-    .calorie-tracker,
-    .meal-suggestions {
-        margin: 20px auto;
-        padding: 20px;
-        width: 95%;
+    button, .btn {
+        width: 100% !important;
+        margin: 8px 0 !important;
     }
-    
-    .suggestion-item {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 480px) {
     nav ul {
         flex-direction: column;
         gap: 10px;
     }
-    
-    .quantity-input {
-        width: 80px;
-    }
-    
     .suggestion-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
     }
-    
     .food-item {
         flex-direction: column;
         gap: 5px;
     }
-    
+}
+
+@media (max-width: 480px) {
+    .meal-plan, .calorie-tracker, .meal-suggestions {
+        padding: 8px !important;
+        border-radius: 10px !important;
+    }
+    .suggestion-item {
+        padding: 10px !important;
+    }
+    .quantity-input {
+        width: 80px !important;
+    }
+    .suggestion-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .food-item {
+        flex-direction: column;
+        gap: 5px;
+    }
     button {
-        width: 100%;
-        margin: 5px 0;
+        width: 100% !important;
+        margin: 5px 0 !important;
     }
 }
