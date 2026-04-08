@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive FAQ Accordion</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e0e8d5 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .header {
+        background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        margin-bottom: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .header p {
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #16a085;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .back-button:hover {
+        background-color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .back-button:active {
+        transform: translateY(0);
+      }
+
+      .back-button::before {
+        content: "←";
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .faq-container {
+        padding: 30px;
+      }
+
+      .faq-item {
+        margin-bottom: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .faq-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .faq-question {
+        padding: 18px 20px;
+        background-color: #f8f9fa;
+        font-weight: 600;
+        font-size: 16px;
+        color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .faq-question:hover {
+        background-color: #f1f3f5;
+      }
+
+      .faq-question::after {
+        content: "+";
+        font-size: 22px;
+        font-weight: 300;
+        color: #2ecc71;
+        transition: transform 0.3s ease;
+      }
+
+      .faq-item.active .faq-question::after {
+        content: "−";
+        transform: rotate(180deg);
+      }
+
+      .faq-answer {
+        background-color: white;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .faq-answer-content {
+        padding: 0 20px;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .faq-item.active .faq-answer {
+        padding: 18px 0;
+        max-height: 200px;
+      }
+
+      .faq-item.active .faq-answer-content {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #f8f9fa;
+        color: #6c757d;
+        font-size: 14px;
+        border-top: 1px solid #eaeaea;
+      }
+
+      @media (max-width: 768px) {
+        .container, .header, .faq-container {
+          width: 98% !important;
+          padding: 10px !important;
+          margin: 10px auto !important;
+        }
+        .faq-item, .accordion, .accordion-content {
+          font-size: 1rem !important;
+          padding: 8px !important;
+        }
+        .back-button, .btn {
+          width: 100% !important;
+          margin: 8px 0 !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header h1 {
+          font-size: 1.3rem !important;
+        }
+        .faq-item, .accordion, .accordion-content {
+          font-size: 0.95rem !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <button class="back-button">Back</button>
+        <h1>Frequently Asked Questions</h1>
+      </div>
+
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 1: What is the purpose of this website?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                This website serves as a diet tracking application designed to
+                help individuals lead healthier lives by providing an intuitive
+                platform for tracking daily meals, caloric intake, and
+                nutritional balance.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Question 2: How can I track my meals?</div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                You can log meals by entering details of the food items you've
+                consumed for breakfast, lunch, and dinner into the respective
+                sections of your meal planner.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 3: How do I access my profile?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                To access your profile, click on the "Profile" link in the
+                navigation menu at the top of the page.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 4: What is the privacy policy of this website?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                Our privacy policy outlines how we collect, use, and protect
+                your personal information. You can find it in the footer or by
+                contacting customer service.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 5: How do I contact customer service?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                You can reach our customer service through the "Contact Us" page
+                on the website or by using the "Customer Service" link in the
+                main menu.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 6: How do I report a bug on the website?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                To report a bug, please use the "Contact Us" page to send us
+                detailed information about the issue you encountered.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 7: Can I share my progress with friends?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                While the platform doesn't have a direct sharing feature, you
+                can share your progress manually by taking screenshots or
+                through the sharing options on your dashboard.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 8: Is there a mobile app available?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                Currently, there is no dedicated mobile app, but you can access
+                the full functionality of the diet diary through your mobile
+                browser.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 9: What happens if I don't log my meals?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                While it's optional, logging your meals is beneficial for
+                tracking your dietary intake accurately and receiving
+                personalized recommendations.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 10: What payment methods are accepted?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                We accept various payment methods, including credit/debit cards
+                and PayPal, to make your payments convenient and secure.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 11: How do I get started with the diet planner?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                To get started, create your account, set your dietary goals, and
+                start logging your daily meals to track your progress.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Question 12: What is the best way to lose weight?
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p>
+                A balanced diet combined with regular exercise is the best way
+                to lose weight effectively and maintain a healthy lifestyle.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>© 2025 Diet Diary. All rights reserved.</p>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const faqItems = document.querySelectorAll(".faq-item");
+        const backButton = document.querySelector(".back-button");
+
+        faqItems.forEach((item) => {
+          const question = item.querySelector(".faq-question");
+
+          question.addEventListener("click", () => {
+            faqItems.forEach((otherItem) => {
+              if (
+                otherItem !== item &&
+                otherItem.classList.contains("active")
+              ) {
+                otherItem.classList.remove("active");
+              }
+            });
+
+            item.classList.toggle("active");
+          });
+        });
+
+        backButton.addEventListener("click", function () {
+          window.location.href = "./dashboard.html";
+        });
+      });
+    </script>
+  </body>
+</html>
+
+

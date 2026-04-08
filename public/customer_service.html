@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & About Us - DietDiary</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2F855A;
+            --light-green: #15aa53;
+            --dark-green: #22543D;
+            --accent-green: #093b1b;
+        }
+
+        body {
+            background-image: url(./images/pexels-psco-139259.jpg);
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .glass {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+        }
+
+        .nav-glass {
+            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-style {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(21, 170, 83, 0.3);
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .input-style:focus {
+            background: #ffffff;
+            border-color: var(--light-green);
+            box-shadow: 0 0 0 2px rgba(21, 170, 83, 0.2);
+        }
+
+        .social-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+            color: var(--light-green);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            color: var(--accent-green);
+        }
+
+        .success-message {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feature-icon {
+            color: var(--light-green);
+        }
+
+        .submit-button {
+            background: var(--light-green);
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background: var(--accent-green);
+            transform: translateY(-1px);
+        }
+
+        .quote-border {
+            border-color: var(--light-green);
+            background: rgba(21, 170, 83, 0.1);
+        }
+
+        .feature-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(21, 170, 83, 0.2);
+            color: #333;
+        }
+
+        .section-title {
+            color: var(--accent-green);
+        }
+
+        .nav-link {
+            color: var(--accent-green);
+        }
+
+        .nav-link:hover {
+            color: var(--light-green);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    
+    <nav class="nav-glass fixed w-full top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="./dashboard.html" class="text-2xl font-bold flex items-center section-title">
+                <i class="fas fa-leaf mr-2"></i>
+                DietDiary
+            </a>
+            <div class="space-x-6">
+                <a href="./dashboard.html" class="nav-link transition">Home</a>
+                <a href="/customer_service.html" class="nav-link font-medium">Contact</a>
+                <a href="./dashboard.html" class="nav-link transition">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="container mx-auto px-4 pt-24 pb-12">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+            
+            <div class="glass p-8">
+                <h2 class="text-3xl font-bold mb-6 flex items-center section-title">
+                    <i class="fas fa-envelope mr-3"></i>
+                    Get in Touch
+                </h2>
+                <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                    <input type="hidden" name="access_key" value="3cd4633f-010d-4100-841b-0d2b81c73bde">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg input-style focus:outline-none" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg input-style focus:outline-none" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-lg input-style focus:outline-none" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button w-full py-3 text-white font-bold rounded-lg focus:outline-none focus:ring-4 focus:ring-green-400">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Send Message
+                    </button>
+                    <div id="successMessage" class="success-message bg-green-600 text-white p-4 rounded-lg text-center">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        Thank you! Your message has been sent successfully.
+                    </div>
+                </form>
+            </div>
+
+            
+            <div class="glass p-8">
+                <h2 class="text-3xl font-bold mb-6 flex items-center section-title">
+                    <i class="fas fa-seedling mr-3"></i>
+                    About Us
+                </h2>
+                <div class="space-y-6">
+                    <p class="leading-relaxed text-gray-700">
+                        Welcome to DietDiary, your trusted companion on the journey to better health. Our mission is to empower individuals with the tools and insights they need to make informed dietary choices and achieve their wellness goals.
+                    </p>
+                    <div class="quote-border border-l-4 p-4 rounded-r-lg">
+                        <p class="italic text-gray-700">
+                            "Transforming lives through mindful eating and personalized nutrition tracking."
+                        </p>
+                    </div>
+                    <p class="leading-relaxed text-gray-700">
+                        Founded by a team of nutrition experts and tech enthusiasts, DietDiary combines scientific knowledge with user-friendly technology to deliver a comprehensive diet tracking solution.
+                    </p>
+                    
+                  
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <div class="feature-box flex items-center space-x-2 p-3 rounded-lg">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span class="text-gray-700">Personalized Goals</span>
+                        </div>
+                        <div class="feature-box flex items-center space-x-2 p-3 rounded-lg">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <span class="text-gray-700">Progress Tracking</span>
+                        </div>
+                        <div class="feature-box flex items-center space-x-2 p-3 rounded-lg">
+                            <i class="fas fa-utensils feature-icon"></i>
+                            <span class="text-gray-700">Meal Planning</span>
+                        </div>
+                        <div class="feature-box flex items-center space-x-2 p-3 rounded-lg">
+                            <i class="fas fa-users feature-icon"></i>
+                            <span class="text-gray-700">Community Support</span>
+                        </div>
+                    </div>
+
+                  
+                    <div class="mt-8 bg-white p-6 rounded-lg border border-gray-200">
+                        <h3 class="text-xl font-semibold mb-4 section-title">Connect With Us</h3>
+                        <div class="flex space-x-6">
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-twitter text-2xl"></i>
+                            </a>
+                            <a href="https://www.facebook.com/profile.php?id=100081343674574 " class="social-icon">
+                                <i class="fab fa-facebook text-2xl"></i>
+                            </a>
+                            <a href="https://www.instagram.com/parag_mohare" class="social-icon">
+                                <i class="fab fa-instagram text-2xl"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/parag-mohare-2b3b4a28a" class="social-icon" target="_blank">
+                                <i class="fab fa-linkedin text-2xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="nav-glass mt-12 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="flex items-center justify-center section-title">
+                <i class="fas fa-leaf mr-2"></i>
+                &copy; 2025 DietDiary. All rights reserved.
+            </p>
+            <div class="mt-2 space-x-4 text-sm">
+                <a href="./Q_and_A.html" class="nav-link">Privacy Policy</a>
+                <a href="./Q_and_A.html" class="nav-link">Terms of Service</a>
+                <a href="./Q_and_A.html" class="nav-link">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    this.reset();
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+

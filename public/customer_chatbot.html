@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Assistant Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .chat-container {
+      background-color: white;
+      width: 95%;
+      max-width: 700px;
+      height: 90vh;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(80, 141, 78, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .chat-header {
+      background: linear-gradient(90deg, #508D4E 0%, #1A5319 100%);
+      color: white;
+      padding: 18px 24px 10px 24px;
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(80, 141, 78, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .info-box {
+      background: #f1f3f5;
+      color: #1A5319;
+      border-left: 4px solid #508D4E;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      margin: 10px 0 0 0;
+      text-align: left;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .privacy-box {
+      background: #e9ecef;
+      color: #508D4E;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      margin: 8px 0 0 0;
+      text-align: center;
+    }
+    .messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f9fafc;
+    }
+    .message {
+      margin-bottom: 16px;
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      line-height: 1.5;
+      position: relative;
+      word-wrap: break-word;
+      font-size: 16px;
+    }
+    .user-message {
+      background-color: #e1f0ff;
+      color: #333;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+    .bot-message {
+      background-color: #f8f9fa;
+      color: #1A5319;
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 5px rgba(80, 141, 78, 0.05);
+    }
+    .nutrition-card {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      background: #f1f3f5;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(80, 141, 78, 0.05);
+    }
+    .nutrition-item {
+      flex: 1 0 50%;
+      margin: 5px 0;
+    }
+    .nutrition-label {
+      font-weight: 500;
+      color: #508D4E;
+    }
+    .input-area {
+      background-color: white;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid #eee;
+    }
+    .quick-prompts {
+      display: flex;
+      margin-bottom: 10px;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+    .prompt-btn {
+      background-color: #508D4E;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-size: 15px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .prompt-btn:hover {
+      background-color: #1A5319;
+    }
+    .input-container {
+      display: flex;
+      background-color: #f1f3f5;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+    input {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      background-color: transparent;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+    }
+    input:focus {
+      outline: none;
+    }
+    button.send-btn {
+      padding: 12px 24px;
+      border: none;
+      background: linear-gradient(90deg, #508D4E 0%, #1A5319 100%);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+    button.send-btn:hover {
+      opacity: 0.9;
+    }
+    @media (max-width: 600px) {
+      .chat-container { max-width: 99vw; height: 99vh; }
+      .chat-header { font-size: 18px; padding: 12px 8px 6px 8px; }
+      .messages { padding: 8px; }
+      .input-area { padding: 8px; }
+    }
+    @media (max-width: 768px) {
+      .chat-container {
+        width: 99vw !important;
+        height: 90vh !important;
+        padding: 6px !important;
+        border-radius: 10px !important;
+      }
+      .chat-header, .input-area, .messages {
+        padding: 8px !important;
+        font-size: 1rem !important;
+      }
+      .input-container, .quick-prompts {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .btn, button {
+        width: 100% !important;
+        margin: 8px 0 !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .chat-header {
+        font-size: 1.1rem !important;
+        padding: 6px !important;
+      }
+      .chat-container {
+        padding: 2px !important;
+        border-radius: 6px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <button class="back-button" onclick="window.location.href='dashboard.html'" style="display: flex; align-items: center; gap: 6px; background: linear-gradient(90deg, #508D4E 0%, #1A5319 100%); color: white; border: none; border-radius: 20px; padding: 8px 18px; font-size: 16px; font-weight: 500; cursor: pointer; position: absolute; left: 18px; top: 50%; transform: translateY(-50%); box-shadow: 0 2px 8px rgba(80,141,78,0.08); transition: background 0.2s;">
+        ← <span>Back</span>
+      </button>
+      <span>🥗 Nutrition Assistant</span>
+      
+      <div class="privacy-box">
+        <span>🔒 Your chat is private and not saved.</span>
+      </div>
+    </div>
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <div class="quick-prompts">
+        <button class="prompt-btn" onclick="insertPrompt('Show foods with the highest protein')">Highest Protein Foods</button>
+        <button class="prompt-btn" onclick="insertPrompt('Show foods with the highest calories')">Highest Calorie Foods</button>
+        <button class="prompt-btn" onclick="insertPrompt('Show foods with the highest carbs')">Highest Carb Foods</button>
+        <button class="prompt-btn" onclick="insertPrompt('Show foods with the highest fats')">Highest Fat Foods</button>
+      </div>
+      <div class="input-container">
+        <input type="text" id="userInput" placeholder="Ask about nutrition, foods, or diet advice..." autocomplete="off" />
+        <button class="send-btn" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function insertPrompt(text) {
+      const input = document.getElementById('userInput');
+      input.value = text;
+      input.focus();
+    }
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+      appendMessage(text, 'user-message');
+      input.value = '';
+      try {
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        // If the bot refuses to answer, show a friendly message
+        if (data.reply && (data.reply.toLowerCase().includes('not nutrition') || data.reply.toLowerCase().includes('cannot answer'))) {
+          appendMessage('Sorry, I can only answer food and nutrition questions. Please ask about foods, nutrients, or meals!', 'bot-message');
+        } else {
+          const formattedResponse = formatNutritionResponse(data.reply);
+          appendMessage(formattedResponse, 'bot-message');
+        }
+      } catch (err) {
+        appendMessage('Sorry, I encountered an error. Please try again.', 'bot-message');
+        console.error(err);
+      }
+    }
+    function formatNutritionResponse(reply) {
+      if (reply.includes('Calories') && reply.includes('Carbohydrates') && reply.includes('Fat') && reply.includes('Protein')) {
+        try {
+          let foodName = "";
+          let calories = extractNutritionValue(reply, 'Calories');
+          let carbs = extractNutritionValue(reply, 'Carbohydrates');
+          let fat = extractNutritionValue(reply, 'Fat');
+          let protein = extractNutritionValue(reply, 'Protein');
+          const firstSentence = reply.split('.')[0];
+          if (firstSentence.includes('100 grams of')) {
+            foodName = firstSentence.split('100 grams of')[1].trim();
+            foodName = foodName.replace(/:/g, '').trim();
+          }
+          return `
+            <div>${foodName ? `Nutrition information for ${foodName}:` : 'Nutrition information:'}</div>
+            <div class="nutrition-card">
+              <div class="nutrition-item"><span class="nutrition-label">Calories:</span> ${calories}</div>
+              <div class="nutrition-item"><span class="nutrition-label">Carbs:</span> ${carbs}</div>
+              <div class="nutrition-item"><span class="nutrition-label">Fat:</span> ${fat}</div>
+              <div class="nutrition-item"><span class="nutrition-label">Protein:</span> ${protein}</div>
+            </div>
+          `;
+        } catch (e) {
+          return reply;
+        }
+      }
+      return reply;
+    }
+    function extractNutritionValue(text, nutrient) {
+      const regex = new RegExp(`${nutrient}[:\\s]+(\\d+(?:\\.\\d+)?\\s*(?:kcal|grams|g)?)`, 'i');
+      const match = text.match(regex);
+      return match ? match[1] : 'N/A';
+    }
+    function appendMessage(message, className) {
+      const messagesDiv = document.getElementById('messages');
+      const msg = document.createElement('div');
+      msg.className = `message ${className}`;
+      if (className === 'bot-message') {
+        msg.innerHTML = markdownTableToHTML(message);
+      } else {
+        msg.innerHTML = message;
+      }
+      messagesDiv.appendChild(msg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Convert markdown tables to HTML tables for bot responses
+    function markdownTableToHTML(md) {
+      // Only convert markdown tables, leave other markdown as is
+      const tableRegex = /((?:^\|.*\|\n)+)/gm;
+      return md.replace(tableRegex, function(tableMarkdown) {
+        const rows = tableMarkdown.trim().split('\n').filter(Boolean);
+        if (rows.length < 2) return tableMarkdown; // Not a table
+        const headerCells = rows[0].split('|').slice(1, -1).map(cell => cell.trim());
+        let html = '<table class="chat-table"><thead><tr>';
+        headerCells.forEach(cell => { html += `<th>${cell}</th>`; });
+        html += '</tr></thead><tbody>';
+        for (let i = 2; i < rows.length; i++) {
+          const cells = rows[i].split('|').slice(1, -1).map(cell => cell.trim());
+          html += '<tr>' + cells.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+        }
+        html += '</tbody></table>';
+        return html;
+      });
+    }
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html> 
+
+
