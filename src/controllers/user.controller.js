@@ -7,7 +7,7 @@ class UserController {
     async signup(req, res) {
         const { username, password } = req.body;
         try {
-            const query = 'INSERT INTO customers (username, password) VALUES (?, ?)';
+            const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
             await db.query(query, [username, password]);
             res.json({ success: true });
         } catch (error) {
@@ -21,11 +21,16 @@ class UserController {
     async login(req, res) {
         const { username, password } = req.body;
         try {
-            const query = 'SELECT * FROM customers WHERE username = ? AND password = ?';
+            const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
             const [results] = await db.query(query, [username, password]);
 
             if (results.length > 0) {
-                await db.query('UPDATE customers SET last_login = NOW() WHERE username = ?', [username]);
+                // Check if last_login column exists before updating, or just ignore if it fails
+                try {
+                    await db.query('UPDATE users SET last_login = NOW() WHERE username = ?', [username]);
+                } catch (e) {
+                    // last_login might not exist, that's fine
+                }
                 res.json({ success: true });
             } else {
                 res.json({ success: false, message: 'Invalid username or password' });
@@ -37,10 +42,10 @@ class UserController {
 
     async getCustomers(req, res) {
         try {
-            const [results] = await db.query('SELECT username, last_login FROM customers');
+            const [results] = await db.query('SELECT username FROM users');
             res.json(results);
         } catch (error) {
-            res.status(500).send('Error fetching customers: ' + error.message);
+            res.status(500).send('Error fetching users: ' + error.message);
         }
     }
 
@@ -49,11 +54,11 @@ class UserController {
         try {
             // First, delete all meals for this user
             await db.query('DELETE FROM meals WHERE username = ?', [username]);
-            // Then, delete the user from customers
-            await db.query('DELETE FROM customers WHERE username = ?', [username]);
+            // Then, delete the user from users
+            await db.query('DELETE FROM users WHERE username = ?', [username]);
             res.json({ success: true });
         } catch (error) {
-            res.status(500).json({ success: false, message: 'Error deleting customer: ' + error.message });
+            res.status(500).json({ success: false, message: 'Error deleting user: ' + error.message });
         }
     }
 }

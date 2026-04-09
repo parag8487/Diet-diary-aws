@@ -1,162 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Diet Diary</title>
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
-        rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
-        rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Diet Diary</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF3366;
+            --secondary: #21D4FD;
+            --dark-bg: #0F172A;
+            --sidebar-width: 280px;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark-bg);
+            color: #E2E8F0;
+            overflow-x: hidden;
+        }
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            z-index: 1000;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF3366 0%, #21D4FD 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3rem;
+        }
+        .nav-sidebar {
+            flex-grow: 1;
+        }
+        .nav-sidebar .nav-link {
+            color: #94A3B8;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .nav-sidebar .nav-link:hover, .nav-sidebar .nav-link.active {
+            background: var(--glass);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .nav-sidebar .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem 3rem;
+        }
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            height: 100%;
+        }
+        .bmi-meter-container {
+            position: relative;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .bmi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        .btn-premium {
+            background: linear-gradient(135deg, #FF3366 0%, #B721FF 100%);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 51, 102, 0.3);
+            color: white;
+        }
+        .chart-container-inner {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        @media (max-width: 991px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
-    <div class="background-hero"></div>
-    <div class="dashboard-layout">
-        <!-- Responsive Navbar for Mobile -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-lg-none">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">🍏 Diet Diary</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav w-100">
-                        <li class="nav-item"><a class="nav-link" href="./dashboard.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./profile.html">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./pricing.html">Pricing</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./browse_food_customer.html">Browse Foods</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./customer_chatbot.html">ChatBot</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./bmi_assessment.html">BMI Assessment</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./customer_service.html">Customer Service</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./Q_and_A.html">Help</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./login.html">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">🍏 Diet Diary Cloud</div>
+        <nav class="nav-sidebar">
+            <a href="dashboard.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href="profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+            <a href="browse_food_customer.html" class="nav-link"><i class="fas fa-utensils"></i> Browse Foods</a>
+            <a href="customer_chatbot.html" class="nav-link"><i class="fas fa-robot"></i> AI Chatbot</a>
+            <a href="bmi_assessment.html" class="nav-link"><i class="fas fa-weight"></i> BMI Assessment</a>
+            <a href="pricing.html" class="nav-link"><i class="fas fa-tags"></i> Pricing</a>
+            <a href="customer_service.html" class="nav-link"><i class="fas fa-headset"></i> Support</a>
         </nav>
-        <aside class="sidebar d-none d-lg-block">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">🍏</div>
-                <span class="diet-diary">Diet Diary</span>
+        <div class="mt-auto">
+            <a href="login.html" class="nav-link text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h1 class="fw-bold m-0">Welcome back!</h1>
+                <p class="text-secondary small">Your health journey is looking great today.</p>
             </div>
-            <ul>
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="./profile.html">Profile</a></li>
-                <li><a href="./pricing.html">Pricing</a></li>
-                <li><a href="./browse_food_customer.html">Browse Foods</a></li>
-                <li><a href="./customer_chatbot.html">ChatBot</a></li>
-                <li><a href="./bmi_assessment.html">BMI Assessment</a></li>
-                <li><a href="./customer_service.html">Customer Service</a></li>
-                <li><a href="./Q_and_A.html">Help</a></li>
-                <li><a href="./login.html">Logout</a></li>
-            </ul>
-        </aside>
-        <main class="main-content">
-            <section class="hero">
-                <div class="hero-container">
-                    <div class="hero-grid">
-                        <div class="card calculator-card">
-                            <div class="calculator-section" style="margin-bottom: 35px;">
-                                <h1>Calculate Calories and Protein</h1>
-                                <p class="description" style="margin-bottom: 25px;">
-                                    Easily track your daily nutrition by calculating the total calories and protein content of your meals. 
-                                    Input your breakfast, lunch, and dinner items to get comprehensive nutritional insights and maintain 
-                                    optimal dietary balance.
-                                </p>
-                                <a class="calculate-btn" href="./sample.html">Calculate Now</a>
-                            </div>
-                            <div class="calculator-help-section">
-                                <p>Need help using the calorie calculator or understanding your results? Click below for tips and guidance!</p>
-                                <a href="./Q_and_A.html" class="btn">Help</a>
-                            </div>
+            <div class="d-flex gap-3">
+                <span class="badge bg-danger rounded-pill px-3 py-2">Premium Member</span>
+            </div>
+        </header>
+
+        <div class="row g-4">
+            <!-- Calorie Calculator Card -->
+            <div class="col-lg-8">
+                <div class="glass-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <h3 class="fw-bold mb-3">Nutrition Intelligence</h3>
+                            <p class="text-secondary mb-4">Track your daily intake with precision. Our cloud models calculate calories and protein benchmarks tailored to your profile.</p>
+                            <a href="sample.html" class="btn-premium">Track Meal Now</a>
                         </div>
-                        <div class="card bmi-card">
-                            <div class="card-body">
-                                <h4>BMI Health Monitor</h4>
-                                <div class="bmi-meter-container">
-                                    <div class="bmi-meter">
-                                        <div class="bmi-meter-segments">
-                                            <div class="bmi-segment segment-underweight"></div>
-                                            <div class="bmi-segment segment-normal"></div>
-                                            <div class="bmi-segment segment-overweight"></div>
-                                            <div class="bmi-segment segment-obese"></div>
-                                        </div>
-                                        <div class="bmi-meter-inner"></div>
-                                        <div class="bmi-needle" id="bmiNeedleDashboard"></div>
-                                    </div>
-                                </div>
-                                <div class="bmi-scale-labels">
-                                    <span>16</span>
-                                    <span>18.5</span>
-                                    <span>25</span>
-                                    <span>30</span>
-                                    <span>35+</span>
-                                </div>
-                                <div class="bmi-categories">
-                                    <div class="bmi-category">
-                                        <div class="category-dot underweight"></div>
-                                        <span>Underweight</span>
-                                    </div>
-                                    <div class="bmi-category">
-                                        <div class="category-dot normal"></div>
-                                        <span>Normal</span>
-                                    </div>
-                                    <div class="bmi-category">
-                                        <div class="category-dot overweight"></div>
-                                        <span>Overweight</span>
-                                    </div>
-                                    <div class="bmi-category">
-                                        <div class="category-dot obese"></div>
-                                        <span>Obese</span>
-                                    </div>
-                                </div>
-                                <div id="bmiResultDashboard">
-                                    <div class="bmi-value" id="bmiValueDisplay">--</div>
-                                    <div class="bmi-status-text" id="bmiStatusText">Calculate your BMI</div>
-                                </div>
-                                <div style="text-align: center;">
-                                    <a href="./bmi_assessment.html" class="btn-assessment">BMI Assessment</a>
-                                </div>
-                            </div>
+                        <div class="col-md-5 text-center d-none d-md-block">
+                            <i class="fas fa-chart-pie fa-8x opacity-10"></i>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section class="chart-section">
-                <div class="chart-container">
-                    <h3 class="chart-title" style="margin-top: 48px;">Weekly Calories and Protein Intake</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="calorieProteinChart" width="500" height="300"></canvas>
+            </div>
+
+            <!-- BMI Health Card -->
+            <div class="col-lg-4">
+                <div class="glass-card text-center">
+                    <h5 class="fw-bold mb-4">Health Status</h5>
+                    <div class="bmi-meter-container">
+                        <div id="bmiValueDisplay" class="bmi-value">--</div>
+                        <p id="bmiStatusText" class="text-secondary">Awaiting data...</p>
+                    </div>
+                    <a href="bmi_assessment.html" class="btn btn-outline-light w-100 rounded-pill mt-3">Advanced Assessment</a>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="col-12">
+                <div class="glass-card">
+                    <h4 class="fw-bold mb-4">Weekly Performance</h4>
+                    <div class="chart-container-inner">
+                        <canvas id="calorieProteinChart" style="max-height: 400px;"></canvas>
                     </div>
                 </div>
-            </section>
-            <footer>
-                <div class="container footer">
-                    <footer class="py-4 my-4">
-                        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                            <li class="nav-item"><a href="./dashboard.html" class="nav-link px-3">Home</a></li>
-                            <li class="nav-item"><a href="./profile.html" class="nav-link px-3">Profile</a></li>
-                            <li class="nav-item"><a href="./pricing.html" class="nav-link px-3">Pricing</a></li>
-                            <li class="nav-item"><a href="./customer_service.html" class="nav-link px-3">Service</a></li>
-                            <li class="nav-item"><a href="./login.html" class="nav-link px-3">Logout</a></li>
-                        </ul>
-                        <p class="text-center footer-text">© 2025 Diet Diary. All rights reserved.</p>
-                    </footer>
-                </div>
-            </footer>
-        </main>
-    </div>
+            </div>
+        </div>
+    </main>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/dashboard.js"></script>
 </body>
 </html>
-
-

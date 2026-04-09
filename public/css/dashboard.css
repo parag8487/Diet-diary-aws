@@ -47,7 +47,7 @@ h4 {
     width: 100vw;
     height: 100vh;
     z-index: -2;
-    background: url('./images/white-background.jpeg') center/cover no-repeat;
+    background: url(https://dietdiary-502951073560-images.s3.us-east-1.amazonaws.com/white-background.jpeg) center/cover no-repeat;
     filter: blur(8px);
 }
 .dashboard-layout {

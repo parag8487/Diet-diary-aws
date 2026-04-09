@@ -3,21 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Diet Diary - Your Fitness Journey</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF3366;
+            --secondary: #21D4FD;
+            --dark: #0F172A;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark);
+            color: white;
+            overflow-x: hidden;
+        }
+        .hero {
+            height: 100vh;
+            background: radial-gradient(circle at top right, rgba(255, 51, 102, 0.15), transparent),
+                        radial-gradient(circle at bottom left, rgba(33, 212, 253, 0.15), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 800px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #FF3366, #B721FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        p {
+            font-size: 1.25rem;
+            color: #94A3B8;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        .btn-premium {
+            background: linear-gradient(135deg, #FF3366 0%, #B721FF 100%);
+            border: none;
+            color: white;
+            padding: 18px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-premium:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 51, 102, 0.3);
+            color: white;
+        }
+        .floating-blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            filter: blur(150px);
+            opacity: 0.1;
+            z-index: -1;
+            animation: float 20s infinite alternate;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100px, 100px); }
+        }
+    </style>
 </head>
 <body>
-    <div class="front-container">
-        <div class="front-content">
-            <h1>Welcome to Our Application</h1>
-            <p>Your journey to manage tasks and stay organized starts here.</p>
-            <a href="login.html" class="btn">Get Started</a>
+    <div class="floating-blob" style="top: -10%; right: -5%;"></div>
+    <div class="floating-blob" style="bottom: -10%; left: -5%; background: var(--secondary);"></div>
+
+    <section class="hero container">
+        <div class="glass-card">
+            <h1>Diet Diary</h1>
+            <p>Master your nutrition, track your meals, and achieve your fitness goals with our cloud-powered intelligence platform. Experience the future of diet management.</p>
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="login.html" class="btn-premium">Get Started</a>
+                <a href="signup.html" class="btn btn-outline-light rounded-pill px-4 ms-2" style="padding-top: 15px; padding-bottom: 15px;">Create Account</a>
+            </div>
         </div>
-    </div>
-    <footer>
-        <p>© 2025 Diet Diary Application. All rights reserved.</p>
+    </section>
+
+    <footer class="text-center py-4 border-top border-secondary border-opacity-10">
+        <p class="m-0 text-sm">© 2025 Diet Diary Cloud. All rights reserved.</p>
     </footer>
 </body>
 </html>
-
-

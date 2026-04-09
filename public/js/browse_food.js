@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const addFoodForm = document.getElementById("addFoodForm");
     const foodList = document.querySelector(".food-list");
 
@@ -24,7 +24,7 @@
         row.className = "row align-items-center py-2 border-bottom";
         row.innerHTML = `
             <div class="col-2">
-                <img src="${food.imageUrl}" alt="${food.title}" class="img-fluid food-image" />
+                <img src="${food.url || food.imageUrl}" alt="${food.title}" class="img-fluid food-image" />
             </div>
             <div class="col-4">${food.title}</div>
             <div class="col-2">${food.calories}</div>
@@ -55,13 +55,13 @@
 
         try {
             
-            const response = await fetch('/api/foods', {
+            const response = await fetch('/api/save-food', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    imageUrl,
+                    url: imageUrl,
                     title,
                     calories,
                     carbs,

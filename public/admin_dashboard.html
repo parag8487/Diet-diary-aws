@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Diet Diary</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #dc3545;
+            --sidebar-width: 260px;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            background: #212529;
+            color: white;
+            padding-top: 20px;
+        }
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+        }
+        .nav-link {
+            color: rgba(255,255,255,0.7);
+            padding: 12px 20px;
+            transition: 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .stat-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .badge-admin { background-color: #6610f2; }
+        .badge-customer { background-color: #0d6efd; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="px-4 mb-4">
+            <h3>🍏 Admin</h3>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="#">Dashboard</a>
+            <a class="nav-link" href="browse_food.html">Manage Foods</a>
+            <a class="nav-link" href="Q_and_A.html">Help Support</a>
+            <hr class="mx-3 text-secondary">
+            <a class="nav-link text-danger" href="login.html">Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="d-flex justify-content-between align-items-center mb-5">
+            <h1>Dashboard Overview</h1>
+            <div id="cloud-status" class="d-flex gap-3">
+                <span class="badge bg-success">RDS: Connected</span>
+                <span class="badge bg-success">S3: Ready</span>
+            </div>
+        </header>
+
+        <section class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card stat-card p-4 bg-white">
+                    <h6 class="text-secondary text-uppercase mb-2">Total Users</h6>
+                    <h2 id="userCount">--</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card p-4 bg-white">
+                    <h6 class="text-secondary text-uppercase mb-2">Food Database Size</h6>
+                    <h2 id="foodCount">--</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card p-4 bg-white">
+                    <h6 class="text-secondary text-uppercase mb-2">Active Notifications</h6>
+                    <h2 class="text-primary">SNS Active</h2>
+                </div>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <h4 class="mb-4">Recent Users</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/admin_dashboard.js"></script>
+</body>
+</html>

@@ -4,16 +4,24 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "setup:aws": "node scripts/setup-all-services.js",
+    "setup:s3": "node setup-s3.js",
+    "setup:rds": "node setup-rds.js",
+    "init:db": "node scripts/init-db.js",
+    "check:permissions": "node check-permissions.js",
+    "configure": "node scripts/configure-after-console.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.1026.0",
+    "@aws-sdk/client-rds": "^3.1026.0",
     "@aws-sdk/client-rekognition": "^3.1026.0",
-    "@aws-sdk/client-s3": "^3.1025.0",
-    "@aws-sdk/client-secrets-manager": "^3.1025.0",
+    "@aws-sdk/client-s3": "^3.1026.0",
+    "@aws-sdk/client-secrets-manager": "^3.1026.0",
     "@aws-sdk/client-sns": "^3.1026.0",
-    "@aws-sdk/s3-request-presigner": "^3.1025.0",
+    "@aws-sdk/s3-request-presigner": "^3.1026.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",

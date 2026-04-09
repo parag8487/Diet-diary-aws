@@ -1,106 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Browse Food</title>
-
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/browse_food.css" />
-  </head>
-  <body>
-    <div class="container mt-4">
-      <h1 class="text-center mb-4">Food List</h1>
-
-      <div class="col-lg-3 col-xxl-3 col-sm-5 col-xl-3 col-xs-3 my-5 mx-auto">
-        <div class="d-grid gap-2">
-          <a href="./admin_dashboard.html" class="btn btn-danger" role="button"
-            >Back</a
-          >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Food - Diet Diary</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0F172A;
+            color: white;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+        .header-section {
+            background: linear-gradient(to bottom, rgba(33, 212, 253, 0.1), transparent);
+            padding: 60px 0;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        .food-item-row {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 15px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+        .food-item-row:hover {
+            transform: scale(1.01);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #21D4FD;
+        }
+        .food-image {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            color: #94A3B8;
+        }
+        .btn-add {
+            background: linear-gradient(135deg, #21D4FD 0%, #B721FF 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--border);
+            color: white !important;
+            border-radius: 10px;
+        }
+        .form-control::placeholder { color: #64748B; }
+    </style>
+</head>
+<body>
+    <header class="header-section text-center">
+        <div class="container">
+            <a href="admin_dashboard.html" class="btn btn-outline-light btn-sm mb-4 rounded-pill px-4">← Back to Dashboard</a>
+            <h1 class="display-5 fw-bold text-white">Food Intelligence Database</h1>
+            <p class="text-secondary">Manage nutritional profiles and image assets for the cloud platform.</p>
         </div>
-      </div>
+    </header>
 
-      <div class="mb-4">
-        <h3 class="text-center">Add New Food Item</h3>
-        <form id="addFoodForm" class="row g-3">
-          <div class="col-md-2">
-            <input
-              type="text"
-              class="form-control"
-              id="imageUrl"
-              placeholder="Image URL"
-              required
-            />
-          </div>
-          <div class="col-md-4">
-            <input
-              type="text"
-              class="form-control"
-              id="title"
-              placeholder="Title"
-              required
-            />
-          </div>
-          <div class="col-md-2">
-            <input
-              type="number"
-              class="form-control"
-              id="calories"
-              placeholder="Calories"
-              required
-            />
-          </div>
-          <div class="col-md-1">
-            <input
-              type="text"
-              class="form-control"
-              id="carbs"
-              placeholder="Carbs"
-              required
-            />
-          </div>
-          <div class="col-md-1">
-            <input
-              type="text"
-              class="form-control"
-              id="fat"
-              placeholder="Fat"
-              required
-            />
-          </div>
-          <div class="col-md-2">
-            <input
-              type="text"
-              class="form-control"
-              id="protein"
-              placeholder="Protein"
-              required
-            />
-          </div>
-          <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-danger">Add Food</button>
-          </div>
-        </form>
-      </div>
+    <div class="container">
+        <!-- Add New Food Section -->
+        <section class="glass-card mb-5">
+            <h4 class="mb-4">Add New Food Item</h4>
+            <form id="addFoodForm" class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="title" placeholder="Food Name (e.g. Avocado Toast)" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="imageUrl" placeholder="S3/Web Image URL" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" id="calories" placeholder="Calories" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" step="0.1" class="form-control" id="carbs" placeholder="Carbs (g)" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" step="0.1" class="form-control" id="fat" placeholder="Fat (g)" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" step="0.1" class="form-control" id="protein" placeholder="Protein (g)" required>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-add w-100">Add to Database</button>
+                </div>
+            </form>
+        </section>
 
-      <div class="row text-center fw-bold custom-grid-header text-white py-2">
-        <div class="col-2">Image</div>
-        <div class="col-4">Title</div>
-        <div class="col-2">Calories</div>
-        <div class="col-1">Carbs</div>
-        <div class="col-1">Fat</div>
-        <div class="col-2">Protein</div>
-      </div>
+        <!-- Food List Grid Header (Hidden on small screens) -->
+        <div class="row px-3 mb-3 d-none d-md-flex text-secondary small text-uppercase fw-bold">
+            <div class="col-2">Image</div>
+            <div class="col-3">Name</div>
+            <div class="col-2">Calories</div>
+            <div class="col-5">Macros (C | F | P)</div>
+        </div>
 
-      <div class="food-list"></div>
+        <!-- Food items container -->
+        <div class="food-list" id="foodItemsContainer">
+            <!-- Loaded dynamically -->
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/browse_food.js"></script>
-  </body>
+    <script>
+        // Adjust the container reference if needed by the JS
+        window.foodListContainer = document.getElementById('foodItemsContainer');
+    </script>
+</body>
 </html>
-
-
