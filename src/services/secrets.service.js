@@ -6,14 +6,21 @@ const { SecretsManagerClient, GetSecretValueCommand } = require("@aws-sdk/client
  */
 class SecretsService {
     constructor() {
-        this.client = new SecretsManagerClient({ 
-            region: process.env.AWS_REGION || "us-east-1",
-            credentials: {
+        const clientConfig = { 
+            region: process.env.AWS_REGION || "us-east-1"
+        };
+
+        // Only add credentials if explicitly provided (for local dev)
+        // On EC2, this allows the SDK to use the instance profile automatically
+        if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+            clientConfig.credentials = {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                 secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
                 sessionToken: process.env.AWS_SESSION_TOKEN
-            }
-        });
+            };
+        }
+
+        this.client = new SecretsManagerClient(clientConfig);
     }
 
     async getSecret(secretName) {

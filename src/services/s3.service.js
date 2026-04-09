@@ -7,14 +7,21 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
  */
 class S3Service {
     constructor() {
-        this.client = new S3Client({ 
-            region: process.env.AWS_REGION || "us-east-1",
-            credentials: {
+        const clientConfig = { 
+            region: process.env.AWS_REGION || "us-east-1"
+        };
+
+        // Only add credentials if explicitly provided (for local dev)
+        // On EC2, this allows the SDK to use the instance profile automatically
+        if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+            clientConfig.credentials = {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                 secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
                 sessionToken: process.env.AWS_SESSION_TOKEN
-            }
-        });
+            };
+        }
+
+        this.client = new S3Client(clientConfig);
         this.bucketName = process.env.S3_BUCKET_NAME;
     }
 
